@@ -3,6 +3,7 @@ const {Tenant, User} = require('../models')
 
 async function authentication(req, res, next) {
     try {
+        
         const {access_token} = req.headers
         if (access_token) {
             const decode = verifyToken(access_token)
@@ -16,13 +17,14 @@ async function authentication(req, res, next) {
                     id: decode.id,
                     email: decode.email
                 }
-                console.log(req.loggedUser, "<<<<< LOGGED USER")
+                
                 next()
             } else {
                 res.status(401).json({message: "Invalid access_token"})
             }
         } else {
-            throw {status: 401, message: "You must login first"}
+            next({name: "Unauthenticate"})
+            // throw {status: 401, message: "You must login first"}
         }
     } catch (err) {
         next(err)

@@ -12,6 +12,6 @@ router.use("/", userRouter);
 router.use(authentication)
 
 router.use('/tenant', tenantRouter);
-router.use("/", roomRouter);
+router.use("/rooms", roomRouter);
 
 module.exports = router
