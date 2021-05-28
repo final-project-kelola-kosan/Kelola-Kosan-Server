@@ -61,6 +61,7 @@ class PropertyController {
         if(deleted) res.status(200).json({ message: 'Property has been delete!' })
         else res.status(404).json({ message: 'Data not found!'})
       })
+      .catch(err => next(err))
   }
 
 }
