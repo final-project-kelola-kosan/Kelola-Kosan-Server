@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   Tenant.init({
     email: DataTypes.STRING,
     name: DataTypes.STRING,
-    phone: DataTypes.INTEGER,
+    phone: DataTypes.STRING,
     checkIn: DataTypes.DATE,
     checkOut: DataTypes.DATE
   }, {
