@@ -5,22 +5,22 @@ const {generateToken} = require('../helpers/jwt')
 const {sequelize} = require('../models')
 const {queryInterface} = sequelize
 
-//beforeAll seperti hooks
-// sebelum dijalankan semuanya
+var idTenant = 1
+
 beforeAll((done) => {
     queryInterface.bulkInsert('Users', [{
-    name: 'admin',
     email: "admin@mail.com",
+    username: 'admin',
     password: hashPassword('admin'),
     createdAt: new Date(),
     updatedAt: new Date(),
-    }], 
+    }],
     {returning: true})
 
     .then((res) => {
         let obj = {
-            id: res.id,
-            email: res.email,
+            id: res[0].id,
+            email: res[0].email,
         }
         access_token = generateToken(obj)
         done();
@@ -28,6 +28,7 @@ beforeAll((done) => {
     .catch((err) => {
         done(err);
     })
+    
 })
 
 afterAll((done) => {
@@ -40,323 +41,213 @@ afterAll((done) => {
     })
 })
 
-describe("test product's CRUD section", () => {
+describe("test tenant's CRUD section", () => {
 
-    describe("test create product function", () => {
-      describe("success create product function", () => {
-        test("success create product test", (done) => {
+    describe("test create tenant", () => {
+      describe("success create tenant", () => {
+        test("success create tenant test", (done) => {
           request(app)
-          .post('/products')
+          .post('/tenant')
           .set('access_token', `${access_token}`)
           .send({
-            name: 'PlayStation 5',
-            image_url: 'https://asset.kompas.com/crops/OShkHBI40cCFj6mMFFcYmhbhBaw=/187x12:1126x638/750x500/data/photo/2020/06/12/5ee2bae6901d6.jpg',
-            price: 50000,
-            stock: 12,
-            category: 'games',
+            email: 'cust110@cust.com',
+            name: 'customer',
+            phone: '0812382620',
+            checkIn: "2021-03-12",
+            checkOut: "2021-04-12",
           })
           .set("Accept", "application/json")
           .expect("Content-Type", /json/)
           .then(res => {
-                expect(res.status).toBe(200)
-                expect(res.body).toHaveProperty("name" , 'PlayStation 5')
-                expect(res.body).toHaveProperty("image_url" , 'https://asset.kompas.com/crops/OShkHBI40cCFj6mMFFcYmhbhBaw=/187x12:1126x638/750x500/data/photo/2020/06/12/5ee2bae6901d6.jpg')
-                expect(res.body).toHaveProperty("price", 50000)
-                expect(res.body).toHaveProperty("stock", 12)
-                expect(res.body).toHaveProperty("category", 'games')
+                expect(res.status).toBe(201)
+                expect(res.body).toHaveProperty("email" , 'cust110@cust.com')
+                expect(res.body).toHaveProperty("name" , 'customer')
+                expect(res.body).toHaveProperty("phone", 812382620)
+                expect(res.body).toHaveProperty("checkIn", "2021-03-12T00:00:00.000Z")
+                expect(res.body).toHaveProperty("checkOut", "2021-04-12T00:00:00.000Z")
                 done()
             })
           })
         })
-      })
 
 
-      describe("error create product function", () => {
-        test("error empty create product test", (done) => {
-          request(app)
-          .post('/products')
-          .set('access_token', `${access_token}`)
-          .send({
-            name: '',
-            image_url: '',
-            price: '',
-            stock: '',
-            category: '',
-          })
-          .set("Accept", "application/json")
-          .expect("Content-Type", /json/)
-          .then(res => {
-            expect(res.status).toBe(500)
-            expect(res.body).toStrictEqual({"message": "WHERE parameter \"email\" has invalid \"undefined\" value",})
-            done()
-          })
+        describe("error create tenant function", () => {
+            test("error empty create tenant test", (done) => {
+              request(app)
+              .post('/tenant')
+              .set('access_token', `${access_token}`)
+              .send({
+                email: '',
+                name: '',
+                phone: '',
+                checkIn: "",
+                checkOut: "",
+              })
+              .set("Accept", "application/json")
+              .expect("Content-Type", /json/)
+              .then(res => {
+                expect(res.status).toBe(400)
+                expect(res.body).toStrictEqual({"errors": [
+                    "Email is invalid",
+                    "email musn't be empty",
+                    "name musn't be empty",
+                    "phone musn't be empty",
+                    "checkIn musn't be empty",
+                    "checkOut musn't be empty",
+                    ],
+                    "message": "Bad request",})
+                done()
+              })
+            })
+
+
+            test("error empty contain in phone, checkIn, checkOut in create tenant test", (done) => {
+                request(app)
+                .post('/tenant')
+                .set('access_token', `${access_token}`)
+                .send({
+                    email: 'cust12@mail.com',
+                    name: 'custom12',
+                    phone: '',
+                    checkIn: "",
+                    checkOut: "",
+                })
+                .end((err, res) => {
+                  if (err) {
+                    return done(err)
+                  }
+                  
+                  expect(res.status).toBe(400)
+                  expect(res.body).toStrictEqual({"errors": [
+                    "phone musn't be empty",
+                    "checkIn musn't be empty",
+                    "checkOut musn't be empty",
+                    ],
+                    "message": "Bad request",})
+                  done()
+                })
+            })
+
+
+            test("error empty contain in phone create tenant test 2", (done) => {
+                request(app)
+                .post('/tenant')
+                .set('access_token', `${access_token}`)
+                .send({
+                    email: 'cust12@mail.com',
+                    name: 'custom12',
+                    phone: '',
+                    checkIn: "2021-03-12",
+                    checkOut: "2021-04-12",
+                })
+                .end((err, res) => {
+                  if (err) {
+                    return done(err)
+                  }
+                  expect(res.status).toBe(400)
+                  expect(res.body).toStrictEqual({"errors": [
+                    "phone musn't be empty",
+                    ],
+                    "message": "Bad request",})
+                  done()
+                })
+            })
+
         })
-      })
-
-        test("error empty contain in price, stock, category in create product test", (done) => {
-          request(app)
-          .post('/products')
-          .set('access_token', `${access_token}`)
-          .send({
-            name : 'PlayStation 5',
-            image_url : 'https://akcdn.detik.net.id/visual/2020/11/22/ilustrasi-ps5-1_169.png?w=650',
-            price : '',
-            stock : '',
-            category: ''
-          })
-          .end((err, res) => {
-            if (err) {
-              return done(err)
-            }
-            
-            expect(res.status).toBe(500)
-            expect(res.body).toStrictEqual({"message": "WHERE parameter \"email\" has invalid \"undefined\" value",})
-            done()
-          })
-        })
-    
-        test("error empty contain in stock create product test 2", (done) => {
-          request(app)
-          .post('/products')
-          .set('access_token', `${access_token}`)
-          .send({
-            name : 'PS 5',
-            image_url : 'https://akcdn.detik.net.id/visual/2020/11/22/ilustrasi-ps5-1_169.png?w=650',
-            price : 8000000,
-            stock : '',
-            category: 'games'
-          })
-          .end((err, res) => {
-            if (err) {
-              return done(err)
-            }
-            expect(res.status).toBe(500)
-            expect(res.body).toStrictEqual({"message": "WHERE parameter \"email\" has invalid \"undefined\" value",})
-            done()
-          })
-        })
+    })
 
 
-  
+
     describe("test for read lists", () => {
-      describe("test for read lists in products", ()=> {
-        test("success read products test", (done) => {
-          request(app)
-          .get('/products')
-          .set('access_token', `${access_token}`)
-          .end((err, res) => {
-            if (err) {
-              return done(err)
-            }
-            expect(res.status).toBe(200)
-            expect(res.body).toHaveProperty("id" , res.body.id)
-            expect(res.body).toHaveProperty("name" , res.body.name)
-            expect(res.body).toHaveProperty("image_url" , res.body.image_url)
-            expect(res.body).toHaveProperty("price", res.body.price)
-            expect(res.body).toHaveProperty("stock", res.body.stock)
-            expect(res.body).toHaveProperty("category", res.body.category)
-            done()
+        describe("test for read lists in tenant", ()=> {
+          test("success read tenant test", (done) => {
+            request(app)
+            .get('/tenant')
+            .set('access_token', `${access_token}`)
+            .end((err, res) => {
+              if (err) {
+                return done(err)
+              }
+              expect(res.status).toBe(200)
+              expect(res.body).toHaveProperty("id" , res.body.id)
+              expect(res.body).toHaveProperty("email" , res.body.email)
+              expect(res.body).toHaveProperty("name" , res.body.name)
+              expect(res.body).toHaveProperty("phone", res.body.phone)
+              expect(res.body).toHaveProperty("checkIn", res.body.checkIn)
+              expect(res.body).toHaveProperty("checkOut", res.body.checkOut)
+              done()
+            })
           })
         })
-      })
     })
-    
+
+
     describe("test for get list by id", () => {
-      describe("test for get list by id in products", ()=> {
-        test("success get list product test", (done) => {
-          request(app)
-          .get(`/products/${idProduct}`)
-          .set('access_token', `${access_token}`)
-          .end((err, res) => {
-            if (err) {
-              console.log(">>>>>", err, res, "<<<<")
-              return done(err)
-            }
-            
-            expect(res.status).toBe(200)
-            expect(res.body).toHaveProperty("name" , res.body.name)
-            expect(res.body).toHaveProperty("image_url" , res.body.image_url)
-            expect(res.body).toHaveProperty("price", res.body.price)
-            expect(res.body).toHaveProperty("stock", res.body.stock)
-            expect(res.body).toHaveProperty("category", res.body.category)
-            done()
+        describe("test for get list by id in tenant", ()=> {
+          test("success get list tenant test", (done) => {
+            request(app)
+            .get(`/tenant/${idTenant}`)
+            .set('access_token', `${access_token}`)
+            .end((err, res) => {
+              if (err) {
+                console.log(">>>>>", err, res, "<<<<")
+                return done(err)
+              }
+              
+              expect(res.status).toBe(200)
+              expect(res.body).toHaveProperty("email" , res.body.email)
+              expect(res.body).toHaveProperty("name" , res.body.name)
+              expect(res.body).toHaveProperty("phone", res.body.phone)
+              expect(res.body).toHaveProperty("checkIn", res.body.checkIn)
+              expect(res.body).toHaveProperty("checkOut", res.body.checkOut)
+              done()
+            })
           })
         })
-      })
-    })
 
-    describe("error test for get list by id in products without access token", ()=> {
-        test("get list by id in product test without access_token", (done) => {
-          request(app)
-          .get(`/products/${idProduct}`)
-          .end((err, res) => {
-            if (err) {
-              return done(err)
-            }
-            
-            expect(res.status).toBe(500)
-            expect(res.body).toHaveProperty("message", 'You must login first')
-            done()
-          })
-        })
-      })
 
-      describe("error test for get list by id in products with riddiculous id", ()=> {
-        test("get list by riddiculous id in product test", (done) => {
-          request(app)
-          .get(`/products/999`)
-          .set('access_token', `${access_token}`)
-          .end((err, res) => {
-            if (err) {
-              return done(err)
-            }
-            // console.log(res.body);
-            expect(res.status).toBe(200)
-            expect(res.body).toHaveProperty("category", res.body.category)
-            expect(res.body).toHaveProperty("name", res.body.name)
-            expect(res.body).toHaveProperty("id", res.body.id)
-            expect(res.body).toHaveProperty("price", res.body.price)
-            expect(res.body).toHaveProperty("stock", res.body.stock)
-            expect(res.body).toHaveProperty("image_url", res.body.image_url)
-            expect(res.body).toHaveProperty("createdAt", res.body.createdAt)
-            expect(res.body).toHaveProperty("updatedAt", res.body.updatedAt)
-            done()
-          })
+        describe("error test for get list by id in tenant without access token", ()=> {
+            test("get list by id in tenant test without access_token", (done) => {
+              request(app)
+              .get(`/tenant/${idTenant}`)
+              .end((err, res) => {
+                if (err) {
+                  return done(err)
+                }
+                
+                expect(res.status).toBe(500)
+                expect(res.body).toHaveProperty("message", 'You must login first')
+                done()
+              })
+            })
         })
-      })
-    
-    
-    describe("test for update list by id", () => {
-      describe("test for update list by id in products", ()=> {
-        test("success update list product test", (done) => {
-          request(app)
-          .put(`/products/${idProduct}`)
-          .set('access_token', `${access_token}`)
-          .send({
-            name : 'XBox',
-            image_url : 'https://images-na.ssl-images-amazon.com/images/I/41euOnOSeYL._SX342_.jpg',
-            price : 100000,
-            stock : 20,
-            category: 'games',
-          })
-          .end((err, res) => {
-            if (err) {
-              return done(err)
-            }
-            
-            expect(res.status).toBe(200)
-            expect(res.body).toHaveProperty("id", res.body.id)
-            expect(res.body).toHaveProperty("name" , res.body.name)
-            expect(res.body).toHaveProperty("category" , res.body.category)
-            expect(res.body).toHaveProperty("price", res.body.price)
-            done()
-          })
-        })
-      })
-    })
-      describe("error test for update list by id in products without access_token", ()=> {
-        test("update list product without access_token ", (done) => {
-          request(app)
-          .put(`/products/${idProduct}`)
-          .send({
-            name : 'XBox',
-            image_url : 'https://images-na.ssl-images-amazon.com/images/I/41euOnOSeYL._SX342_.jpg',
-            price : 100000,
-            stock : 20,
-            category: 'games',
-          })
-          .end((err, res) => {
-            if (err) {
-              return done(err)
-            }
-            
-            expect(res.status).toBe(500)
-            expect(res.body).toHaveProperty("message", `You must login first`)
-            done()
-          })
-        })
-      })
-      describe("error test for update list by id in products with empty list", ()=> {
-        test("update list empty contain in product test ", (done) => {
-          request(app)
-          .put(`/products/${idProduct}`)
-          .set('access_token', `${access_token}`)
-          .send({
-            name : '',
-            image_url : '',
-            price : '',
-            stock : '',
-            category: '',
-          })
-          .end((err, res) => {
-            if (err) {
-              return done(err)
-            }
-            
-            expect(res.status).toBe(400)
-            expect(res.body).toStrictEqual({"errors": ["name is required", "image_url is required", "price is required", "stock is required", "category is required"], "message": "Bad request"})
-            done()
-          })
-        })
-    })
-    
-        // describe("error test for update list by id in products with half empty list", ()=> {
-        //   test("update list empty contain in product at price, stock test", (done) => {
-        //     request(app)
-        //     .put(`/products/${idProduct}`)
-        //     .set('access_token', `${access_token}`)
-        //     .send({
-        //         name : 'XBox',
-        //         image_url : 'https://images-na.ssl-images-amazon.com/images/I/41euOnOSeYL._SX342_.jpg',
-        //         price : '',
-        //         stock : '',
-        //         category: 'games',
-        //     })
-        //     .end((err, res) => {
-        //       if (err) {
-        //         return done(err)
-        //       }
-        //       expect(res.status).toBe(400)
-        //       expect(res.body).toStrictEqual({"errors": ["price is required", "stock is required"], "message": "Bad request"})
-        //       done()
-        //     })
-        //   })
-        // })
-    
-    // describe("test for delete list by id", () => {
-    //   describe("test for delete list by id in products", ()=> {
-    //     test("success delete list product test", (done) => {
-    //       request(app)
-    //       .delete(`/products/${idProduct}`)
-    //       .set('access_token', `${access_token}`)
-    //       .end((err, res) => {
-    //         if (err) {
-    //           return done(err)
-    //         }
-            
-    //         expect(res.status).toBe(200)
-    //         expect(res.body).toHaveProperty("message", `Product successfully deleted`)
-    //         done()
-    //       })
-    //     })
-    //   })
-    // })
 
-    //   describe("error test for delete list by id in products", ()=> {
-    //     test("error delete list with riddiculous id product test", (done) => {
-    //       request(app)
-    //       .delete(`/products/999`)
-    //       .set('access_token', `${access_token}`)
-    //       .end((err, res) => {
-    //         if (err) {
-    //           return done(err)
-    //         }
-            
-    //         expect(res.status).toBe(404)
-    //         expect(res.body).toHaveProperty("message", `error not found`)
-    //         done()
-    //       })
-    //     })
-    //   })
-  
+
+        describe("error test for get list by id in tenant with riddiculous id", ()=> {
+            test.only("get list by riddiculous id in tenant test", (done) => {
+              request(app)
+              .get(`/tenant/999`)
+              .set('access_token', `${access_token}`)
+              .end((err, res) => {
+                if (err) {
+                  return done(err)
+                }
+                // console.log(res.body);
+                expect(res.status).toBe(500)
+                expect(res.body).toHaveProperty("email" , res.body.email)
+                expect(res.body).toHaveProperty("name" , res.body.name)
+                expect(res.body).toHaveProperty("phone", res.body.phone)
+                expect(res.body).toHaveProperty("checkIn", res.body.checkIn)
+                expect(res.body).toHaveProperty("checkOut", res.body.checkOut)
+                expect(res.body).toHaveProperty("createdAt", res.body.createdAt)
+                expect(res.body).toHaveProperty("updatedAt", res.body.updatedAt)
+                done()
+              })
+            })
+          })
+
+    })
+      
+
+
 })

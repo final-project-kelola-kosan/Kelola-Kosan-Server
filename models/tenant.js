@@ -26,10 +26,38 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    name: DataTypes.STRING,
-    phone: DataTypes.STRING,
-    checkIn: DataTypes.DATE,
-    checkOut: DataTypes.DATE
+    name: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: `name musn't be empty`
+        }
+      }
+    },
+    phone: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: `phone musn't be empty`
+        }
+      }
+    },
+    checkIn: {
+      type: DataTypes.DATE,
+      validate: {
+        notEmpty: {
+          msg: `checkIn musn't be empty`
+        }
+      }
+    },
+    checkOut: {
+      type: DataTypes.DATE,
+      validate: {
+        notEmpty: {
+          msg: `checkOut musn't be empty`
+        }
+      }
+    },
   }, {
     sequelize,
     modelName: 'Tenant',
