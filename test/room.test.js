@@ -93,6 +93,12 @@ beforeAll((done) => {
 afterAll((done) => {
     queryInterface.bulkDelete("Users", null, {})
         .then(() => {
+            return queryInterface.bulkDelete("Properties", null, {})
+        })
+        .then(() => {
+            return queryInterface.bulkDelete("Rooms", null, {})
+        })
+        .then(() => {
             done();
         })
         .catch(err => {
