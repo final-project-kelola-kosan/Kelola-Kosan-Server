@@ -7,7 +7,7 @@
     "test": "jest --detectOpenHandles --runInBand --forceExit --watchAll",
     "dev": "set NODE_ENV=dev&&nodemon ./bin/www",
     "linux": "NODE_ENV=deveploment && nodemon ./bin/www",
-    "start": "node ./bin/www"
+    "start": "nodemon ./bin/www"
   },
   "repository": {
     "type": "git",
