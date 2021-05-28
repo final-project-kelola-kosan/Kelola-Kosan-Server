@@ -4,13 +4,23 @@ class PaymentController {
 
     static createPayment(req, res, next) {
         let {month, year, nextDueDate, paidCash} = req.body;
-
-        // Payment.create({
-        //     month,
-        //     year,
-        //     nextDueDate,
-        //     paidCash
-        // })
+        let {roomId, tenantId} = req.params;
+        Payment.create({
+            month,
+            year,
+            nextDueDate,
+            paidCash,
+            roomId,
+            tenantId
+        })
+        .then(data => {
+            console.log(data, "INI DI PAYMENT BANGSAT")
+            res.status(201).json(data);
+        })
+        .catch(err => {
+            console.log(err);
+            next(err);
+        })
     }
 
     static findPayments(req, res, next) {

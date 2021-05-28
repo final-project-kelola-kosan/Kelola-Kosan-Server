@@ -32,8 +32,8 @@ var firstDate = new Date(dateString + "T00:00:00");
 console.log(firstDate);
 
 const dateStr2 = '2021-04-01'
-var secondDate = new Date(dateStr2 + "T00:00:00");
-console.log(secondDate);
+var dueDate = new Date(dateStr2 + "T00:00:00");
+console.log(dueDate);
 
 let budi = {
     email: "budi@mail.com",
@@ -120,7 +120,7 @@ beforeAll((done) => {
     .then(_ => {
         return queryInterface.bulkInsert("Payments", [
             {
-                id: 1,
+                id: 145,
                 month: 5,
                 year: 2021,
                 nextDueDate: firstDate,
@@ -201,5 +201,76 @@ describe("Show payments", () => {
     })
 })
 
-// Create Payment
+const tenantId = 1;
+const roomId = 1
 
+const due = '2021-06-01'
+var dueDate = new Date(due + "T00:00:00");
+console.log(dueDate);
+// Create Payment
+const paymentData = {
+    month: 5,
+    year: 2021,
+    nextDueDate: dueDate,
+    paidCash: 2500000
+}
+
+describe("Create Payment", () => {
+    it("Adding new payment", (done) => {
+        request(app)
+            .post(`/payments/${roomId}/${tenantId}`)
+            .set('Accept', 'application/json')
+            .send(paymentData)
+            .expect('Content-Type', /json/)
+            .set("access_token", adminToken)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(201);
+                expect(body).toEqual(expect.any(Object));
+                expect(body).toHaveProperty("month", 5);
+                expect(body).toHaveProperty("year", 2021);
+                expect(new Date(body.nextDueDate)).toEqual(dueDate);
+                expect(body).toHaveProperty("paidCash", 2500000);
+                done();
+            })
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+    
+    it("Unauthenticate", (done) => {
+        request(app)
+            .post(`/payments/${roomId}/${tenantId}`)
+            .set('Accept', 'application/json')
+            .send(paymentData)
+            .expect('Content-Type', /json/)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(400);
+                expect(body).toHaveProperty("message", "Unauthenticate");
+                done();
+            })
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+
+    it.only("Not sending data", (done) => {
+        request(app)
+            .post(`/payments/${roomId}/${tenantId}`)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .set("access_token", adminToken)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(500);
+                done();
+            })
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+})

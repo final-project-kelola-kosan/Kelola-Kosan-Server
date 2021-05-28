@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       validate: {
         notEmpty: {
-          msg: "year mustn't empty"
+          msg: "due date mustn't empty"
         }
       }
     },
@@ -54,8 +54,22 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    tenantId: DataTypes.INTEGER,
-    roomId: DataTypes.INTEGER
+    tenantId: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          msg: "tenantId mustn't empty"
+        }
+      }
+    },
+    roomId: {
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: {
+          msg: "roomId mustn't empty"
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'Payment',
