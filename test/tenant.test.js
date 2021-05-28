@@ -224,7 +224,7 @@ describe("test tenant's CRUD section", () => {
 
 
         describe("error test for get list by id in tenant with riddiculous id", ()=> {
-            test.only("get list by riddiculous id in tenant test", (done) => {
+            test("get list by riddiculous id in tenant test", (done) => {
               request(app)
               .get(`/tenant/999`)
               .set('access_token', `${access_token}`)
@@ -247,7 +247,163 @@ describe("test tenant's CRUD section", () => {
           })
 
     })
-      
 
+
+    describe("test for update list by id", () => {
+        describe("test for update list by id in tenant", ()=> {
+          test("success update list tenant test", (done) => {
+            request(app)
+            .put(`/tenant/${idTenant}`)
+            .set('access_token', `${access_token}`)
+            .send({
+                email: 'customerr@cust.com',
+                name: 'customer12',
+                phone: '0812382320',
+                checkIn: "2021-02-12",
+                checkOut: "2021-03-12",
+            })
+            .end((err, res) => {
+              if (err) {
+                return done(err)
+              }
+              
+              expect(res.status).toBe(200)
+              expect(res.body).toHaveProperty("id", res.body.id)
+              expect(res.body).toHaveProperty("email" , res.body.email)
+              expect(res.body).toHaveProperty("name" , res.body.name)
+              expect(res.body).toHaveProperty("phone", res.body.phone)
+              expect(res.body).toHaveProperty("checkIn", res.body.checkIn)
+              expect(res.body).toHaveProperty("checkOut", res.body.checkOut)
+              expect(res.body).toHaveProperty("createdAt", res.body.createdAt)
+              expect(res.body).toHaveProperty("updatedAt", res.body.updatedAt)
+              done()
+            })
+          })
+        })
+
+
+        describe("error test for update list by id in tenant without access_token", ()=> {
+            test("update list tenant without access_token ", (done) => {
+              request(app)
+              .put(`/tenant/${idTenant}`)
+              .send({
+                email: 'custo11rr@cust.com',
+                name: 'customer12',
+                phone: '0812382320',
+                checkIn: "2021-02-12",
+                checkOut: "2021-03-12",
+              })
+              .end((err, res) => {
+                if (err) {
+                  return done(err)
+                }
+                
+                expect(res.status).toBe(500)
+                expect(res.body).toHaveProperty("message", `You must login first`)
+                done()
+              })
+            })
+        })
+
+        describe("error test for update list by id in tenant with empty list", ()=> {
+            test("update list empty contain in tenant test ", (done) => {
+              request(app)
+              .put(`/tenant/${idTenant}`)
+              .set('access_token', `${access_token}`)
+              .send({
+                email: '',
+                name: '',
+                phone: '',
+                checkIn: "",
+                checkOut: "",
+              })
+              .end((err, res) => {
+                if (err) {
+                  return done(err)
+                }
+                
+                expect(res.status).toBe(400)
+                expect(res.body).toStrictEqual({"errors": [
+                    "Email is invalid",
+                    "email musn't be empty",
+                    "name musn't be empty",
+                    "phone musn't be empty",
+                    "checkIn musn't be empty",
+                    "checkOut musn't be empty",
+                    ],
+                    "message": "Bad request",})
+                done()
+              })
+            })
+        })
+
+
+        describe("error test for update list by id in tenants with half empty list", ()=> {
+            test("update list empty contain in tenant at phone, checkIn, checkOut", (done) => {
+                request(app)
+                .put(`/tenant/${idTenant}`)
+                .set('access_token', `${access_token}`)
+                .send({
+                    email: 'cust12@mail.com',
+                    name: 'custom12',
+                    phone: '',
+                    checkIn: "",
+                    checkOut: "",
+                })
+                .end((err, res) => {
+                  if (err) {
+                    return done(err)
+                  }
+                  expect(res.status).toBe(400)
+                  expect(res.body).toStrictEqual({"errors": [
+                    "phone musn't be empty",
+                    "checkIn musn't be empty",
+                    "checkOut musn't be empty",
+                    ],
+                    "message": "Bad request",})
+                  done()
+                })
+            })
+        })
+
+    })
+      
+    describe("test for delete list by id", () => {
+        describe("test for delete list by id in tenant", ()=> {
+          test("success delete list tenant test", (done) => {
+            request(app)
+            .delete(`/tenant/${idTenant}`)
+            .set('access_token', `${access_token}`)
+            .end((err, res) => {
+              if (err) {
+                return done(err)
+              }
+              
+              expect(res.status).toBe(200)
+              expect(res.body).toHaveProperty("message", `Tenant successfully deleted`)
+              done()
+            })
+          })
+        })
+
+        describe("error test for delete list by id in tenant", ()=> {
+            test("error delete list with riddiculous id Tenant test", (done) => {
+              request(app)
+              .delete(`/tenant/999`)
+              .set('access_token', `${access_token}`)
+              .end((err, res) => {
+                if (err) {
+                  return done(err)
+                }
+                
+                expect(res.status).toBe(500)
+                expect(res.body).toHaveProperty("message", `error not found`)
+                done()
+              })
+            })
+        })
+
+      })
+  
 
 })
