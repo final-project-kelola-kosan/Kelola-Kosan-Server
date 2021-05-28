@@ -6,9 +6,9 @@ const tenantRouter = require("./tenant")
 
 
 router.use("/", userRouter)
-router.use('/properties', propertyRouter)
 
 router.use(authentication)
+router.use('/properties', propertyRouter)
 
 router.use('/tenant', tenantRouter);
 

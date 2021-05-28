@@ -28,7 +28,39 @@ class PropertyController {
   }
 
   static readAll = (req, res, next) => {
-    
+    Property
+      .findAll()
+      .then(properties => {
+        res.status(200).json(properties)
+      })
+      .catch(err => next(err))
+  }
+
+  static update = (req, res, next) => {
+    const id = req.params.id
+
+    const dataUpdate = {
+      name : req.body.name,
+      address : req.body.address,
+      image: req.body.image,
+      phone: req.body.phone
+    }
+
+    Property
+      .update(dataUpdate, { where: {id}, returning: true })
+      .then(updated => res.status(200).json({ updated }))
+      .catch(err => next(err))
+  }
+
+  static delete = (req, res, next) => {
+    const id = +req.params.id
+
+    Property
+      .destroy({ where: {id}, returning: true })
+      .then(deleted => {
+        if(deleted) res.status(200).json({ message: 'Property has been delete!' })
+        else res.status(404).json({ message: 'Data not found!'})
+      })
   }
 
 }

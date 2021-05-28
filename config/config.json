@@ -1,14 +1,14 @@
 {
   "development": {
     "username": "postgres",
-    "password": "postgres!",
+    "password": "postgres",
     "database": "kelola_kosan_dev",
     "host": "localhost",
     "dialect": "postgres"
   },
   "test": {
     "username": "postgres",
-    "password": "postgres!",
+    "password": "postgres",
     "database": "kelola_kosan_test",
     "host": "localhost",
     "dialect": "postgres"
