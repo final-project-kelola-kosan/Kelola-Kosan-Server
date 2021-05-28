@@ -15,9 +15,19 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Tenant.init({
-    email: DataTypes.STRING,
+    email: {
+      type: DataTypes.STRING,
+      validate: {
+        isEmail: {
+          msg: `Email is invalid`
+        },
+        notEmpty: {
+          msg: `email musn't be empty`
+        }
+      }
+    },
     name: DataTypes.STRING,
-    phone: DataTypes.INTEGER,
+    phone: DataTypes.STRING,
     checkIn: DataTypes.DATE,
     checkOut: DataTypes.DATE
   }, {

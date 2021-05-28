@@ -9,13 +9,14 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       email: {
+        unique: true,
         type: Sequelize.STRING
       },
       name: {
         type: Sequelize.STRING
       },
       phone: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       checkIn: {
         type: Sequelize.DATE
