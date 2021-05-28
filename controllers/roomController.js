@@ -1,4 +1,4 @@
-const {Room} = require("../models")
+const {Room, User} = require("../models")
 
 class RoomController {
 
@@ -21,15 +21,17 @@ class RoomController {
 
     // }
     
-    //TODO property ID nanti plis ganti
+    
     static addRoom(req, res, next) {
         let {number, status, type, price} = req.body;
+        let currentUser = req.loggedUser;
+        let ownedProperty = currentUser.ownedProperty;
         Room.create({
             number,
             status,
             type,
             price,
-            propertyId: 1
+            propertyId: ownedProperty.id
         })
         .then(data => {
             res.status(201).json({
@@ -37,7 +39,7 @@ class RoomController {
                 status,
                 type,
                 price,
-                propertyId: 1
+                propertyId: ownedProperty.id
             })
         })
         .catch(err => {

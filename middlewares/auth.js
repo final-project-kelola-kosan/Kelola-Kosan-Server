@@ -1,5 +1,5 @@
 const { verifyToken} = require('../helpers/jwt')
-const {Tenant, User} = require('../models')
+const {Tenant, User, Property} = require('../models')
 
 async function authentication(req, res, next) {
     try {
@@ -10,12 +10,17 @@ async function authentication(req, res, next) {
             const foundUser = await User.findOne({
                 where: {
                     email: decode.email
+                },
+                include: {
+                    model: Property
                 }
             })
             if (foundUser) {
+                let ownedProperty = foundUser.Property;
                 req.loggedUser = {
                     id: decode.id,
-                    email: decode.email
+                    email: decode.email,
+                    ownedProperty
                 }
                 
                 next()
