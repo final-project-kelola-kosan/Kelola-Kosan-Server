@@ -2,10 +2,12 @@ const request = require('supertest')
 const app = require('../app.js')
 const {hashPassword} = require('../helpers/bcrypt.js')
 const {generateToken} = require('../helpers/jwt')
+const { User, Tenant } = require('../models');
 const {sequelize} = require('../models')
+const tenant = require('../models/tenant.js')
 const {queryInterface} = sequelize
 
-var idTenant = 1
+let idTenant
 
 beforeAll((done) => {
     queryInterface.bulkInsert('Users', [{
@@ -18,12 +20,27 @@ beforeAll((done) => {
     {returning: true})
 
     .then((res) => {
-        let obj = {
-            id: res[0].id,
-            email: res[0].email,
-        }
-        access_token = generateToken(obj)
-        done();
+        res?.map((el => { 
+            let obj = {
+                id: el.id,
+                email: el.email,
+            }
+            access_token = generateToken(obj)
+            // done();
+        }))
+    })
+    .then(res => {
+        return Tenant.create({
+            email: 'pengunjung@mail.com',
+            name: 'customer',
+            phone: '0812382620',
+            checkIn: "2021-03-12",
+            checkOut: "2021-04-12",
+        })
+    })
+    .then(res => {
+        idTenant = res.id
+        done()
     })
     .catch((err) => {
         done(err);
@@ -41,6 +58,8 @@ afterAll((done) => {
     })
 })
 
+
+
 describe("test tenant's CRUD section", () => {
 
     describe("test create tenant", () => {
@@ -50,7 +69,7 @@ describe("test tenant's CRUD section", () => {
           .post('/tenant')
           .set('access_token', `${access_token}`)
           .send({
-            email: 'cust110@cust.com',
+            email: 'pengunjung1@customer.com',
             name: 'customer',
             phone: '0812382620',
             checkIn: "2021-03-12",
@@ -60,11 +79,14 @@ describe("test tenant's CRUD section", () => {
           .expect("Content-Type", /json/)
           .then(res => {
                 expect(res.status).toBe(201)
-                expect(res.body).toHaveProperty("email" , 'cust110@cust.com')
-                expect(res.body).toHaveProperty("name" , 'customer')
-                expect(res.body).toHaveProperty("phone", 812382620)
-                expect(res.body).toHaveProperty("checkIn", "2021-03-12T00:00:00.000Z")
-                expect(res.body).toHaveProperty("checkOut", "2021-04-12T00:00:00.000Z")
+                expect(res.body).toHaveProperty("id", res.body.id)
+                expect(res.body).toHaveProperty("email" , res.body.email)
+                expect(res.body).toHaveProperty("name" , res.body.name)
+                expect(res.body).toHaveProperty("phone", res.body.phone)
+                expect(res.body).toHaveProperty("checkIn", res.body.checkIn)
+                expect(res.body).toHaveProperty("checkOut", res.body.checkOut)
+                expect(res.body).toHaveProperty("createdAt", res.body.createdAt)
+                expect(res.body).toHaveProperty("updatedAt", res.body.updatedAt)
                 done()
             })
           })
@@ -403,7 +425,7 @@ describe("test tenant's CRUD section", () => {
             })
         })
 
-      })
+    })
   
 
 })
