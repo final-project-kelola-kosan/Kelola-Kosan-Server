@@ -1,14 +1,16 @@
-const router = require("express").Router();
+const tenantRouter = require("express").Router();
 const TenantController = require("../controllers/tenantController.js")
 
-router.post('/', TenantController.addTenant)
+tenantRouter.post('/', TenantController.addTenant)
 
-router.get('/', TenantController.getTenant)
+tenantRouter.get('/', TenantController.getTenant)
 
-router.get('/:id', TenantController.getTenantId)
+tenantRouter.get('/:id', TenantController.getTenantId)
 
-router.put('/:id', TenantController.putTenantId)
+tenantRouter.put('/:id', TenantController.putTenantId)
 
-router.delete('/:id', TenantController.deleteTenantId)
+tenantRouter.patch('/:id', TenantController.patchTenantsId)
 
-module.exports = router
+tenantRouter.delete('/:id', TenantController.deleteTenantId)
+
+module.exports = tenantRouter
