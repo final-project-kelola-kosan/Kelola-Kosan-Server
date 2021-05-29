@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --detectOpenHandles --runInBand --forceExit --watchAll --verbose",
+    "test": "jest --detectOpenHandles --runInBand --forceExit --watchAll --coverage --verbose",
     "dev": "set NODE_ENV=dev&&nodemon ./bin/www",
+    "linux": "NODE_ENV=deveploment && nodemon ./bin/www",
     "start": "nodemon ./bin/www"
   },
   "repository": {
