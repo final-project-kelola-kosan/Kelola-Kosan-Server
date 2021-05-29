@@ -1,19 +1,17 @@
-const { Tenant, User } = require('../models')
-const axios = require("axios")
+const {Expense} = require("../models");
 
-class TenantController {
-    static async addTenant(req, res, next) {
-        let { email, name, phone, checkIn, checkOut } = req.body
+class ExpenseController {
+    static async addExpense(req, res, next) {
+        let { title, month, year, total } = req.body
         console.log(req.loggedUser, "<<<<<<")
         let {id} = req.loggedUser
         try {
-            const data = await Tenant.create({
-                email,
-                name,
-                phone,
-                checkIn,
-                checkOut,
-                UserId : id
+            const data = await Expense.create({
+                title,
+                month, 
+                year,
+                total,
+                userId : id
             })
 
             res.status(201).json(data)
@@ -23,9 +21,9 @@ class TenantController {
         }
     }
 
-    static async getTenant(req, res, next) {
+    static async getExpense(req, res, next) {
         try {
-            const data = await Tenant.findAll()
+            const data = await Expense.findAll()
         
             res.status(200).json(data);
 
@@ -34,10 +32,10 @@ class TenantController {
         }
     }
 
-    static async getTenantId(req, res, next) {
+    static async getExpenseId(req, res, next) {
         let id = req.params.id
         try {
-            const data = await Tenant.findOne({
+            const data = await Expense.findOne({
                 where: {
                     id
                 }
@@ -54,22 +52,21 @@ class TenantController {
      
     }
 
-    static async putTenantId(req, res, next) {
-        let { email, name, phone, checkIn, checkOut } = req.body
+    static async putExpenseId(req, res, next) {
+        let { title, month, year, total } = req.body
         let id = +req.params.id
         let data = {
-                email,
-                name,
-                phone,
-                checkIn,
-                checkOut,
-        }
+                title,
+                month,
+                year,
+                total,
+            }
         try {
-            const findOne = await Tenant.findOne({where: { id: id }})
+            const findOne = await Expense.findOne({where: { id: id }})
             if(!findOne) {
                 throw {status: 404, message: "error not found"}
             } else {
-                const updated = await Tenant.update(data, { where: { id: id }, returning: true })
+                const updated = await Expense.update(data, { where: { id: id }, returning: true })
                 if (!updated) {
                     throw {status: 404, message: "error not found"}
                 } else {
@@ -82,15 +79,15 @@ class TenantController {
         
     }
 
-    static async patchTenantsId(req, res, next) {
-        let { phone } = req.body
+    static async patchExpensesId(req, res, next) {
+        let { title } = req.body
         let id = +req.params.id
         try {
-            const data = await Tenant.findOne({where: { id: id }})
+            const data = await Expense.findOne({where: { id: id }})
             if(!data) {
                 throw {status: 404, message: "error not found"}
             } else {
-                const updated = await Tenant.update({ phone: phone }, { where: { id: id }, returning: true })
+                const updated = await Expense.update({ title: title }, { where: { id: id }, returning: true })
                 if (!updated) {
                     throw {status: 404, message: "error not found"}
                 } else {
@@ -105,19 +102,19 @@ class TenantController {
     }
 
 
-    static async deleteTenantId(req, res, next) {
+    static async deleteExpenseId(req, res, next) {
         let id = +req.params.id
         try {
-            const data = await Tenant.findOne({where: { id: id }})
+            const data = await Expense.findOne({where: { id: id }})
             if(!data) {
                 throw {status: 404, message: "error not found"}
             } else {
-                const deleted = await Tenant.destroy({ where: { id: id }, returning: true })
+                const deleted = await Expense.destroy({ where: { id: id }, returning: true })
                 if (!deleted) {
                     throw {status: 404, message: "error not found"}
                 } else {
                     res.status(200).json({
-                        message: "Tenant successfully deleted"
+                        message: "Expense successfully deleted"
                     })
                 }
             }
@@ -125,7 +122,6 @@ class TenantController {
             next(err)
         }
     }
-
 }
 
-module.exports = TenantController
+module.exports = ExpenseController;

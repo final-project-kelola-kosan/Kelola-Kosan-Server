@@ -6,9 +6,9 @@ const {queryInterface} = sequelize
 
 beforeAll((done) => {
     queryInterface.bulkInsert('Users', [{
-    email: "admin@mail.com",
-    username: 'admin',
-    password: hashPassword('admin'),
+    email: "maestro@mail.com",
+    username: 'maestro',
+    password: hashPassword('maestro'),
     createdAt: new Date(),
     updatedAt: new Date(),
     }])
@@ -135,12 +135,14 @@ describe("test for user's section", () => {
                 request(app)
                 .post('/login')
                 .send({
-                    email: "admin@mail.com",
-                    password: 'admin',
+                    email: "maestro@mail.com",
+                    password: 'maestro',
                 })
                 .set("Accept", "application/json")
                 .expect("Content-Type", /json/)
                 .then(res => {
+                    // console.log("TEST MASOOOOOOOOOOOOOOOOOK")
+                    // console.log(res.body)
                     expect(res.body).toHaveProperty("access_token")
                     expect(res.body.access_token).not.toBeNull()
                     expect(res.status).toBe(200)

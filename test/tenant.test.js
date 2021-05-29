@@ -69,7 +69,7 @@ describe("test tenant's CRUD section", () => {
           .post('/tenant')
           .set('access_token', `${access_token}`)
           .send({
-            email: 'pengunjung000@customer.com',
+            email: 'pengunjung0@customer.com',
             name: 'customer',
             phone: '0812382620',
             checkIn: "2021-03-12",
@@ -243,8 +243,8 @@ describe("test tenant's CRUD section", () => {
               return done(err)
             }
 
-            expect(res.status).toBe(500)
-            expect(res.body).toHaveProperty("message", 'You must login first')
+            expect(res.status).toBe(400)
+            expect(res.body).toHaveProperty("message", "Unauthenticate")
             done()
           })
       })
@@ -326,8 +326,8 @@ describe("test tenant's CRUD section", () => {
               return done(err)
             }
 
-            expect(res.status).toBe(500)
-            expect(res.body).toHaveProperty("message", `You must login first`)
+            expect(res.status).toBe(400)
+            expect(res.body).toHaveProperty("message", "Unauthenticate")
             done()
           })
       })
@@ -397,6 +397,38 @@ describe("test tenant's CRUD section", () => {
           })
       })
     })
+
+
+
+    describe("error test for update list by id in tenants with half empty list", () => {
+      test("update list empty contain in tenant at phone", (done) => {
+        request(app)
+          .put(`/tenant/${idTenant}`)
+          .set('access_token', `${access_token}`)
+          .send({
+            email: 'cust12@mail.com',
+            name: 'custom12',
+            phone: '',
+            checkIn: "2021-02-12",
+            checkOut: "2021-03-12",
+          })
+          .end((err, res) => {
+            if (err) {
+              return done(err)
+            }
+            expect(res.status).toBe(400)
+            expect(res.body).toStrictEqual({
+              "errors": [
+                "phone musn't be empty",
+              ],
+              "message": "Bad request",
+            })
+            done()
+          })
+      })
+    })
+
+
 
   })
 
