@@ -8,7 +8,7 @@ function errorHandler(err, req, res, next) {
                 errors.push(err.message)
             })
           
-            res.status(400).json({message: "Bad request", errors})
+            res.status(400).json({message: "Sequelize Validation Error", errors})
             break
         case "Bad Request":
             

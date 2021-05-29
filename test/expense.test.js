@@ -193,6 +193,7 @@ describe("Test find all expenses", () => {
 
 const testId = 1;
 
+// Test Find One
 describe("Test findOne", () => {
     it("find expense by id success", (done) => {
         request(app)
@@ -331,3 +332,258 @@ describe("Test create expense", () => {
             })
     })
 })
+
+const updateData = {
+    title: "Beli stok tanaman hias",
+    month: 2,
+    year: 2021,
+    total: 1500000
+}
+
+// Update Expense
+
+describe("Updating expense test", () => {
+    it("Updating expense success", (done) => {
+        request(app)
+            .put(`/expenses/${testId}`)
+            .set('Accept', 'application/json')
+            .send(updateData)
+            .set("access_token", adminToken)
+            .expect('Content-Type', /json/)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(200);
+                expect(body).toHaveProperty("title", updateData.title);
+                expect(body).toHaveProperty("month", updateData.month);
+                expect(body).toHaveProperty("year", updateData.year);
+                expect(body).toHaveProperty("total", updateData.total);
+                done();
+            })  
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+
+    it("Unauthenticate", (done) => {
+        request(app)
+            .put(`/expenses/${testId}`)
+            .set('Accept', 'application/json')
+            .send(updateData)
+            .expect('Content-Type', /json/)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(400);
+                expect(body).toEqual(expect.any(Object));
+                expect(body).toHaveProperty("message", "Unauthenticate");
+                done();
+            })  
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+
+    it("Validation error", (done) => {
+        request(app)
+            .put(`/expenses/${testId}`)
+            .set('Accept', 'application/json')
+            .send({
+                title: "",
+                month: 0,
+                year: 0,
+                total: 0
+            })
+            .set("access_token", adminToken)
+            .expect('Content-Type', /json/)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(400);
+                expect(body).toEqual(expect.any(Object));
+                expect(body).toHaveProperty("message", "Sequelize Validation Error");
+                expect(body).toHaveProperty("errors", expect.any(Array));
+                done();
+            })  
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+
+    it("Expense Not Found", (done) => {
+        request(app)
+            .put(`/expenses/${999}`)
+            .set('Accept', 'application/json')
+            .send(updateData)
+            .set("access_token", adminToken)
+            .expect('Content-Type', /json/)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(404);
+                expect(body).toEqual(expect.any(Object));
+                expect(body).toHaveProperty("message", "Expense Not Found");
+                done();
+            })  
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+})
+
+// Updating the title
+
+describe("Updating title test", () => {
+    it("Updating title success", (done) => {
+        request(app)
+            .patch(`/expenses/${testId}`)
+            .set('Accept', 'application/json')
+            .send({
+                title: "Beli stok galon air mineral"
+            })
+            .set("access_token", adminToken)
+            .expect('Content-Type', /json/)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(200);
+                expect(body).toHaveProperty("updated", expect.any(Object));
+                expect(body.updated).toHaveProperty("title", "Beli stok galon air mineral");
+                expect(body.updated).toHaveProperty("month", updateData.month);
+                expect(body.updated).toHaveProperty("year", updateData.year);
+                expect(body.updated).toHaveProperty("total", updateData.total);
+                done();
+            })  
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+
+    it("Unauthenticate", (done) => {
+        request(app)
+            .patch(`/expenses/${testId}`)
+            .set('Accept', 'application/json')
+            .send(updateData)
+            .expect('Content-Type', /json/)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(400);
+                expect(body).toEqual(expect.any(Object));
+                expect(body).toHaveProperty("message", "Unauthenticate");
+                done();
+            })  
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+
+    it("Validation error", (done) => {
+        request(app)
+            .patch(`/expenses/${testId}`)
+            .set('Accept', 'application/json')
+            .send({
+                title: "",
+                month: 0,
+                year: 0,
+                total: 0
+            })
+            .set("access_token", adminToken)
+            .expect('Content-Type', /json/)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(400);
+                expect(body).toEqual(expect.any(Object));
+                expect(body).toHaveProperty("message", "Sequelize Validation Error");
+                expect(body).toHaveProperty("errors", expect.any(Array));
+                done();
+            })  
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+
+    it("Expense Not Found", (done) => {
+        request(app)
+            .patch(`/expenses/${999}`)
+            .set('Accept', 'application/json')
+            .send(updateData)
+            .set("access_token", adminToken)
+            .expect('Content-Type', /json/)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(404);
+                expect(body).toEqual(expect.any(Object));
+                expect(body).toHaveProperty("message", "Expense Not Found");
+                done();
+            })  
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+})
+
+// Testing Delete
+
+describe("Delete expense test", () => {
+    it("Deleting expense test", (done) => {
+        request(app)
+            .delete(`/expenses/${testId}`)
+            .set('Accept', 'application/json')
+            .set("access_token", adminToken)
+            .expect('Content-Type', /json/)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(200);
+                expect(body).toEqual(expect.any(Object));
+                expect(body).toHaveProperty("message", "Expense successfully deleted");
+                done();
+            })  
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+
+    it("Unauthenticate", (done) => {
+        request(app)
+            .delete(`/expenses/${testId}`)
+            .set('Accept', 'application/json')
+            .send(updateData)
+            .expect('Content-Type', /json/)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(400);
+                expect(body).toEqual(expect.any(Object));
+                expect(body).toHaveProperty("message", "Unauthenticate");
+                done();
+            })  
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+
+    it("Expense Not Found", (done) => {
+        request(app)
+            .delete(`/expenses/${999}`)
+            .set('Accept', 'application/json')
+            .send(updateData)
+            .set("access_token", adminToken)
+            .expect('Content-Type', /json/)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(404);
+                expect(body).toEqual(expect.any(Object));
+                expect(body).toHaveProperty("message", "Expense Not Found");
+                done();
+            })  
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+})
+

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1622285508310" clover="3.2.0">
-  <project timestamp="1622285508310" name="All files">
-    <metrics statements="447" coveredstatements="237" conditionals="75" coveredconditionals="19" methods="93" coveredmethods="27" elements="615" coveredelements="283" complexity="0" loc="447" ncloc="447" packages="6" files="28" classes="28"/>
+<coverage generated="1622311856634" clover="3.2.0">
+  <project timestamp="1622311856634" name="All files">
+    <metrics statements="447" coveredstatements="266" conditionals="75" coveredconditionals="28" methods="93" coveredmethods="30" elements="615" coveredelements="324" complexity="0" loc="447" ncloc="447" packages="6" files="28" classes="28"/>
     <package name="Kelola-Kosan-Server">
       <metrics statements="14" coveredstatements="14" conditionals="4" coveredconditionals="3" methods="0" coveredmethods="0"/>
       <file name="app.js" path="/home/rezanasu/hacktiv8/Kelola-Kosan-Server/app.js">
@@ -23,9 +23,9 @@
       </file>
     </package>
     <package name="Kelola-Kosan-Server.controllers">
-      <metrics statements="243" coveredstatements="50" conditionals="48" coveredconditionals="4" methods="68" coveredmethods="4"/>
+      <metrics statements="243" coveredstatements="79" conditionals="48" coveredconditionals="13" methods="68" coveredmethods="7"/>
       <file name="expenseController.js" path="/home/rezanasu/hacktiv8/Kelola-Kosan-Server/controllers/expenseController.js">
-        <metrics statements="53" coveredstatements="18" conditionals="14" coveredconditionals="2" methods="6" coveredmethods="3"/>
+        <metrics statements="53" coveredstatements="47" conditionals="14" coveredconditionals="11" methods="6" coveredmethods="6"/>
         <line num="1" count="1" type="stmt"/>
         <line num="6" count="2" type="stmt"/>
         <line num="7" count="2" type="stmt"/>
@@ -45,38 +45,38 @@
         <line num="42" count="1" type="stmt"/>
         <line num="44" count="1" type="stmt"/>
         <line num="47" count="0" type="stmt"/>
-        <line num="52" count="0" type="stmt"/>
-        <line num="53" count="0" type="stmt"/>
-        <line num="54" count="0" type="stmt"/>
-        <line num="60" count="0" type="stmt"/>
-        <line num="61" count="0" type="stmt"/>
-        <line num="62" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="63" count="0" type="stmt"/>
-        <line num="65" count="0" type="stmt"/>
-        <line num="66" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="52" count="3" type="stmt"/>
+        <line num="53" count="3" type="stmt"/>
+        <line num="54" count="3" type="stmt"/>
+        <line num="60" count="3" type="stmt"/>
+        <line num="61" count="3" type="stmt"/>
+        <line num="62" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="63" count="1" type="stmt"/>
+        <line num="65" count="2" type="stmt"/>
+        <line num="66" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="67" count="0" type="stmt"/>
-        <line num="69" count="0" type="stmt"/>
-        <line num="73" count="0" type="stmt"/>
-        <line num="78" count="0" type="stmt"/>
-        <line num="79" count="0" type="stmt"/>
-        <line num="80" count="0" type="stmt"/>
-        <line num="81" count="0" type="stmt"/>
-        <line num="82" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="83" count="0" type="stmt"/>
-        <line num="85" count="0" type="stmt"/>
-        <line num="86" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="69" count="1" type="stmt"/>
+        <line num="73" count="1" type="stmt"/>
+        <line num="78" count="3" type="stmt"/>
+        <line num="79" count="3" type="stmt"/>
+        <line num="80" count="3" type="stmt"/>
+        <line num="81" count="3" type="stmt"/>
+        <line num="82" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="83" count="1" type="stmt"/>
+        <line num="85" count="2" type="stmt"/>
+        <line num="86" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="87" count="0" type="stmt"/>
-        <line num="89" count="0" type="stmt"/>
-        <line num="95" count="0" type="stmt"/>
-        <line num="100" count="0" type="stmt"/>
-        <line num="101" count="0" type="stmt"/>
-        <line num="102" count="0" type="stmt"/>
-        <line num="103" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="104" count="0" type="stmt"/>
-        <line num="106" count="0" type="stmt"/>
-        <line num="107" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="89" count="1" type="stmt"/>
+        <line num="95" count="1" type="stmt"/>
+        <line num="100" count="2" type="stmt"/>
+        <line num="101" count="2" type="stmt"/>
+        <line num="102" count="2" type="stmt"/>
+        <line num="103" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="104" count="1" type="stmt"/>
+        <line num="106" count="1" type="stmt"/>
+        <line num="107" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="108" count="0" type="stmt"/>
-        <line num="110" count="0" type="stmt"/>
+        <line num="110" count="1" type="stmt"/>
         <line num="116" count="0" type="stmt"/>
         <line num="121" count="1" type="stmt"/>
       </file>
@@ -308,7 +308,7 @@
         <line num="6" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
-        <line num="13" count="5" type="stmt"/>
+        <line num="13" count="13" type="stmt"/>
         <line num="16" count="1" type="stmt"/>
       </file>
     </package>
@@ -318,41 +318,41 @@
         <metrics statements="16" coveredstatements="14" conditionals="4" coveredconditionals="3" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
-        <line num="5" count="8" type="stmt"/>
-        <line num="7" count="8" type="stmt"/>
-        <line num="8" count="8" type="cond" truecount="2" falsecount="0"/>
-        <line num="9" count="5" type="stmt"/>
-        <line num="10" count="5" type="stmt"/>
-        <line num="18" count="5" type="cond" truecount="1" falsecount="1"/>
-        <line num="19" count="5" type="stmt"/>
-        <line num="20" count="5" type="stmt"/>
-        <line num="25" count="5" type="stmt"/>
-        <line num="26" count="5" type="stmt"/>
+        <line num="5" count="19" type="stmt"/>
+        <line num="7" count="19" type="stmt"/>
+        <line num="8" count="19" type="cond" truecount="2" falsecount="0"/>
+        <line num="9" count="13" type="stmt"/>
+        <line num="10" count="13" type="stmt"/>
+        <line num="18" count="13" type="cond" truecount="1" falsecount="1"/>
+        <line num="19" count="13" type="stmt"/>
+        <line num="20" count="13" type="stmt"/>
+        <line num="25" count="13" type="stmt"/>
+        <line num="26" count="13" type="stmt"/>
         <line num="28" count="0" type="stmt"/>
-        <line num="31" count="3" type="stmt"/>
+        <line num="31" count="6" type="stmt"/>
         <line num="35" count="0" type="stmt"/>
         <line num="57" count="1" type="stmt"/>
       </file>
       <file name="errorHandler.js" path="/home/rezanasu/hacktiv8/Kelola-Kosan-Server/middlewares/errorHandler.js">
         <metrics statements="22" coveredstatements="13" conditionals="10" coveredconditionals="3" methods="2" coveredmethods="2"/>
-        <line num="2" count="5" type="stmt"/>
-        <line num="3" count="5" type="stmt"/>
-        <line num="4" count="5" type="cond" truecount="3" falsecount="5"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
-        <line num="12" count="1" type="stmt"/>
+        <line num="2" count="13" type="stmt"/>
+        <line num="3" count="13" type="stmt"/>
+        <line num="4" count="13" type="cond" truecount="3" falsecount="5"/>
+        <line num="6" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
+        <line num="12" count="3" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
-        <line num="18" count="3" type="stmt"/>
-        <line num="19" count="3" type="stmt"/>
+        <line num="18" count="6" type="stmt"/>
+        <line num="19" count="6" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
         <line num="25" count="0" type="stmt"/>
-        <line num="27" count="1" type="stmt"/>
-        <line num="28" count="1" type="stmt"/>
+        <line num="27" count="4" type="stmt"/>
+        <line num="28" count="4" type="stmt"/>
         <line num="30" count="0" type="stmt"/>
         <line num="31" count="0" type="stmt"/>
         <line num="34" count="0" type="cond" truecount="0" falsecount="2"/>
