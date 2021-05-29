@@ -1,5 +1,4 @@
 const {Expense} = require("../models");
-
 class ExpenseController {
     static async addExpense(req, res, next) {
         let { title, month, year, total } = req.body
@@ -13,9 +12,7 @@ class ExpenseController {
                 total,
                 userId : id
             })
-
             res.status(201).json(data)
-
         } catch(err) {
             next(err)
         }
@@ -24,9 +21,7 @@ class ExpenseController {
     static async getExpense(req, res, next) {
         try {
             const data = await Expense.findAll()
-        
             res.status(200).json(data);
-
         }catch(err) {
             next(err)
         }
@@ -49,7 +44,6 @@ class ExpenseController {
         } catch(err) {
             next(err)
         }
-     
     }
 
     static async putExpenseId(req, res, next) {
@@ -75,8 +69,7 @@ class ExpenseController {
             }
         } catch (err) {
             next(err)
-        }
-        
+        }  
     }
 
     static async patchExpensesId(req, res, next) {
@@ -100,7 +93,6 @@ class ExpenseController {
             next(err)
         }
     }
-
 
     static async deleteExpenseId(req, res, next) {
         let id = +req.params.id
