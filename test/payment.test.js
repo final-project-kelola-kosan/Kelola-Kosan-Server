@@ -257,7 +257,7 @@ describe("Create Payment", () => {
             })
     })
 
-    it.only("Not sending data", (done) => {
+    it("Not sending data", (done) => {
         request(app)
             .post(`/payments/${roomId}/${tenantId}`)
             .set('Accept', 'application/json')
@@ -265,7 +265,10 @@ describe("Create Payment", () => {
             .set("access_token", adminToken)
             .then(response => {
                 let {body, status} = response;
-                expect(status).toBe(500);
+                console.log(body, "INI DI PAYMENT TEST, BODY")
+                expect(status).toBe(400);
+                expect(body).toHaveProperty("message", "Bad request");
+                expect(body).toHaveProperty("errors", expect.any(Array));
                 done();
             })
             .catch(err => {

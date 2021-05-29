@@ -5,6 +5,7 @@ class PaymentController {
     static createPayment(req, res, next) {
         let {month, year, nextDueDate, paidCash} = req.body;
         let {roomId, tenantId} = req.params;
+        
         Payment.create({
             month,
             year,
@@ -14,7 +15,6 @@ class PaymentController {
             tenantId
         })
         .then(data => {
-            console.log(data, "INI DI PAYMENT BANGSAT")
             res.status(201).json(data);
         })
         .catch(err => {
@@ -41,6 +41,26 @@ class PaymentController {
         .catch(err => {
             next(err);
         })
+    }
+
+    static deletePayment(req, res, next) {
+        // let id = req.params.id;
+
+        // Payment.destroy({
+        //     where: {
+        //         id
+        //     }
+        // })
+        // .then(data => {
+
+        // })
+        // .catch(err => {
+            
+        // })
+    }
+
+    static findPaymentById(req, res, next) {
+
     }
 }
 

@@ -24,14 +24,16 @@ module.exports = (sequelize, DataTypes) => {
     },
     month: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         notEmpty: {
           msg: "month mustn't empty"
-        }
+        },
       }
     },
     year: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         notEmpty: {
           msg: "year mustn't empty"
@@ -40,6 +42,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     nextDueDate: {
       type: DataTypes.DATE,
+      allowNull: false,
       validate: {
         notEmpty: {
           msg: "due date mustn't empty"
@@ -48,28 +51,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     paidCash: {
       type: DataTypes.FLOAT,
+      allowNull: false,
       validate: {
         notEmpty: {
           msg: "paidCash mustn't empty"
         }
       }
     },
-    tenantId: {
-      type: DataTypes.INTEGER,
-      validate: {
-        notEmpty: {
-          msg: "tenantId mustn't empty"
-        }
-      }
-    },
-    roomId: {
-      type: DataTypes.INTEGER,
-      validate: {
-        notEmpty: {
-          msg: "roomId mustn't empty"
-        }
-      }
-    }
+    tenantId: DataTypes.INTEGER,
+    roomId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Payment',
