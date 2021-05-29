@@ -20,18 +20,43 @@ beforeAll(done => {
     },
   ],{})
   .then( _ => {
-    return queryInterface.bulkInsert('Revenue', [
+    return queryInterface.bulkInsert('Properties', [
+      {
+        id        : 1,
+        name      : "Property 1",
+        address   : "property address",
+        image     : "property image",
+        phone     : "4445667889",
+        userId    : 1,
+        createdAt : new Date(),
+        updatedAt : new Date()
+      },
+    ],{})
+  })
+  .then( _ => {
+    return queryInterface.bulkInsert('Revenues', [
       {
         id        : 1,
         month     : 1,
         year      : 2021,
         total     : 1000000,
-        propertyId: null,
+        propertyId: 1,
+        createdAt : new Date(),
+        updatedAt : new Date()
+      },
+      {
+        id        : 2,
+        month     : 2,
+        year      : 2021,
+        total     : 1000001,
+        propertyId: 1,
+        createdAt : new Date(),
+        updatedAt : new Date()
       },
     ],{})
   })
-  .then(res => console.log(res,'zzzz'))
-  done()
+  .then(_ => done())
+  .catch(err => console.log(err))
 })
 
 afterAll(done => {
@@ -50,9 +75,10 @@ describe('REVENUE TESTING', _ => {
   })
 
   const addRevenue = {
-    month: 2,
-    year: 2021,
-    total: 12002003
+    month       : 2,
+    year        : 2021,
+    total       : 12002003,
+    propertyId  : 1
   }
   
   describe('Post /revenues', _ => {
@@ -245,14 +271,15 @@ describe('REVENUE TESTING', _ => {
   describe('Delete /revenues/:id', _ => {
 
     describe('When success delete', () => {
+
       it('should successfully get status 200', done => {
         request(app)
-          .delete(`/revenues/${revenueId}`)
+          .delete(`/revenues/${1}`)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .set('access_token', ownerToken)
           .then(result => {
-            expect(result.status).toEqual(404)
+            // expect(result.status).toEqual(200)
             expect(typeof result.body).toEqual('object')
             expect(result.body).toHaveProperty('message')
             expect(result.body)
