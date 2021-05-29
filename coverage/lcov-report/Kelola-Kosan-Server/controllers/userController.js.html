@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">59.09% </span>
+                <span class="strong">18.18% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/22</span>
+                <span class='fraction'>4/22</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/2</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">59.09% </span>
+                <span class="strong">18.18% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>13/22</span>
+                <span class='fraction'>4/22</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -141,27 +141,27 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -198,28 +198,28 @@ class UserController  {
         }
     }
 &nbsp;
-    static async loginUser(req, res, next) {
-        const { email, password} = req.body
-        try {
-            const user = await User.findOne({
+<span class="fstat-no" title="function not covered" >    st</span>atic async loginUser(req, res, next) {
+        const { email, password} = <span class="cstat-no" title="statement not covered" >req.body</span>
+<span class="cstat-no" title="statement not covered" >        try {</span>
+            const user = <span class="cstat-no" title="statement not covered" >await User.findOne({</span>
                 where: {
                     email
                 }
             })
 &nbsp;
-            <span class="missing-if-branch" title="if path not taken" >I</span>if(!user) {
+<span class="cstat-no" title="statement not covered" >            if(!user) {</span>
 <span class="cstat-no" title="statement not covered" >                throw {status: 401, message: "email or password incorrect"}</span>
             } else {
-                const isPasswords = checkPassword(password, user.password)
-                <span class="missing-if-branch" title="if path not taken" >I</span>if (!isPasswords) {
+                const isPasswords = <span class="cstat-no" title="statement not covered" >checkPassword(password, user.password)</span>
+<span class="cstat-no" title="statement not covered" >                if (!isPasswords) {</span>
 <span class="cstat-no" title="statement not covered" >                    throw {status: 401, message: "email or password incorrect"}</span>
                 } else {
-                    let obj = {
+                    let obj = <span class="cstat-no" title="statement not covered" >{</span>
                         id: user.id,
                         email: user.email
                     }
-                    const access_token = generateToken(obj)
-                    res.status(200).json({access_token})
+                    const access_token = <span class="cstat-no" title="statement not covered" >generateToken(obj)</span>
+<span class="cstat-no" title="statement not covered" >                    res.status(200).json({access_token})</span>
                 }
             }
 &nbsp;
@@ -238,7 +238,7 @@ module.exports = UserController</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat May 29 2021 13:24:00 GMT+0700 (Western Indonesia Time)
+                at Sat May 29 2021 17:21:45 GMT+0700 (Waktu Indonesia Barat)
             </div>
         </div>
         <script src="../../prettify.js"></script>

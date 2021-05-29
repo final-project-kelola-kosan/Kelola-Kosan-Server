@@ -1,16 +1,45 @@
 const request = require('supertest')
 const app = require('../app')
 
-const { sequelize } = require('../models')
+const { Revenue, sequelize } = require('../models')
+const { hashPassword } = require('../helpers/bcrypt')
 const { generateToken } = require('../helpers/jwt')
 const { queryInterface } = sequelize
 
+let revenueId = 1
+
 beforeAll(done => {
-  
+  queryInterface.bulkInsert('Users', [
+    {
+      id        : 1,
+      email     : "owner@mail.com",
+      username  : "owner",
+      password  : hashPassword('owner123'),
+      createdAt : new Date(),
+      updatedAt : new Date()
+    },
+  ],{})
+  .then( _ => {
+    return queryInterface.bulkInsert('Revenue', [
+      {
+        id        : 1,
+        month     : 1,
+        year      : 2021,
+        total     : 1000000,
+        propertyId: null,
+      },
+    ],{})
+  })
+  .then(res => console.log(res,'zzzz'))
+  done()
 })
 
 afterAll(done => {
-
+  queryInterface.bulkDelete('Users', null, {})
+  .then( _ => {
+    return queryInterface.bulkDelete('Revenues', null, {})
+  })
+  done()
 })
 
 describe('REVENUE TESTING', _ => {
@@ -21,20 +50,19 @@ describe('REVENUE TESTING', _ => {
   })
 
   const addRevenue = {
-    month: 5,
+    month: 2,
     year: 2021,
-    total: 15135795,
-    propertyId: 1
+    total: 12002003
   }
   
-  describe('Post /revenue', _ => {
+  describe('Post /revenues', _ => {
     test('when success should response with status code 201', done => {
       request(app)
-        .post('/properties')
+        .post('/revenues')
         .set('Accept', 'application/json')
         .set('access_token', ownerToken)
         .expect('Content-Type', /json/)
-        .send(testAddProperty)
+        .send(addRevenue)
         .then(response => {
           const { status, body } = response
           expect(status).toEqual(201)
@@ -42,7 +70,68 @@ describe('REVENUE TESTING', _ => {
           expect(body).toHaveProperty('month', expect.any(Number))
           expect(body).toHaveProperty('year', expect.any(Number))
           expect(body).toHaveProperty('total', expect.any(Number))
-          expect(body).toHaveProperty('propertyId', expect.any(Number))
+          expect(body).toHaveProperty('propertyId', expect.any(Number)) //id-nya ??
+          done()
+        })
+        .catch(err => done(err))
+    })
+
+    test('empty input error', done => {
+      request(app)
+        .post('/revenues')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .set('access_token', ownerToken)
+        .send({
+          month     : "",
+          year      : "",
+          total     : "",
+          propertyId: "",
+        })
+        .then(result => {
+          expect(result.status).toEqual(400)
+          expect(result.body).toStrictEqual({"errors": [
+            "month mustn't empty",
+            "year mustn't empty",
+            "total mustn't empty"
+          ],
+          "message": "Bad request"})
+          done()
+        })
+        .catch(err => done(err))
+    })
+
+    test('send wrong token should response with status code 400', done => {
+      request(app)
+        .post('/revenues')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .set('access_token', "WRONG TOKEN REVENUES")
+        .send(addRevenue)
+        .then(result => {
+          // expect(result.status).toEqual(401) SAMAAIN error handling
+          expect(typeof result.body).toEqual('object')
+          expect(result.body).toEqual(expect.objectContaining({ "message": "jwt malformed" }))
+          done()
+        })
+        .catch(err => done(err))
+    })
+
+    test('when input wrong datatype on field send response with status code 500 & message error', done => {
+      request(app)
+        .post('/revenues')
+        .set('Accept', 'application/json')
+        .set('access_token', ownerToken)
+        .send({
+          month     : "INPUT STRING",
+          year      : "INPUT STRING",
+          total     : "INPUT STRING",
+          propertyId: "INPUT STRING",
+        })
+        .then(result => {
+          expect(result.status).toEqual(500)
+          expect(typeof result.body).toEqual('object')
+          expect(result.body).toHaveProperty('message')
           done()
         })
         .catch(err => done(err))
@@ -58,11 +147,12 @@ describe('REVENUE TESTING', _ => {
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .set('access_token', ownerToken)
-      .expect(200)
       .then(response => {
-
-        let { body } = response
-        expect(body).toEqual(expect.any(Array))
+        
+        let { body, status } = response
+        expect(status).toEqual(200)
+        expect(typeof response.body).toEqual('object')
+        expect(response.body.revenues).toEqual(expect.any(Array))
         done()
       })
       .catch(err => done(err))
@@ -95,16 +185,89 @@ describe('REVENUE TESTING', _ => {
       })
     })
 
+    test('when no access_token it should send response with status code (400) Invalid token', done => {
+      request(app)
+        .put(`/revenues/${revenueId}`)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        // .set('access_token', adminToken)
+        .auth('role', 'admin')
+        .send({
+          month : 7,
+          year : 2021,
+          total: 107005007,
+          propertyId: 1,
+        })
+        .then(result => {
+          expect(result.status).toEqual(400)
+          expect(typeof result.body).toEqual('object')
+          expect(result.body).toHaveProperty('message')
+          expect(result.body)
+            .toEqual(expect.objectContaining({ "message": "Unauthenticate" }))
+          done()
+        })
+        .catch(err => done(err))
+    })
+
+    test('when valid token but send an empty data should send response with status code (401) unauthorize', done => {
+      request(app)
+        .put(`/revenues/${revenueId}`)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .set('access_token', ownerToken)
+        .send({
+          month     : "",
+          year      : "",
+          total     : "",
+          propertyId: "",
+        })
+        .then(result => {
+          expect(result.status).toEqual(400)
+          expect(typeof result.body).toEqual('object')
+          expect(result.body).toHaveProperty('message')
+          expect(result.body)
+            .toEqual(expect.objectContaining({ "message": "Bad request" }))
+          expect(result.body).toStrictEqual({"errors": [
+            "month mustn't empty",
+            "year mustn't empty",
+            "total mustn't empty"
+          ],
+            "message": "Bad request"})
+          done()
+        })
+        .catch(err => done(err))
+    })
+
   })
 
 
 
-  describe('Delete /revenues/:id', _ => { 
+  describe('Delete /revenues/:id', _ => {
 
-    describe('When access_token is null', _ => {
-      it('should response with status code (400) with message Invalid Token', done => {
+    describe('When success delete', () => {
+      it('should successfully get status 200', done => {
         request(app)
-          .delete(`/revenues/${revenuesId}`)
+          .delete(`/revenues/${revenueId}`)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .set('access_token', ownerToken)
+          .then(result => {
+            expect(result.status).toEqual(404)
+            expect(typeof result.body).toEqual('object')
+            expect(result.body).toHaveProperty('message')
+            expect(result.body)
+              .toEqual(expect.objectContaining({ "message": "Revenue record successfull delete!" }))
+            done()
+          })
+          .catch(err => done(err))
+      })
+    })
+
+    
+    describe('When access_token is null', _ => {
+      test('should response with status code (400) with message Invalid Token', done => {
+        request(app)
+          .delete(`/revenues/${revenueId}`)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .set('access_token', null)
@@ -119,7 +282,6 @@ describe('REVENUE TESTING', _ => {
           .catch(err => done(err))
       })
     })
-
   })
 
 })

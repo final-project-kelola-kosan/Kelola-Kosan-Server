@@ -6,7 +6,7 @@ class RevenueController {
     console.log('readd');
     Revenue
       .findAll()
-      .then(revenues => res.status(201).json({revenues}))
+      .then(revenues => res.status(200).json({revenues}))
       .catch(err => next(err))
   }
 
@@ -22,7 +22,7 @@ class RevenueController {
     Revenue
       .create(newRevenue)
       .then(data => {
-        res.status(200).json({
+        res.status(201).json({
           month : data.month,
           year: data.year,
           total: data.total,
