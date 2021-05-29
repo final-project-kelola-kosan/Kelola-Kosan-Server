@@ -1,4 +1,5 @@
 const {Expense} = require("../models");
+
 class ExpenseController {
     static async addExpense(req, res, next) {
         let { title, month, year, total } = req.body
