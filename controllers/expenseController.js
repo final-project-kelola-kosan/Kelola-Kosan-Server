@@ -1,17 +1,18 @@
 const {Expense} = require("../models");
 
 class ExpenseController {
+    
     static async addExpense(req, res, next) {
         let { title, month, year, total } = req.body
-        console.log(req.loggedUser, "<<<<<<")
-        let {id} = req.loggedUser
+        let currentUser = req.loggedUser;
+        let ownedProperty = currentUser.ownedProperty;
         try {
             const data = await Expense.create({
                 title,
                 month, 
                 year,
                 total,
-                userId : id
+                propertyId : ownedProperty.id
             })
             res.status(201).json(data)
         } catch(err) {
@@ -36,9 +37,9 @@ class ExpenseController {
                     id
                 }
             })
-    
-            if (!data) {
-                throw {status: 404, message: "error not found"}
+
+            if (data === null) {
+                next({name: "ExpenseNotFound"});
              } else {
                  res.status(200).json(data)
              }

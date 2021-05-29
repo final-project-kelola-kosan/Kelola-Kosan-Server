@@ -23,6 +23,9 @@ function errorHandler(err, req, res, next) {
         case "PaymentNotFound":
             res.status(404).json({message: "Payment Not Found"})
             break
+        case "ExpenseNotFound":
+            res.status(404).json({message: "Expense Not Found"})
+            break
         case "SequelizeUniqueConstraintError":
             res.status(400).json({message: "Bad Request", errors: ['Email already exist']})
             break
