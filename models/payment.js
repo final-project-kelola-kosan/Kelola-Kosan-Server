@@ -16,16 +16,24 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Payment.init({
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
     month: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         notEmpty: {
           msg: "month mustn't empty"
-        }
+        },
       }
     },
     year: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         notEmpty: {
           msg: "year mustn't empty"
@@ -34,14 +42,16 @@ module.exports = (sequelize, DataTypes) => {
     },
     nextDueDate: {
       type: DataTypes.DATE,
+      allowNull: false,
       validate: {
         notEmpty: {
-          msg: "year mustn't empty"
+          msg: "due date mustn't empty"
         }
       }
     },
     paidCash: {
       type: DataTypes.FLOAT,
+      allowNull: false,
       validate: {
         notEmpty: {
           msg: "paidCash mustn't empty"
