@@ -11,22 +11,6 @@ let validUser = {
     password: "postgres"
 }
 
-let room105 = {
-    number: "105",
-    status: "occupied",
-    propertyId: 1,
-    type: "standard",
-    price: 2500000
-}
-
-let room106 = {
-    number: "106",
-    status: "occupied",
-    propertyId: 1,
-    type: "standard",
-    price: 2500000
-}
-
 const dateString = '2021-06-01'
 var firstDate = new Date(dateString + "T00:00:00");
 console.log(firstDate);
@@ -35,23 +19,8 @@ const dateStr2 = '2021-04-01'
 var dueDate = new Date(dateStr2 + "T00:00:00");
 console.log(dueDate);
 
-let budi = {
-    email: "budi@mail.com",
-    name: "budi",
-    phone: "90345212",
-    checkIn: new Date(),
-    checkOut: null,
-}
-
-let agung = {
-    email: "agung@mail.com",
-    name: "agung",
-    phone: "14045",
-    checkIn: new Date(),
-    checkOut: null,
-}
-
 let adminToken = "";
+const publicPaymentId = 145;
 
 beforeAll((done) => {
     queryInterface.bulkInsert("Users", [
@@ -120,7 +89,7 @@ beforeAll((done) => {
     .then(_ => {
         return queryInterface.bulkInsert("Payments", [
             {
-                id: 145,
+                id: publicPaymentId,
                 month: 5,
                 year: 2021,
                 nextDueDate: firstDate,
@@ -215,6 +184,8 @@ const paymentData = {
     paidCash: 2500000
 }
 
+// Create Payment
+
 describe("Create Payment", () => {
     it("Adding new payment", (done) => {
         request(app)
@@ -277,3 +248,129 @@ describe("Create Payment", () => {
             })
     })
 })
+
+// Find By ID
+
+describe("Find payment by ID", () => {
+    it("Find payment by ID success", (done) => {
+        request(app)
+            .get(`/payments/${publicPaymentId}`)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .set("access_token", adminToken)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(200);
+                expect(body).toEqual(expect.any(Object));
+                expect(body).toHaveProperty("month", 5);
+                expect(body).toHaveProperty("year", 2021);
+                expect(new Date(body.nextDueDate)).toEqual(dueDate);
+                expect(body).toHaveProperty("paidCash", 2500000);
+                done();
+            })
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+
+    it("Unauthenticate", (done) => {
+        request(app)
+            .get(`/payments/${publicPaymentId}`)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(400);
+                expect(body).toEqual(expect.any(Object));
+                expect(body).toHaveProperty("message", "Unauthenticate");
+                done();
+            })
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+
+    it("Payment Not Found", (done) => {
+        request(app)
+            .get(`/payments/${999}`)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .set("access_token", adminToken)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(404);
+                expect(body).toEqual(expect.any(Object));
+                expect(body).toHaveProperty("message", "Payment Not Found");
+                done();
+            })
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+});
+
+// DELETE Payment
+
+describe("Delete payment" , () => {
+    it("deleting payment success", (done) => {
+        request(app)
+            .delete(`/payments/${publicPaymentId}`)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .set("access_token", adminToken)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(200);
+                expect(body).toEqual(expect.any(Object));
+                expect(body).toHaveProperty("msg", "Payment successfully deleted");
+                done();
+            })
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    });
+
+    it("Unauthenticate", (done) => {
+        request(app)
+            .delete(`/payments/${publicPaymentId}`)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(400);
+                expect(body).toEqual(expect.any(Object));
+                expect(body).toHaveProperty("message", "Unauthenticate");
+                done();
+            })
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    });
+
+    it("Payment Not Found", (done) => {
+        request(app)
+            .delete(`/payments/${999}`)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .set("access_token", adminToken)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(404);
+                expect(body).toEqual(expect.any(Object));
+                expect(body).toHaveProperty("message", "Payment Not Found");
+                done();
+            })
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    });
+})
+
+
+

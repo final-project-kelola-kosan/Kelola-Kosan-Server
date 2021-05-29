@@ -23,16 +23,28 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
                 <span class="strong">88.89% </span>
                 <span class="quiet">Statements</span>
                 <span class='fraction'>16/18</span>
+=======
+                <span class="strong">65% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>13/20</span>
+>>>>>>> 0cb997c8397da2054c8b2650a7a5c9782c4e3606
             </div>
         
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
                 <span class="strong">75% </span>
                 <span class="quiet">Branches</span>
                 <span class='fraction'>6/8</span>
+=======
+                <span class="strong">33.33% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>3/9</span>
+>>>>>>> 0cb997c8397da2054c8b2650a7a5c9782c4e3606
             </div>
         
             
@@ -44,9 +56,15 @@
         
             
             <div class='fl pad1y space-right2'>
+<<<<<<< HEAD
                 <span class="strong">88.89% </span>
                 <span class="quiet">Lines</span>
                 <span class='fraction'>16/18</span>
+=======
+                <span class="strong">65% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>13/20</span>
+>>>>>>> 0cb997c8397da2054c8b2650a7a5c9782c4e3606
             </div>
         
             
@@ -88,10 +106,20 @@
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
+<<<<<<< HEAD
 <a name='L32'></a><a href='#L32'>32</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">30x</span>
 <span class="cline-any cline-yes">30x</span>
+=======
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+>>>>>>> 0cb997c8397da2054c8b2650a7a5c9782c4e3606
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
@@ -105,14 +133,27 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<<<<<<< HEAD
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
+=======
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+>>>>>>> 0cb997c8397da2054c8b2650a7a5c9782c4e3606
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<<<<<<< HEAD
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+=======
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+>>>>>>> 0cb997c8397da2054c8b2650a7a5c9782c4e3606
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
@@ -138,6 +179,7 @@
         case "Unauthenticate":
             res.status(400).json({message: "Unauthenticate"})
             break
+<<<<<<< HEAD
         case "RoomNotFound":
             res.status(404).json({message: "Room Not Found"})
             break
@@ -145,6 +187,18 @@
             res.status(400).json({message: "Bad Request", errors: ['Email already exist']})
             break
         default: 
+=======
+<span class="branch-3 cbranch-no" title="branch not covered" >        case "RoomNotFound":</span>
+<span class="cstat-no" title="statement not covered" >            res.status(404).json({message: "Room Not Found"})</span>
+<span class="cstat-no" title="statement not covered" >            break</span>
+        case "PaymentNotFound":
+            res.status(404).json({message: "Payment Not Found"})
+            break
+<span class="branch-5 cbranch-no" title="branch not covered" >        case "SequelizeUniqueConstraintError":</span>
+<span class="cstat-no" title="statement not covered" >            res.status(400).json({message: "Bad Request", errors: ['Email already exist']})</span>
+<span class="cstat-no" title="statement not covered" >            break</span>
+<span class="branch-6 cbranch-no" title="branch not covered" >        default: </span>
+>>>>>>> 0cb997c8397da2054c8b2650a7a5c9782c4e3606
       
             res.status(500).json({message: err.message || <span class="branch-1 cbranch-no" title="branch not covered" >"Internal Server Error"}</span>)
     }
@@ -157,7 +211,11 @@ module.exports = errorHandler</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
+<<<<<<< HEAD
                 at Sat May 29 2021 14:13:55 GMT+0700 (Western Indonesia Time)
+=======
+                at Sat May 29 2021 13:24:00 GMT+0700 (Western Indonesia Time)
+>>>>>>> 0cb997c8397da2054c8b2650a7a5c9782c4e3606
             </div>
         </div>
         <script src="../../prettify.js"></script>
