@@ -82,27 +82,27 @@ class TenantController {
         
     }
 
-    // static async patchTenantsId(req, res, next) {
-    //     let { category } = req.body
-    //     let id = +req.params.id
-    //     try {
-    //         const data = await Tenant.findOne({where: { id: id }})
-    //         if(!data) {
-    //             throw {status: 404, message: "error not found"}
-    //         } else {
-    //             const updated = await Tenant.update({ category: category }, { where: { id: id }, returning: true })
-    //             if (!updated) {
-    //                 throw {status: 404, message: "error not found"}
-    //             } else {
-    //                 res.status(200).json({
-    //                    updated:updated[1][0]
-    //                 })
-    //             }
-    //         }
-    //     } catch (err) {
-    //         next(err)
-    //     }
-    // }
+    static async patchTenantsId(req, res, next) {
+        let { phone } = req.body
+        let id = +req.params.id
+        try {
+            const data = await Tenant.findOne({where: { id: id }})
+            if(!data) {
+                throw {status: 404, message: "error not found"}
+            } else {
+                const updated = await Tenant.update({ phone: phone }, { where: { id: id }, returning: true })
+                if (!updated) {
+                    throw {status: 404, message: "error not found"}
+                } else {
+                    res.status(200).json({
+                       updated:updated[1][0]
+                    })
+                }
+            }
+        } catch (err) {
+            next(err)
+        }
+    }
 
 
     static async deleteTenantId(req, res, next) {

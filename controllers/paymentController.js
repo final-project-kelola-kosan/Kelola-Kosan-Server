@@ -1,7 +1,5 @@
 const {Room, Tenant, Payment} = require("../models")
-
 class PaymentController {
-
     static createPayment(req, res, next) {
         let {month, year, nextDueDate, paidCash} = req.body;
         let {roomId, tenantId} = req.params;
@@ -24,7 +22,6 @@ class PaymentController {
     }
 
     static findPayments(req, res, next) {
-
         Payment.findAll({
             include: [
                 {
@@ -45,7 +42,6 @@ class PaymentController {
 
     static deletePayment(req, res, next) {
         let id = req.params.id;
-
         Payment.destroy({
             where: {
                 id
@@ -69,7 +65,6 @@ class PaymentController {
 
     static findPaymentById(req, res, next) {
         let id = req.params.id;
-
         Payment.findByPk(id)
             .then(data => {
                 console.log(data, "LAGI DI PAYMENT FIND BY PK")
