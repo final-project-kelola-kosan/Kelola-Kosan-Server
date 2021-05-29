@@ -50,7 +50,7 @@ class RoomController {
 
     static getRoomById(req, res, next) {
         let id = req.params.id;
-        console.log(id, "ada id nih")
+       
         Room.findByPk(id)
         .then(data => {
             if(data === null) {
