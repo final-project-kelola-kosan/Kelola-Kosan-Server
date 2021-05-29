@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       Property.belongsTo(models.User, {foreignKey: "userId"});
       Property.hasMany(models.Room, {foreignKey: "propertyId"});
       Property.hasMany(models.Revenue, {foreignKey: "propertyId"});
+      Property.hasMany(models.Expense, {foreignKey: "propertyId"});
     }
   };
   Property.init({
