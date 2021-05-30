@@ -94,11 +94,15 @@ describe("test for user's section", () => {
                             "password musn't be empty",
                             "password minimal length is 5",
                           ],
-                          "message": "Bad request",
+                          "message": "Sequelize Validation Error",
                         },
                     
                     )
                     done()
+                })
+                .catch(err => {
+                    console.log(err);
+                    done(err)
                 })
             
             })
@@ -120,9 +124,13 @@ describe("test for user's section", () => {
                       "errors": [
                         "Email is invalid",
                     ], 
-                      "message": "Bad request"
+                      "message": "Sequelize Validation Error"
                     }, )
                     done()
+                })
+                .catch(err => {
+                    console.log(err);
+                    done(err);
                 })
             })
         })
