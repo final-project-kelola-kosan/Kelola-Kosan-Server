@@ -69,7 +69,7 @@ describe("test tenant's CRUD section", () => {
           .post('/tenant')
           .set('access_token', `${access_token}`)
           .send({
-            email: 'pengunjun9@customer.com',
+            email: 'pengunjun8@customer.com',
             name: 'customer',
             phone: '0812382620',
             checkIn: "2021-03-12",

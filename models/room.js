@@ -25,19 +25,23 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     status: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM('empty', 'maintenance', 'occupied'),
+      allowNull: false,
       validate: {
-        notEmpty: {
-          msg: "status mustn't be empty"
+        isIn: {
+          args: ['empty', 'maintenance', 'occupied'],
+          msg: "Insert Valid Status"
         }
       }
     },
     propertyId: DataTypes.INTEGER,
     type: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM('standard', 'deluxe'),
+      allowNull: false,
       validate: {
-        notEmpty: {
-          msg: "type mustn't be empty"
+        isIn: {
+          args: ['standard', 'deluxe'],
+          msg: "Insert Valid Type"
         }
       }
     },
@@ -52,6 +56,13 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Room',
+    hooks: {
+      beforeCreate(instance, options) {
+        instance.status = instance.status.toLowerCase();
+        instance.type = instance.type.toLowerCase();
+      }
+    }
+
   });
   return Room;
 };

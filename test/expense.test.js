@@ -586,4 +586,3 @@ describe("Delete expense test", () => {
             })
     })
 })
-
