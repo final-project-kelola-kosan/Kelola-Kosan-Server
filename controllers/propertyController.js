@@ -69,12 +69,15 @@ class PropertyController {
 
   static delete = (req, res, next) => {
     const id = +req.params.id
-
+    console.log("MASUKK SINI")
     Property
       .destroy({ where: {id}, returning: true })
       .then(deleted => {
         if(deleted) res.status(200).json({ message: 'Property has been delete!' })
-        else res.status(404).json({ message: 'Data not found!'})
+        else {
+          
+          res.status(404).json({ message: 'Data not found!'})
+        }
       })
       .catch(err => next(err))
   }

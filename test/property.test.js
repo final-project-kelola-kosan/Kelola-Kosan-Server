@@ -8,7 +8,7 @@ const { queryInterface } = sequelize
 
 //!  masih ada beberapa tidak sesuai .. butuh diskusi
 
-let propertyId = 0
+let propertyId = 1
 
 const validUser = {
   email: "owner@mail.com",
@@ -38,42 +38,9 @@ beforeAll((done) => {
     let {body, status} = response;
     globalToken = body.access_token;
   })
-  // .then(_=>{
-  //   return queryInterface.bulkInsert('Properties', [
-  //     {
-  //       name : "Test Update",
-  //       address : "Test Address Update",
-  //       image: "test image_url update",
-  //       phone: "085199997777",
-  //       userId: 1,
-  //       createdAt : new Date(),
-  //       updatedAt : new Date()
-  //     },
-  //     {
-  //       name : "Test delete",
-  //       address : "Test Address delete",
-  //       image: "test image_url delete",
-  //       phone: "085199997777",
-  //       userId: 1,
-  //       createdAt : new Date(),
-  //       updatedAt : new Date()
-  //     }
-  //   ],{})
-    
-  // })
   .then(_ => {
     done();
   })
-  // .then(_ => {
-  //   return Property.create({
-  //     name : "delete",
-  //     address : "Address delete",
-  //     image: "test image_url delete",
-  //     phone: "delete",
-  //     userId: 1
-  //   }) 
-  // })
-  // .then(res => propertyId = res.id, done())
   .catch(err => done(err))
 })
 
@@ -94,6 +61,7 @@ describe('PROPERTY TESTING', _ => {
   })
 
   const testAddProperty = {
+    id: 1,
     name : "add name property",
     address : "add location property",
     image: "add image url",
@@ -236,7 +204,7 @@ describe('PROPERTY TESTING', _ => {
             expect(typeof result.body).toEqual('object')
             expect(result.body).toHaveProperty('updated')
             done()
-            propertyId='adfasdf'
+            // propertyId='adfasdf'
           })
           .catch(err => done(err))
       })
@@ -252,24 +220,24 @@ describe('PROPERTY TESTING', _ => {
       email   : 'owner@mail.com'
     })
     
-    // describe('When success delete', _ => {
-    //   test('should successfully get status 200', (done) => {
-    //     request(app)
-    //       .delete(`/properties/${propertyId}`)
-    //       .set('Accept', 'application/json')
-    //       .expect('Content-Type', /json/)
-    //       .set('access_token', ownerToken)
-    //   })
-    //   .then(result => {
-    //     // expect(result.status).toEqual(200)
-    //     expect(typeof result.body).toEqual('object')
-    //     expect(result.body).toHaveProperty('message')
-    //     expect(result.body)
-    //       .toEqual(expect.objectContaining({ message: 'Property has been delete!' }))
-    //     done()
-    //   })
-    //   .catch(err => done(err))
-    // })
+    describe('When success delete', _ => {
+      test('should successfully get status 200', (done) => {
+        request(app)
+          .delete(`/properties/${propertyId}`)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .set('access_token', ownerToken)
+          .then(result => {
+            expect(result.status).toEqual(200)
+            expect(typeof result.body).toEqual('object')
+            expect(result.body).toHaveProperty('message')
+            expect(result.body)
+              .toEqual(expect.objectContaining({ message: 'Property has been delete!' }))
+            done()
+          })
+          .catch(err => done(err))
+      })
+    })
 
     describe('When access_token is null', _ => {
       it('should response with status code (400) with message Invalid Token', done => {
@@ -277,13 +245,12 @@ describe('PROPERTY TESTING', _ => {
           .delete(`/properties/${propertyId}`)
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
-          .set('access_token', null)
           .then(result => {
-            // expect(result.status).toEqual(400) // << masih error
+            expect(result.status).toEqual(400) // << masih error
             expect(typeof result.body).toEqual('object')
             expect(result.body).toHaveProperty('message')
             expect(result.body)
-              .toEqual(expect.objectContaining({ "message": "jwt malformed" }))
+              .toEqual(expect.objectContaining({ "message": "Unauthenticate" }))
             done()
           })
           .catch(err => done(err))
