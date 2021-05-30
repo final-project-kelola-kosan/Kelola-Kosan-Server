@@ -83,7 +83,7 @@ describe('PROPERTY TESTING', _ => {
   }
 
   describe('Add new Property - POST /properties', _ => {
-    test('when success should send response with status code 201', done => {
+    test.only('when success should send response with status code 201', done => {
       request(app)
         .post('/properties')
         .set('Accept', 'application/json')

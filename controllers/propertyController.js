@@ -3,13 +3,16 @@ const { Property, User } = require('../models')
 class PropertyController {
 
   static create = (req, res, next) => {
+
+    const loggedUser = req.loggedUser;
+    console.log(loggedUser, "INI DI PROPERTY CONTROLLER")
     
     const addProperty = {
       name : req.body.name,
       address : req.body.address,
       image: req.body.image,
       phone: req.body.phone,
-      userId: req.body.userId
+      userId: req.loggedUser.id
     }
 
     Property
