@@ -10,6 +10,13 @@ const { queryInterface } = sequelize
 
 let propertyId = 0
 
+const validUser = {
+  email: "owner@mail.com",
+  password: "owner123"
+}
+
+let globalToken = "";
+
 beforeAll((done) => {
   queryInterface.bulkInsert('Users', [
     {
@@ -21,39 +28,52 @@ beforeAll((done) => {
       updatedAt : new Date()
     }
   ],{})
-  .then(_=>{
-    return queryInterface.bulkInsert('Properties', [
-      {
-        name : "Test Update",
-        address : "Test Address Update",
-        image: "test image_url update",
-        phone: "085199997777",
-        userId: 1,
-        createdAt : new Date(),
-        updatedAt : new Date()
-      },
-      {
-        name : "Test delete",
-        address : "Test Address delete",
-        image: "test image_url delete",
-        phone: "085199997777",
-        userId: 1,
-        createdAt : new Date(),
-        updatedAt : new Date()
-      }
-    ],{})
+  .then(() => {
+    return request(app)
+    .post("/login")
+    .send(validUser)
+    .set('Accept', 'application/json')
+  })
+  .then((response) => {
+    let {body, status} = response;
+    globalToken = body.access_token;
+  })
+  // .then(_=>{
+  //   return queryInterface.bulkInsert('Properties', [
+  //     {
+  //       name : "Test Update",
+  //       address : "Test Address Update",
+  //       image: "test image_url update",
+  //       phone: "085199997777",
+  //       userId: 1,
+  //       createdAt : new Date(),
+  //       updatedAt : new Date()
+  //     },
+  //     {
+  //       name : "Test delete",
+  //       address : "Test Address delete",
+  //       image: "test image_url delete",
+  //       phone: "085199997777",
+  //       userId: 1,
+  //       createdAt : new Date(),
+  //       updatedAt : new Date()
+  //     }
+  //   ],{})
     
-  })
+  // })
   .then(_ => {
-    return Property.create({
-      name : "delete",
-      address : "Address delete",
-      image: "test image_url delete",
-      phone: "delete",
-      userId: 1
-    }) 
+    done();
   })
-  .then(res => propertyId = res.id, done())
+  // .then(_ => {
+  //   return Property.create({
+  //     name : "delete",
+  //     address : "Address delete",
+  //     image: "test image_url delete",
+  //     phone: "delete",
+  //     userId: 1
+  //   }) 
+  // })
+  // .then(res => propertyId = res.id, done())
   .catch(err => done(err))
 })
 
@@ -64,7 +84,6 @@ afterAll((done) => {
   })
   .then(_ => { done()})
   .catch(err => done(err))
-  done()
 })
 
 describe('PROPERTY TESTING', _ => {
@@ -83,11 +102,11 @@ describe('PROPERTY TESTING', _ => {
   }
 
   describe('Add new Property - POST /properties', _ => {
-    test.only('when success should send response with status code 201', done => {
+    test('when success should send response with status code 201', done => {
       request(app)
         .post('/properties')
         .set('Accept', 'application/json')
-        .set('access_token', ownerToken)
+        .set('access_token', globalToken)
         .expect('Content-Type', /json/)
         .send(testAddProperty)
         .then(response => {
@@ -127,7 +146,7 @@ describe('PROPERTY TESTING', _ => {
               "image mustn't empty",
               "phone mustn't empty",
               ],
-              "message": "Bad request"})
+              "message": "Sequelize Validation Error"})
             done()
           })
           .catch(err => done(err))
@@ -183,7 +202,8 @@ describe('PROPERTY TESTING', _ => {
       .then(response => {
 
         let { body } = response
-        expect(body).toEqual(expect.any(Array))
+        expect(body).toEqual(expect.any(Object))
+        expect(body).toHaveProperty("properties", expect.any(Array));
         done()
       })
       .catch(err => done(err))
