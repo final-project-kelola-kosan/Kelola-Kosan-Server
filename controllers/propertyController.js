@@ -1,4 +1,4 @@
-const { Property } = require('../models')
+const { Property, User } = require('../models')
 
 class PropertyController {
 
@@ -29,9 +29,21 @@ class PropertyController {
 
   static readAll = (req, res, next) => {
     Property
-      .findAll()
-      .then(properties => {
-        res.status(200).json(properties)
+      .findAll({ include : { model: User } })
+      .then(data => {
+        const properties = data.map(property => {
+          return {
+            id      : property.id,
+            name    : property.name,
+            address : property.address,
+            image   : property.image,
+            phone   : property.phone,
+            userId  : property.userId,
+            username: property.User.username,
+            email   : property.User.email
+          }
+        })
+        res.status(200).json({properties})
       })
       .catch(err => next(err))
   }
