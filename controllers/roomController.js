@@ -24,14 +24,14 @@ class RoomController {
     
     static addRoom(req, res, next) {
         let {number, status, type, price} = req.body;
-        let {id} = req.loggedUser;
-        // let ownedProperty = currentUser.ownedProperty;
+        let currentUser = req.loggedUser;
+        let ownedProperty = currentUser.ownedProperty;
         Room.create({
             number,
             status,
             type,
             price,
-            userId: id
+            propertyId: ownedProperty.id
         })
         .then(data => {
             res.status(201).json({
@@ -39,7 +39,7 @@ class RoomController {
                 status,
                 type,
                 price,
-                userId: id
+                propertyId: ownedProperty.id
             })
         })
         .catch(err => {
