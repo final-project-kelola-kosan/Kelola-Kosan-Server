@@ -23,12 +23,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
     month: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.ENUM('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'),
       allowNull: false,
       validate: {
-        notEmpty: {
-          msg: "month mustn't empty"
-        },
+        isIn: {
+          args: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+          msg: "Insert Valid Month"
+        }
       }
     },
     year: {
