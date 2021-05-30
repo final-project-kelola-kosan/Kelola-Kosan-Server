@@ -1,10 +1,10 @@
 const { User } = require('../models')
 const {generateToken} = require('../helpers/jwt.js')
 const { checkPassword } = require('../helpers/bcrypt.js')
-
 class UserController  {
     static async registerUser(req, res, next) {
         const { username, email, password} = req.body
+        console.log(req.body)
         try {
             const user = await User.create({
                 email, 
