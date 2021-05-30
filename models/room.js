@@ -25,23 +25,23 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     status: {
-      type: DataTypes.ENUM({
-        values: ['empty', 'maintenance', 'occupied']
-      }),
+      type: DataTypes.ENUM('empty', 'maintenance', 'occupied'),
+      allowNull: false,
       validate: {
-        notEmpty: {
-          msg: "status mustn't be empty"
+        isIn: {
+          args: ['empty', 'maintenance', 'occupied'],
+          msg: "Insert Valid Status"
         }
       }
     },
     propertyId: DataTypes.INTEGER,
     type: {
-      type: DataTypes.ENUM({
-        values: ['standard', 'deluxe']
-      }),
+      type: DataTypes.ENUM('standard', 'deluxe'),
+      allowNull: false,
       validate: {
-        notEmpty: {
-          msg: "type mustn't be empty"
+        isIn: {
+          args: ['standard', 'deluxe'],
+          msg: "Insert Valid Type"
         }
       }
     },
