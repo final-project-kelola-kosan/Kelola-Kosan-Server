@@ -1,16 +1,58 @@
 const request = require('supertest')
 const app = require('../app')
 
+const { User, Revenue } = require('../models');
 const { sequelize } = require('../models')
-const { generateToken } = require('../helpers/jwt')
+const { generateToken, hashPassword } = require('../helpers/jwt')
 const { queryInterface } = sequelize
 
-beforeAll(done => {
-  
+let revenueId
+
+beforeAll((done) => {
+  queryInterface.bulkInsert('Users', [{
+    email: "admin@mail.com",
+    username: 'admin',
+    password: hashPassword('admin'),
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  }],
+    { returning: true })
+
+    .then((res) => {
+      res?.map((el => {
+        let obj = {
+          id: el.id,
+          email: el.email,
+        }
+        access_token = generateToken(obj)
+        // done();
+      }))
+    })
+    .then(res => {
+      return Revenue.create({
+        month: 2,
+        year: 2021,
+        total: 10.4,
+      })
+    })
+    .then(res => {
+      revenueId = res.id
+      done()
+    })
+    .catch((err) => {
+      done(err);
+    })
+
 })
 
-afterAll(done => {
-
+afterAll((done) => {
+  queryInterface.bulkDelete('Users', null, {})
+    .then(() => {
+      done()
+    })
+    .catch((err) => {
+      done(err);
+    })
 })
 
 describe('REVENUE TESTING', _ => {

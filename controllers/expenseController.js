@@ -2,7 +2,6 @@ const {Expense} = require("../models");
 class ExpenseController {
     static async addExpense(req, res, next) {
         let { title, month, year, total } = req.body
-        console.log(req.loggedUser, "<<<<<<")
         let {id} = req.loggedUser
         try {
             const data = await Expense.create({
