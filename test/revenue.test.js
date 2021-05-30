@@ -6,54 +6,67 @@ const { sequelize } = require('../models')
 const { generateToken, hashPassword } = require('../helpers/jwt')
 const { queryInterface } = sequelize
 
-let revenueId
+let revenueId = 1
 
-beforeAll((done) => {
-  queryInterface.bulkInsert('Users', [{
-    email: "admin@mail.com",
-    username: 'admin',
-    password: hashPassword('admin'),
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  }],
-    { returning: true })
-
-    .then((res) => {
-      res?.map((el => {
-        let obj = {
-          id: el.id,
-          email: el.email,
-        }
-        access_token = generateToken(obj)
-        // done();
-      }))
-    })
-    .then(res => {
-      return Revenue.create({
-        month: 2,
-        year: 2021,
-        total: 10.4,
-      })
-    })
-    .then(res => {
-      revenueId = res.id
-      done()
-    })
-    .catch((err) => {
-      done(err);
-    })
-
+beforeAll(done => {
+  queryInterface.bulkInsert('Users', [
+    {
+      id        : 1,
+      email     : "owner@mail.com",
+      username  : "owner",
+      password  : hashPassword('owner123'),
+      createdAt : new Date(),
+      updatedAt : new Date()
+    },
+  ],{})
+  .then( _ => {
+    return queryInterface.bulkInsert('Properties', [
+      {
+        id        : 1,
+        name      : "Property 1",
+        address   : "property address",
+        image     : "property image",
+        phone     : "4445667889",
+        userId    : 1,
+        createdAt : new Date(),
+        updatedAt : new Date()
+      },
+    ],{})
+  })
+  .then( _ => {
+    return queryInterface.bulkInsert('Revenues', [
+      {
+        id        : 1,
+        month     : 1,
+        year      : 2021,
+        total     : 1000000,
+        propertyId: 1,
+        createdAt : new Date(),
+        updatedAt : new Date()
+      },
+      {
+        id        : 2,
+        month     : 2,
+        year      : 2021,
+        total     : 1000001,
+        propertyId: 1,
+        createdAt : new Date(),
+        updatedAt : new Date()
+      },
+    ],{})
+  })
+  .then(_ => done())
+  .catch(err => console.log(err))
 })
 
-afterAll((done) => {
+afterAll(done => {
   queryInterface.bulkDelete('Users', null, {})
-    .then(() => {
-      done()
-    })
-    .catch((err) => {
-      done(err);
-    })
+  .then( _ => {
+    return queryInterface.bulkDelete('Revenues', null, {})
+  })
+  done()
 })
+
 
 describe('REVENUE TESTING', _ => {
 
