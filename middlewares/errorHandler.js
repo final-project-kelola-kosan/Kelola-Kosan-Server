@@ -8,7 +8,7 @@ function errorHandler(err, req, res, next) {
                 errors.push(err.message)
             })
           
-            res.status(400).json({message: "Bad request", errors})
+            res.status(400).json({message: "Sequelize Validation Error", errors})
             break
         case "Bad Request":
             
@@ -22,6 +22,9 @@ function errorHandler(err, req, res, next) {
             break
         case "PaymentNotFound":
             res.status(404).json({message: "Payment Not Found"})
+            break
+        case "ExpenseNotFound":
+            res.status(404).json({message: "Expense Not Found"})
             break
         case "SequelizeUniqueConstraintError":
             res.status(400).json({message: "Bad Request", errors: ['Email already exist']})

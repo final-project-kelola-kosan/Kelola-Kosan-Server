@@ -1,15 +1,18 @@
 const {Expense} = require("../models");
+
 class ExpenseController {
+    
     static async addExpense(req, res, next) {
         let { title, month, year, total } = req.body
-        let {id} = req.loggedUser
+        let {id} = req.loggedUser;
+        console.log(ownedProperty, "INI OWNED")
         try {
             const data = await Expense.create({
                 title,
                 month, 
                 year,
                 total,
-                userId : id
+                userId: id
             })
             res.status(201).json(data)
         } catch(err) {
@@ -34,9 +37,9 @@ class ExpenseController {
                     id
                 }
             })
-    
-            if (!data) {
-                throw {status: 404, message: "error not found"}
+
+            if (data === null) {
+                next({name: "ExpenseNotFound"});
              } else {
                  res.status(200).json(data)
              }
@@ -57,11 +60,11 @@ class ExpenseController {
         try {
             const findOne = await Expense.findOne({where: { id: id }})
             if(!findOne) {
-                throw {status: 404, message: "error not found"}
+                next({name: "ExpenseNotFound"});
             } else {
                 const updated = await Expense.update(data, { where: { id: id }, returning: true })
                 if (!updated) {
-                    throw {status: 404, message: "error not found"}
+                    next({name: "ExpenseNotFound"});
                 } else {
                     res.status(200).json(updated[1][0])
                 }
@@ -77,11 +80,11 @@ class ExpenseController {
         try {
             const data = await Expense.findOne({where: { id: id }})
             if(!data) {
-                throw {status: 404, message: "error not found"}
+                next({name: "ExpenseNotFound"});
             } else {
                 const updated = await Expense.update({ title: title }, { where: { id: id }, returning: true })
                 if (!updated) {
-                    throw {status: 404, message: "error not found"}
+                    next({name: "ExpenseNotFound"});
                 } else {
                     res.status(200).json({
                        updated:updated[1][0]
@@ -98,11 +101,11 @@ class ExpenseController {
         try {
             const data = await Expense.findOne({where: { id: id }})
             if(!data) {
-                throw {status: 404, message: "error not found"}
+                next({name: "ExpenseNotFound"});
             } else {
                 const deleted = await Expense.destroy({ where: { id: id }, returning: true })
                 if (!deleted) {
-                    throw {status: 404, message: "error not found"}
+                    next({name: "ExpenseNotFound"});
                 } else {
                     res.status(200).json({
                         message: "Expense successfully deleted"
