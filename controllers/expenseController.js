@@ -4,15 +4,15 @@ class ExpenseController {
     
     static async addExpense(req, res, next) {
         let { title, month, year, total } = req.body
-        let currentUser = req.loggedUser;
-        let ownedProperty = currentUser.ownedProperty;
+        let {id} = req.loggedUser;
+        console.log(ownedProperty, "INI OWNED")
         try {
             const data = await Expense.create({
                 title,
                 month, 
                 year,
                 total,
-                propertyId : ownedProperty.id
+                userId: id
             })
             res.status(201).json(data)
         } catch(err) {

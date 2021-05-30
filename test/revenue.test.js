@@ -1,9 +1,9 @@
 const request = require('supertest')
 const app = require('../app')
 
-const { Revenue, sequelize } = require('../models')
-const { hashPassword } = require('../helpers/bcrypt')
-const { generateToken } = require('../helpers/jwt')
+const { User, Revenue } = require('../models');
+const { sequelize } = require('../models')
+const { generateToken, hashPassword } = require('../helpers/jwt')
 const { queryInterface } = sequelize
 
 let revenueId = 1
@@ -66,6 +66,7 @@ afterAll(done => {
   })
   done()
 })
+
 
 describe('REVENUE TESTING', _ => {
 
