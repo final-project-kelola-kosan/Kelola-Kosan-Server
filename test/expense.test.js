@@ -274,6 +274,7 @@ describe("Test create expense", () => {
             .set("access_token", adminToken)
             .expect('Content-Type', /json/)
             .then(response => {
+                console.log(response.body, "INI DI EXPENSE TEST JS");
                 let {body, status} = response;
                 expect(status).toBe(201);
                 expect(body).toHaveProperty("title", newExpense.title);
@@ -324,6 +325,7 @@ describe("Test create expense", () => {
                 let {body, status} = response;
                 expect(status).toBe(400);
                 expect(body).toEqual(expect.any(Object));
+                expect(body).toHaveProperty("message", "Sequelize Validation Error");
                 done();
             })
             .catch(err => {
