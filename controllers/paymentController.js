@@ -13,6 +13,11 @@ class PaymentController {
             tenantId
         })
         .then(data => {
+            Room
+              .update(
+                  { status: 'occupied' },
+                  { where: { id : roomId }}
+                )
             res.status(201).json(data);
         })
         .catch(err => {
@@ -78,6 +83,36 @@ class PaymentController {
                 console.log(err);
                 next(err);
             })
+    }
+
+    static editPayment(req, res, next) {
+        let {id} = req.params;
+        let {month, year, nextDueDate, paidCash} = req.body;
+
+        Payment.update({
+            month,
+            year,
+            nextDueDate,
+            paidCash,
+        }, {
+            where: {
+                id
+            },
+            returning: true
+        })
+        .then(data => {
+            if(data[0] === 0) {
+                next({name: "PaymentNotFound"})
+            } else {
+                res.status(200).json({
+                    msg: "Payment updated successfully",
+                    updatedData: data[1][0]
+                })
+            }
+        })
+        .catch(err => {
+            next(err);
+        })
     }
 }
 

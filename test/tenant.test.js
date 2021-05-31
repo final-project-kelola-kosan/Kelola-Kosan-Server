@@ -51,6 +51,9 @@ beforeAll((done) => {
 afterAll((done) => {
   queryInterface.bulkDelete('Users', null, {})
     .then(() => {
+      return queryInterface.bulkDelete("Tenants", null, {})
+    })
+    .then(() => {
       done()
     })
     .catch((err) => {
@@ -118,7 +121,7 @@ describe("test tenant's CRUD section", () => {
                 "checkIn musn't be empty",
                 "checkOut musn't be empty",
               ],
-              "message": "Bad request",
+              "message": "Sequelize Validation Error",
             })
             done()
           })
@@ -148,7 +151,7 @@ describe("test tenant's CRUD section", () => {
                 "checkIn musn't be empty",
                 "checkOut musn't be empty",
               ],
-              "message": "Bad request",
+              "message": "Sequelize Validation Error",
             })
             done()
           })
@@ -175,7 +178,7 @@ describe("test tenant's CRUD section", () => {
               "errors": [
                 "phone musn't be empty",
               ],
-              "message": "Bad request",
+              "message": "Sequelize Validation Error",
             })
             done()
           })
@@ -345,10 +348,7 @@ describe("test tenant's CRUD section", () => {
             checkIn: "",
             checkOut: "",
           })
-          .end((err, res) => {
-            if (err) {
-              return done(err)
-            }
+          .then(res => {
 
             expect(res.status).toBe(400)
             expect(res.body).toStrictEqual({
@@ -360,9 +360,13 @@ describe("test tenant's CRUD section", () => {
                 "checkIn musn't be empty",
                 "checkOut musn't be empty",
               ],
-              "message": "Bad request",
+              "message": "Sequelize Validation Error",
             })
             done()
+          })
+          .catch(err => {
+            console.log(err);
+            done(err);
           })
       })
     })
@@ -380,10 +384,7 @@ describe("test tenant's CRUD section", () => {
             checkIn: "",
             checkOut: "",
           })
-          .end((err, res) => {
-            if (err) {
-              return done(err)
-            }
+          .then(res => {
             expect(res.status).toBe(400)
             expect(res.body).toStrictEqual({
               "errors": [
@@ -391,10 +392,15 @@ describe("test tenant's CRUD section", () => {
                 "checkIn musn't be empty",
                 "checkOut musn't be empty",
               ],
-              "message": "Bad request",
+              "message": "Sequelize Validation Error",
             })
             done()
           })
+          .catch(err => {
+            console.log(err);
+            done(err);
+          })
+
       })
     })
 
@@ -421,7 +427,7 @@ describe("test tenant's CRUD section", () => {
               "errors": [
                 "phone musn't be empty",
               ],
-              "message": "Bad request",
+              "message": "Sequelize Validation Error",
             })
             done()
           })

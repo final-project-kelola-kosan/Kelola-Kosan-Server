@@ -3,18 +3,22 @@ const {generateToken} = require('../helpers/jwt.js')
 const { checkPassword } = require('../helpers/bcrypt.js')
 class UserController  {
     static async registerUser(req, res, next) {
-        const { username, email, password} = req.body
+        const { username, email, password, fullname, bankAccount} = req.body
         console.log(req.body)
         try {
             const user = await User.create({
                 email, 
                 username,
                 password,
+                fullname,
+                bankAccount
             })
             res.status(201).json({ 
                 id: user.id, 
                 email: user.email,
-                username: user.username, 
+                username: user.username,
+                fullname: user.fullname,
+                bankAccount: user.bankAccount
             })
 
         } catch (err) {
