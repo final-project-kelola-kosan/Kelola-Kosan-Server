@@ -313,6 +313,48 @@ describe("Find payment by ID", () => {
     })
 });
 
+const editString= '2020-06-02'
+let editedDate = new Date(editString+ "T00:00:00");
+console.log(editedDate);
+
+const editPayment = {
+    month: 5,
+    year: 2020,
+    nextDueDate: editedDate,
+    paidCash: 2000000
+}
+
+
+
+// EDIT Payment
+
+describe("Edit payment", () => {
+    it("edit payment success", (done) => {
+        request(app)
+            .put(`/payments/${publicPaymentId}`)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .send(editPayment)
+            .set("access_token", adminToken)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(200);
+                expect(body).toEqual(expect.any(Object))
+                expect(body).toHaveProperty("msg", "Payment updated successfully");
+                expect(body).toHaveProperty("updatedData", expect.any(Object));
+                expect(body.updatedData).toHaveProperty("month", editPayment.month);
+                expect(body.updatedData).toHaveProperty("year", editPayment.year);
+                // expect(body.updatedData.nextDueDate.toString()).toEqual(editPayment.nextDueDate.toString());
+                expect(body.updatedData).toHaveProperty("paidCash", editPayment.paidCash);
+                done();
+            })
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+})
+
 // DELETE Payment
 
 describe("Delete payment" , () => {
@@ -371,7 +413,9 @@ describe("Delete payment" , () => {
                 done(err);
             })
     });
-})
+});
+
+
 
 
 

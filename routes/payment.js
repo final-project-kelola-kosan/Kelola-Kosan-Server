@@ -5,7 +5,7 @@ const PaymentController = require("../controllers/paymentController");
 paymentRouter.get("/", PaymentController.findPayments);
 paymentRouter.post("/:roomId/:tenantId", PaymentController.createPayment);
 paymentRouter.get("/:id", PaymentController.findPaymentById);
-paymentRouter.put("/id", PaymentController.editPayment);
+paymentRouter.put("/:id", PaymentController.editPayment);
 paymentRouter.delete("/:id", PaymentController.deletePayment);
 
 
