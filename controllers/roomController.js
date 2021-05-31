@@ -45,8 +45,11 @@ class RoomController {
             })
         })
         .catch(err => {
-            console.log(err)
-            next(err);
+            if(err.name === "SequelizeUniqueConstraintError") {
+                next({name: "RoomAlreadyExists", errorDetail: err});
+            } else {
+                next(err);
+            }
         })
     }
 

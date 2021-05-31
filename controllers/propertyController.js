@@ -8,7 +8,7 @@ class PropertyController {
     console.log(loggedUser, "INI DI PROPERTY CONTROLLER")
     
     const addProperty = {
-      name : loggedUser.name,
+      name : req.body.name,
       address : req.body.address,
       image: req.body.image,
       phone: req.body.phone,
