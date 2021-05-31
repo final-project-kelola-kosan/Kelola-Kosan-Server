@@ -144,6 +144,7 @@ describe("Create new room /rooms", () => {
             .expect('Content-Type', /json/)
             .then(response => {
                 let {body, status} = response;
+                console.log(body, "INI DI ADDING NEW ROOM")
                 expect(status).toBe(201);
                 expect(body).toHaveProperty("number", 115);
                 expect(body).toHaveProperty("status", "maintenance");

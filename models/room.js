@@ -25,22 +25,20 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     status: {
-      type: DataTypes.ENUM('empty', 'maintenance', 'occupied'),
-      allowNull: false,
+      type: DataTypes.STRING,
       validate: {
         isIn: {
-          args: ['empty', 'maintenance', 'occupied'],
+          args: [['empty', 'maintenance', 'occupied']],
           msg: "Insert Valid Status"
         }
       }
     },
     propertyId: DataTypes.INTEGER,
     type: {
-      type: DataTypes.ENUM('standard', 'deluxe'),
-      allowNull: false,
+      type: DataTypes.STRING,
       validate: {
         isIn: {
-          args: ['standard', 'deluxe'],
+          args: [['standard', 'deluxe']],
           msg: "Insert Valid Type"
         }
       }
