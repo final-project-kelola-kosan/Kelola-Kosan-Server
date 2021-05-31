@@ -12,24 +12,18 @@ module.exports = {
   up:  (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert("Payments", [
       {
-        id: 1,
         month: 5,
         year: 2021,
         nextDueDate: firstDate,
         paidCash: 2500000,
-        tenantId: 1,
-        roomId: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        id: 2,
         month: 3,
         year: 2021,
         nextDueDate: secondDate,
         paidCash: 2500000,
-        tenantId: 2,
-        roomId: 2,
         createdAt: new Date(),
         updatedAt: new Date()
       }
@@ -46,6 +40,7 @@ module.exports = {
   },
 
   down:  (queryInterface, Sequelize) => {
+    return queryInterface.bulkDelete("Payment", null, {});
     /**
      * Add commands to revert seed here.
      *
