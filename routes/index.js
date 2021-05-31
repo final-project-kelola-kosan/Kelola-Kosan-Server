@@ -9,11 +9,7 @@ const paymentRouter = require("./payment");
 const expenseRouter = require("./expense");
 const revenueRouter = require('./revenue')
 
-
-
 router.use("/", userRouter);
-
-
 router.use(authentication);
 router.use('/properties', propertyRouter);
 router.use('/expenses', expenseRouter);

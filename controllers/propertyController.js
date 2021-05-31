@@ -3,13 +3,16 @@ const { Property, User } = require('../models')
 class PropertyController {
 
   static create = (req, res, next) => {
+
+    const loggedUser = req.loggedUser;
+    console.log(loggedUser, "INI DI PROPERTY CONTROLLER")
     
     const addProperty = {
       name : req.body.name,
       address : req.body.address,
       image: req.body.image,
       phone: req.body.phone,
-      userId: req.body.userId
+      userId: req.loggedUser.id
     }
 
     Property
@@ -66,12 +69,15 @@ class PropertyController {
 
   static delete = (req, res, next) => {
     const id = +req.params.id
-
+    console.log("MASUKK SINI")
     Property
       .destroy({ where: {id}, returning: true })
       .then(deleted => {
         if(deleted) res.status(200).json({ message: 'Property has been delete!' })
-        else res.status(404).json({ message: 'Data not found!'})
+        else {
+          
+          res.status(404).json({ message: 'Data not found!'})
+        }
       })
       .catch(err => next(err))
   }
