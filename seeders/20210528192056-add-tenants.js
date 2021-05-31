@@ -1,5 +1,8 @@
 'use strict';
 
+const dateString = '2021-04-01'
+var firstDate = new Date(dateString + "T00:00:00");
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert("Tenants", [
@@ -7,20 +10,11 @@ module.exports = {
         email: "joko@mail.com",
         name: "joko",
         phone: "0823452",
-        checkIn: new Date(),
+        checkIn: firstDate,
         checkOut: null,
         createdAt: new Date(),
         updatedAt: new Date()
       },
-      {
-        email: "papang@mail.com",
-        name: "papang",
-        phone: "0883249821",
-        checkIn: new Date(),
-        checkOut: null,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
     ], {})
     /**
      * Add seed commands here.

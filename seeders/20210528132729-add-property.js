@@ -1,27 +1,29 @@
 'use strict';
 
+const {User} = require("../models")
+
+
 module.exports = {
   up:  (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert("Properties", [
-      {
-        name: "Wisma",
-        address: "Jaksel",
-        image: "Blablah",
-        phone: "14045",
-        userId: 1,
-        createdAt: new Date(),
-        updatedAt: new Date()
+    return User.findOne({
+      where: {
+        email: "admin@mail.com"
       }
-    ], {})
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-    */
+    })
+    .then(data => {
+      return queryInterface.bulkInsert("Properties", [
+        {
+          name: "Wisma",
+          address: "Jaksel",
+          image: "Blablah",
+          phone: "14045",
+          userId: data.id,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        }
+      ], {})
+    })
+    
   },
 
   down:  (queryInterface, Sequelize) => {
