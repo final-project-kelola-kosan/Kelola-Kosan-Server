@@ -3,7 +3,8 @@ const app = require('../app')
 
 const { User, Revenue } = require('../models');
 const { sequelize } = require('../models')
-const { generateToken, hashPassword } = require('../helpers/jwt')
+const { hashPassword } = require('../helpers/bcrypt')
+const { generateToken} = require('../helpers/jwt')
 const { queryInterface } = sequelize
 
 let revenueId = 1
@@ -12,8 +13,8 @@ beforeAll(done => {
   queryInterface.bulkInsert('Users', [
     {
       id        : 1,
-      email     : "owner@mail.com",
-      username  : "owner",
+      email     : "adminKosan@mail.com",
+      username  : "adminKosan",
       password  : hashPassword('owner123'),
       createdAt : new Date(),
       updatedAt : new Date()
@@ -56,7 +57,10 @@ beforeAll(done => {
     ],{})
   })
   .then(_ => done())
-  .catch(err => console.log(err))
+  .catch(err => {
+    console.log(err);
+    done(err);
+  })
 })
 
 afterAll(done => {
@@ -64,15 +68,21 @@ afterAll(done => {
   .then( _ => {
     return queryInterface.bulkDelete('Revenues', null, {})
   })
-  done()
+  .then(() => {
+    done()
+  })
+  .catch(err => {
+    console.log(err);
+    done();
+  })
 })
 
 
 describe('REVENUE TESTING', _ => {
 
   const ownerToken = generateToken({
-    email   : 'owner@mail.com',
-    username: 'owner'
+    email   : 'adminKosan@mail.com',
+    username: 'adminKosan'
   })
 
   const addRevenue = {
@@ -81,6 +91,25 @@ describe('REVENUE TESTING', _ => {
     total       : 12002003,
     propertyId  : 1
   }
+
+  describe('GET /revenues', _ => {
+    test('read data revenues', done => {
+      request(app)
+      .get('/revenues')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .set('access_token', ownerToken)
+      .then(response => {
+        
+        let { body, status } = response
+        expect(status).toEqual(200)
+        expect(typeof response.body).toEqual('object')
+        expect(response.body.revenues).toEqual(expect.any(Array))
+        done()
+      })
+      .catch(err => done(err))
+    })
+  })
   
   describe('Post /revenues', _ => {
     test('when success should response with status code 201', done => {
@@ -97,7 +126,7 @@ describe('REVENUE TESTING', _ => {
           expect(body).toHaveProperty('month', expect.any(Number))
           expect(body).toHaveProperty('year', expect.any(Number))
           expect(body).toHaveProperty('total', expect.any(Number))
-          expect(body).toHaveProperty('propertyId', expect.any(Number)) //id-nya ??
+          expect(body).toHaveProperty('propertyId', expect.any(Number))
           done()
         })
         .catch(err => done(err))
@@ -118,11 +147,10 @@ describe('REVENUE TESTING', _ => {
         .then(result => {
           expect(result.status).toEqual(400)
           expect(result.body).toStrictEqual({"errors": [
-            "month mustn't empty",
             "year mustn't empty",
             "total mustn't empty"
           ],
-          "message": "Bad request"})
+          "message": "Sequelize Validation Error"})
           done()
         })
         .catch(err => done(err))
@@ -167,24 +195,7 @@ describe('REVENUE TESTING', _ => {
 
 
 
-  describe('GET /revenues', _ => {
-    test('read data revenues', done => {
-      request(app)
-      .get('/revenues')
-      .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
-      .set('access_token', ownerToken)
-      .then(response => {
-        
-        let { body, status } = response
-        expect(status).toEqual(200)
-        expect(typeof response.body).toEqual('object')
-        expect(response.body.revenues).toEqual(expect.any(Array))
-        done()
-      })
-      .catch(err => done(err))
-    })
-  })
+  
 
 
   describe('Update Property - PUT /revenues/:id', _ => {
@@ -236,7 +247,7 @@ describe('REVENUE TESTING', _ => {
         .catch(err => done(err))
     })
 
-    test('when valid token but send an empty data should send response with status code (401) unauthorize', done => {
+    test('when valid token but send an empty data should send response with status code (400)', done => {
       request(app)
         .put(`/revenues/${revenueId}`)
         .set('Accept', 'application/json')
@@ -253,13 +264,12 @@ describe('REVENUE TESTING', _ => {
           expect(typeof result.body).toEqual('object')
           expect(result.body).toHaveProperty('message')
           expect(result.body)
-            .toEqual(expect.objectContaining({ "message": "Bad request" }))
+            .toEqual(expect.objectContaining({ "message": "Sequelize Validation Error" }))
           expect(result.body).toStrictEqual({"errors": [
-            "month mustn't empty",
             "year mustn't empty",
             "total mustn't empty"
           ],
-            "message": "Bad request"})
+            "message": "Sequelize Validation Error"})
           done()
         })
         .catch(err => done(err))
