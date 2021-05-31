@@ -79,6 +79,10 @@ class PaymentController {
                 next(err);
             })
     }
+
+    static editPayment(req, res, next) {
+        
+    }
 }
 
 module.exports = PaymentController;
