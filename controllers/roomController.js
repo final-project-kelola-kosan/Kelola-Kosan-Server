@@ -26,6 +26,7 @@ class RoomController {
         let {number, status, type, price} = req.body;
         let currentUser = req.loggedUser;
         let ownedProperty = currentUser.ownedProperty;
+        
         Room.create({
             number,
             status,
@@ -34,6 +35,7 @@ class RoomController {
             propertyId: ownedProperty.id
         })
         .then(data => {
+            console.log(ownedProperty.id, "INI DI OWNEDPROPERTY")
             res.status(201).json({
                 number,
                 status,
@@ -43,8 +45,11 @@ class RoomController {
             })
         })
         .catch(err => {
-            console.log(err)
-            next(err);
+            if(err.name === "SequelizeUniqueConstraintError") {
+                next({name: "RoomAlreadyExists", errorDetail: err});
+            } else {
+                next(err);
+            }
         })
     }
 

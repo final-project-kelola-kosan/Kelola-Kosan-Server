@@ -26,6 +26,9 @@ function errorHandler(err, req, res, next) {
         case "ExpenseNotFound":
             res.status(404).json({message: "Expense Not Found"})
             break
+        case "RoomAlreadyExists":
+            res.status(400).json({message: "Room Already Exists", errors: err.errorDetail})
+            break
         case "SequelizeUniqueConstraintError":
             res.status(400).json({message: "Bad Request", errors: ['Email already exist']})
             break

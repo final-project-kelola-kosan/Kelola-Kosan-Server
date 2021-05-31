@@ -176,6 +176,27 @@ describe("Create new room /rooms", () => {
             })
     })
 
+    it("SequelizeUniqueConstraintError", (done) => {
+        request(app)
+            .post("/rooms")
+            .send(newRoom)
+            .set('Accept', 'application/json')
+            .set("access_token", adminToken)
+            .expect('Content-Type', /json/)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(400);
+                expect(body).toHaveProperty("message", "Room Already Exists");
+                expect(body).toHaveProperty("errors", expect.any(Object));
+                expect(body.errors).toHaveProperty("name", "SequelizeUniqueConstraintError");
+                done()
+            })
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+
 });
 
 const testId = 1;

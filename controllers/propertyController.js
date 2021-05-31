@@ -12,7 +12,7 @@ class PropertyController {
       address : req.body.address,
       image: req.body.image,
       phone: req.body.phone,
-      userId: req.loggedUser.id
+      userId: loggedUser.id
     }
 
     Property

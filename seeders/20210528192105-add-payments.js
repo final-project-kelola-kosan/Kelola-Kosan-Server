@@ -1,39 +1,69 @@
 'use strict';
 
-const dateString = '2021-06-01'
+const dateString = '2021-05-01'
 var firstDate = new Date(dateString + "T00:00:00");
-console.log(firstDate);
 
-const dateStr2 = '2021-04-01'
+
+const dateStr2 = '2021-06-01'
 var secondDate = new Date(dateStr2 + "T00:00:00");
-console.log(secondDate);
 
+
+const dateStr3 = '2021-07-01'
+var thirdDate = new Date(dateStr3 + "T00:00:00");
+
+
+const {Tenant, Room} = require("../models")
+let roomId;
 module.exports = {
   up:  (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert("Payments", [
-      {
-        id: 1,
-        month: 5,
-        year: 2021,
-        nextDueDate: firstDate,
-        paidCash: 2500000,
-        tenantId: 1,
-        roomId: 1,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        id: 2,
-        month: 3,
-        year: 2021,
-        nextDueDate: secondDate,
-        paidCash: 2500000,
-        tenantId: 2,
-        roomId: 2,
-        createdAt: new Date(),
-        updatedAt: new Date()
+    return Tenant.findOne({
+      where: {
+        email: "joko@mail.com"
       }
-    ], {})
+    })
+    .then(data => {
+      roomId = data.id;
+      return Room.findOne({
+        where: {
+          number: 105
+        }
+      })
+      .then(data => {
+        return queryInterface.bulkInsert("Payments", [
+          {
+            month: 4,
+            year: 2021,
+            nextDueDate: firstDate,
+            paidCash: 2500000,
+            tenantId: data.id,
+            roomId,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          },
+          {
+            month: 5,
+            year: 2021,
+            nextDueDate: secondDate,
+            paidCash: 2500000,
+            tenantId: data.id,
+            roomId,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          },
+          {
+            month: 6,
+            year: 2021,
+            nextDueDate: thirdDate,
+            paidCash: 2500000,
+            tenantId: data.id,
+            roomId,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          },
+        ], {})
+      })
+    })
+    
     /**
      * Add seed commands here.
      *
@@ -46,6 +76,7 @@ module.exports = {
   },
 
   down:  (queryInterface, Sequelize) => {
+    return queryInterface.bulkDelete("Payments", null, {});
     /**
      * Add commands to revert seed here.
      *
@@ -54,3 +85,5 @@ module.exports = {
      */
   }
 };
+
+

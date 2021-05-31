@@ -35,6 +35,22 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    fullname: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: `fullname musn't be empty`
+        }
+      }
+    },
+    bankAccount: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: `bankAccount musn't be empty`
+        }
+      }
+    },
     password: {
       type: DataTypes.STRING,
       validate: {
