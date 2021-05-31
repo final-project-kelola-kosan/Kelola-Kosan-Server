@@ -13,6 +13,11 @@ class PaymentController {
             tenantId
         })
         .then(data => {
+            Room
+              .update(
+                  { status: 'occupied' },
+                  { where: { id : roomId }}
+                )
             res.status(201).json(data);
         })
         .catch(err => {
