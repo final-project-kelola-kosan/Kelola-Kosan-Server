@@ -193,11 +193,6 @@ describe('REVENUE TESTING', _ => {
     })
   })
 
-
-
-  
-
-
   describe('Update Property - PUT /revenues/:id', _ => {
 
     describe('When success to update', _ => {

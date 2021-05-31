@@ -344,8 +344,51 @@ describe("Edit payment", () => {
                 expect(body).toHaveProperty("updatedData", expect.any(Object));
                 expect(body.updatedData).toHaveProperty("month", editPayment.month);
                 expect(body.updatedData).toHaveProperty("year", editPayment.year);
-                // expect(body.updatedData.nextDueDate.toString()).toEqual(editPayment.nextDueDate.toString());
                 expect(body.updatedData).toHaveProperty("paidCash", editPayment.paidCash);
+                done();
+            })
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+
+    it("Unauthenticate", (done) => {
+        request(app)
+            .put(`/payments/${publicPaymentId}`)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .send(editPayment)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(400);
+                expect(body).toEqual(expect.any(Object))
+                expect(body).toHaveProperty("message", "Unauthenticate");
+                done();
+            })
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+
+    it("empty string", (done) => {
+        request(app)
+            .put(`/payments/${publicPaymentId}`)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .send({
+                month: 0,
+                year: "",
+                nextDueDate: "",
+                paidCash: ""
+            })
+            .set("access_token", adminToken)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(400);
+                expect(body).toEqual(expect.any(Object))
+                expect(body).toHaveProperty("message", "Sequelize Validation Error");
                 done();
             })
             .catch(err => {

@@ -144,6 +144,7 @@ describe("Create new room /rooms", () => {
             .expect('Content-Type', /json/)
             .then(response => {
                 let {body, status} = response;
+                console.log(body, "INI DI ADDING NEW ROOM")
                 expect(status).toBe(201);
                 expect(body).toHaveProperty("number", 115);
                 expect(body).toHaveProperty("status", "maintenance");
@@ -167,6 +168,27 @@ describe("Create new room /rooms", () => {
             .then(response => {
                 let {body, status} = response;
                 expect(status).toBe(400);
+                done()
+            })
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+
+    it("SequelizeUniqueConstraintError", (done) => {
+        request(app)
+            .post("/rooms")
+            .send(newRoom)
+            .set('Accept', 'application/json')
+            .set("access_token", adminToken)
+            .expect('Content-Type', /json/)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(400);
+                expect(body).toHaveProperty("message", "Room Already Exists");
+                expect(body).toHaveProperty("errors", expect.any(Object));
+                expect(body.errors).toHaveProperty("name", "SequelizeUniqueConstraintError");
                 done()
             })
             .catch(err => {
