@@ -1,6 +1,6 @@
 function errorHandler(err, req, res, next) {
-    console.log(err)
-    console.log(err.name, "<<<<<<< INI DI ERRORHANDLER")
+    // console.log(err)
+    // console.log(err.name, "<<<<<<< INI DI ERRORHANDLER")
     switch (err.name) {
         case "SequelizeValidationError":
             const errors = []
