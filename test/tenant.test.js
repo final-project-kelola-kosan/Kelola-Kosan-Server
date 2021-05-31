@@ -94,7 +94,7 @@ describe("test tenant's CRUD section", () => {
 
 
     describe("error create tenant function", () => {
-      test.only("error empty create tenant test", (done) => {
+      test("error empty create tenant test", (done) => {
         request(app)
           .post('/tenant')
           .set('access_token', `${access_token}`)
