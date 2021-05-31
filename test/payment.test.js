@@ -40,8 +40,8 @@ beforeAll((done) => {
          .set('Accept', 'application/json')
     })
     .then(response => {
-         let {body, status} = response;
-         adminToken = body.access_token;
+        let {body, status} = response;
+        adminToken = body.access_token;
  
         return queryInterface.bulkInsert("Properties", [
              {
@@ -196,6 +196,7 @@ describe("Create Payment", () => {
             .set("access_token", adminToken)
             .then(response => {
                 let {body, status} = response;
+                console.log(body, "INI DI PAYMENT ")
                 expect(status).toBe(201);
                 expect(body).toEqual(expect.any(Object));
                 expect(body).toHaveProperty("month", 5);
@@ -238,7 +239,7 @@ describe("Create Payment", () => {
                 let {body, status} = response;
                 console.log(body, "INI DI PAYMENT TEST, BODY")
                 expect(status).toBe(400);
-                expect(body).toHaveProperty("message", "Bad request");
+                expect(body).toHaveProperty("message", "Sequelize Validation Error");
                 expect(body).toHaveProperty("errors", expect.any(Array));
                 done();
             })

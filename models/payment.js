@@ -26,9 +26,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
-        notEmpty: {
-          msg: "month mustn't empty"
-        },
+        min: 1,
+        max: 12
       }
     },
     year: {
