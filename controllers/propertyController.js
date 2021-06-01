@@ -36,14 +36,16 @@ class PropertyController {
       .then(data => {
         const properties = data.map(property => {
           return {
-            id      : property.id,
-            name    : property.name,
-            address : property.address,
-            image   : property.image,
-            phone   : property.phone,
-            userId  : property.userId,
-            username: property.User.username,
-            email   : property.User.email
+            id          : property.id,
+            name        : property.name,
+            address     : property.address,
+            image       : property.image,
+            phone       : property.phone,
+            userId      : property.userId,
+            username    : property.User.username,
+            email       : property.User.email,
+            fullname    : property.User.fullname,
+            bankAccount : property.User.bankAccount
           }
         })
         res.status(200).json({properties})
