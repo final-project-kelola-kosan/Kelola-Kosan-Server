@@ -7,7 +7,7 @@ module.exports = {
   up:  (queryInterface, Sequelize) => {
     return User.findOne({
       where: {
-        email: "admin@mail.com"
+        email: "muhammadihsan076@gmail.com"
       }
     })
     .then(data => {

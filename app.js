@@ -1,35 +1,32 @@
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
-
 const express = require('express');
 const app = express();
 const cors = require('cors');
 const router = require('./routes/index');
 const port = process.env.PORT || 4000;
 const errorHandler = require('./middlewares/errorHandler.js');
+const {monthlyReport} = require("./helpers/cron");
+const {generateReport} = require("./controllers/mvp/report")
 const cron = require("node-cron");
-const PDFDocument = require("pdfkit");
-const fs = require("fs");
-
-let pdfDoc = new PDFDocument;
 
 app.use(cors())
 
 app.use(express.urlencoded({extended: true}))
-
-
 app.use(express.json())
-
 app.use(router)
-const {sendMail} = require("./controllers/nodemailer/nodemailer");
-let counter = 1;
 
-cron.schedule("* * * * *", () => {
-  console.log("MASOOK")
-  sendMail(`hello world ${counter}`, "this is email body it can contain html also");
-  counter++;
+// MONTHLY REPORT
+cron.schedule(`0 9 ${monthlyReport().get("date")} * *`, () => {
+  generateReport();
 })
+
+cron.schedule(`* * * * *`, () => {
+  console.log("Masoook")
+  generateReport();
+});
+
 
 app.use(errorHandler)
 

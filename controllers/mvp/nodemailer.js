@@ -1,7 +1,9 @@
+const {User} = require("../../models");
 const nodemailer = require('nodemailer');
-const ownerEmail = "rezanasu@outlook.com";
+let ownerEmail = "muhammadihsan076@gmail.com";
 const senderEmail = "simpleCoders@outlook.com";
-const senderPassword = "maestro82"; // gmail app password
+const senderPassword = "maestro82"; // outlook password
+
 module.exports = {
     sendMail: async (subject, text, to = ownerEmail) => {
         try {
@@ -19,12 +21,17 @@ module.exports = {
             subject,
             text: subject,
             html: text,
+            attachments: [{
+                filename: 'Report.pdf',
+                path: __dirname + "/Report.pdf"
+            }]
         };
 
-        transporter.sendMail(message, () => {});
+        transporter.sendMail(message, () => {
+            console.log(message);
+        });
         } catch (e) {
-        // handle errors here
-        console.log(e)
+            console.log(e)
         }
     },
 };

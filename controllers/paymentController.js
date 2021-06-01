@@ -18,6 +18,7 @@ class PaymentController {
                   { status: 'occupied' },
                   { where: { id : roomId }}
                 )
+            // pasang cron schedule disini
             res.status(201).json(data);
         })
         .catch(err => {
