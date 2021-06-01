@@ -1,4 +1,5 @@
 const {Expense} = require("../models");
+const sequelize = require("sequelize");
 
 class ExpenseController {
     
