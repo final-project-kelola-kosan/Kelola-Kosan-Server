@@ -32,6 +32,9 @@ class ExpenseController {
     
     static async getReportExpense(req, res, next) {
         try {
+            
+            let year = new Date()
+            year = year.getFullYear()
             const data = await Expense.findAll({
                     where: { year },
                     attributes: [
