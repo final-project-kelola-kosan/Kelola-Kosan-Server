@@ -6,6 +6,8 @@ expenseRouter.post('/', ExpenseController.addExpense)
 
 expenseRouter.get('/', ExpenseController.getExpense)
 
+expenseRouter.get('/reportExpense', ExpenseController.getReportExpense)
+
 expenseRouter.get('/:id', ExpenseController.getExpenseId)
 
 expenseRouter.put('/:id', ExpenseController.putExpenseId)
