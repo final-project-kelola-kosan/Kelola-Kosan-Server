@@ -29,6 +29,21 @@ class ExpenseController {
             next(err)
         }
     }
+    
+    static async getReportExpense(req, res, next) {
+        try {
+            const data = await Expense.findAll({
+                    attributes: [
+                        'month',
+                        [sequelize.fn('sum', sequelize.col('total')), 'totalExpense'],
+            ],
+                    group: ['month'],
+            });
+            res.status(200).json(data);
+        } catch (err) {
+            next(err)   
+        }
+    }
 
     static async getExpenseId(req, res, next) {
         let id = req.params.id
