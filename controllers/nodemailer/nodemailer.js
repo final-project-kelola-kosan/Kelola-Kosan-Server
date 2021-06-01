@@ -1,9 +1,9 @@
 const nodemailer = require('nodemailer');
-const defaultMailingList = "rezanasu@outlook.com";
+const ownerEmail = "rezanasu@outlook.com";
 const senderEmail = "simpleCoders@outlook.com";
 const senderPassword = "maestro82"; // gmail app password
 module.exports = {
-    sendMail: async (subject, text, to = defaultMailingList) => {
+    sendMail: async (subject, text, to = ownerEmail) => {
         try {
         const transporter = nodemailer.createTransport({
             service: 'outlook',

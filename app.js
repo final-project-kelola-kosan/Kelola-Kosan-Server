@@ -9,6 +9,10 @@ const router = require('./routes/index');
 const port = process.env.PORT || 4000;
 const errorHandler = require('./middlewares/errorHandler.js');
 const cron = require("node-cron");
+const PDFDocument = require("pdfkit");
+const fs = require("fs");
+
+let pdfDoc = new PDFDocument;
 
 app.use(cors())
 
