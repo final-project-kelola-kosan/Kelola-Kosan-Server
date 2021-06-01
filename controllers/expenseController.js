@@ -25,7 +25,7 @@ class ExpenseController {
         try {
             const data = await Expense.findAll()
             res.status(200).json(data);
-        }catch(err) {
+        } catch(err) {
             next(err)
         }
     }
