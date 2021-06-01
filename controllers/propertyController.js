@@ -39,8 +39,9 @@ class PropertyController {
             phone: property.phone,
             userId: property.userId,
             username: property.User.username,
-            fullname: property.User.fullname,
             email: property.User.email,
+            fullname: property.User.fullname,
+            bankAccount: property.User.bankAccount,
           };
         });
         res.status(200).json({ properties });
