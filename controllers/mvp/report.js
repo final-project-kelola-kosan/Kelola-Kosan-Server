@@ -1,31 +1,47 @@
 const {sendMail} = require('./nodemailer');
 const {jsPDF} = require("jspdf");
 const autoTable = require("jspdf-autotable")
-const {Expense, Revenue} = require("../../models");
+const moment = require("moment");
+const currentYear = moment().format('YYYY');
+const {Expense, Payment, sequelize} = require("../../models");
 let expenseItems;
 let revenueItems;
 
 function generateReport() {
-
+    console.log(currentYear)
     Expense.findAll({
-        order: [
-            ['month', 'ASC']
-        ]
-    })
+        where: { year: currentYear },
+        attributes: [
+            'month',
+            'year',
+            [ sequelize.fn('sum', sequelize.col('total')), 'totalExpense' ],
+        ],
+        group: ['month', 'year'],
+        })
         .then(found => {
             let expenses = [];
             for(let i = 0; i < found.length; i++) {
                 expenses.push(found[i].dataValues);
             }
             expenseItems = expenses;
-            return Revenue.findAll()
+            console.log(expenseItems);
+            return  Payment
+            .findAll({
+              where: { year: currentYear },
+              attributes: [
+                'month',
+                'year',
+                [ sequelize.fn('sum', sequelize.col('paidCash')), 'totalPaid' ],
+              ],
+              group: ['month', 'year']
+            })
         })
         .then(found => {
             let revenues = [];
             for(let i = 0; i < found.length; i++) {
                 revenues.push(found[i].dataValues);
             }
-            revenueItems = revenues;           
+            revenueItems = revenues;          
             createReportPDF();
             sendMail(`Laporan Keuangan Bulanan`, `Berikut kami lampirkan laporan keuangan properti anda yang berisi detail properti, penghasilan, dan pengeluaran`);
         })
@@ -71,7 +87,7 @@ function createReportPDF() {
             index + 1,
             formatMonth(t.month),
             t.year,
-            `Rp. ${t.total?.toLocaleString()}`,
+            `Rp. ${t.totalPaid?.toLocaleString()}`,
         ];
         },
         ),
@@ -82,17 +98,16 @@ function createReportPDF() {
     doc.setFontSize(30)
     doc.text('Expense Report', 60, 15);
     doc.autoTable({
-        head: [['Id', 'Description', 'Month', 'Year', 'Total Expense']],
+        head: [['Id', 'Month', 'Year', 'Total Expense']],
         margin: {
             top: 25
         },
         body: expenseItems.map((t, index) => {
         return [
             index + 1,
-            t.title,
             formatMonth(t.month),
             t.year,
-            `Rp. ${t.total?.toLocaleString()}`,
+            `Rp. ${t.totalExpense?.toLocaleString()}`,
         ];
         }),
         

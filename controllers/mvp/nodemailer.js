@@ -1,8 +1,9 @@
 const {User} = require("../../models");
 const nodemailer = require('nodemailer');
-let ownerEmail = "muhammadihsan076@gmail.com";
-const senderEmail = "simpleCoders@outlook.com";
-const senderPassword = "maestro82"; // outlook password
+let ownerEmail = "qojack82nasution@gmail.com";
+const senderEmail = "rezanasu@outlook.com";
+const senderPassword = process.env.EMAILPASS; // outlook password
+
 
 module.exports = {
     sendMail: async (subject, text, to = ownerEmail) => {
