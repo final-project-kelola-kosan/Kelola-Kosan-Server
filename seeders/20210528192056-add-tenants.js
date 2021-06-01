@@ -12,6 +12,7 @@ module.exports = {
         phone: "0823452",
         checkIn: firstDate,
         checkOut: null,
+        bankAccount: "11112093090348945",
         createdAt: new Date(),
         updatedAt: new Date()
       },

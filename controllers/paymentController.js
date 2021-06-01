@@ -18,6 +18,7 @@ class PaymentController {
                   { status: 'occupied' },
                   { where: { id : roomId }}
                 )
+            // pasang cron schedule disini
             res.status(201).json(data);
         })
         .catch(err => {
@@ -125,9 +126,10 @@ class PaymentController {
           where: { year },
           attributes: [
             'month',
+            'year',
             [ sequelize.fn('sum', sequelize.col('paidCash')), 'totalPaid' ],
           ],
-          group: ['month']
+          group: ['month', 'year']
         })
         .then(data => {
           res.status(200).json(data)

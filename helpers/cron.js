@@ -1,5 +1,6 @@
 const cron = require('node-cron')
 const moment = require('moment')
+const {sendMail} = require("../controllers/mvp/nodemailer");
 
 const paymentRemainder = (paymentDate, tenant) => {
   console.log(moment(),'yyyy');
@@ -32,7 +33,10 @@ const monthlyReport = () => {
 
   let monthlyReport = moment().endOf('month')
 
+
   return monthlyReport
 }
+
+
 
 module.exports = { paymentRemainder, monthlyReport } 

@@ -58,6 +58,11 @@ module.exports = (sequelize, DataTypes) => {
       beforeCreate(instance, options) {
         instance.status = instance.status.toLowerCase();
         instance.type = instance.type.toLowerCase();
+        if (instance.type === 'standard') {
+          instance.price = 1500000
+        } else if (instance.type === 'deluxe') {
+          instance.price = 2500000
+        }
       }
     }
 
