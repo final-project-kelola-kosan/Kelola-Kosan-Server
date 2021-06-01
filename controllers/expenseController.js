@@ -25,8 +25,27 @@ class ExpenseController {
         try {
             const data = await Expense.findAll()
             res.status(200).json(data);
-        }catch(err) {
+        } catch(err) {
             next(err)
+        }
+    }
+    
+    static async getReportExpense(req, res, next) {
+        try {
+            
+            let year = new Date()
+            year = year.getFullYear()
+            const data = await Expense.findAll({
+                    where: { year },
+                    attributes: [
+                        'month',
+                        [ sequelize.fn('sum', sequelize.col('total')), 'totalExpense' ],
+                    ],
+                    group: ['month'],
+            });
+            res.status(200).json(data);
+        } catch (err) {
+            next(err)   
         }
     }
 

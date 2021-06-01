@@ -1,4 +1,4 @@
-const {Room, Tenant, Payment} = require("../models")
+const {Room, Tenant, Payment, sequelize} = require("../models")
 class PaymentController {
     static createPayment(req, res, next) {
         let {month, year, nextDueDate, paidCash} = req.body;
@@ -113,6 +113,27 @@ class PaymentController {
         .catch(err => {
             next(err);
         })
+    }
+
+    static reportPayment = (req, res, next) => {
+      
+      let year = new Date()
+      year = year.getFullYear()
+
+      Payment
+        .findAll({
+          where: { year },
+          attributes: [
+            'month',
+            [ sequelize.fn('sum', sequelize.col('paidCash')), 'totalPaid' ],
+          ],
+          group: ['month']
+        })
+        .then(data => {
+          res.status(200).json(data)
+          
+        })
+        .catch(err => next(err))
     }
 }
 
