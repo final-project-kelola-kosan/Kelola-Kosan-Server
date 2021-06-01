@@ -58,6 +58,14 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    bankAccount: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: `Bank Account musn't be empty`
+        }
+      }
+    },
   }, {
     sequelize,
     modelName: 'Tenant',
