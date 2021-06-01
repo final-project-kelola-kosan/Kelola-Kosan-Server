@@ -3,7 +3,9 @@ const {Room, User} = require("../models")
 class RoomController {
 
     static findRooms(req, res, next) {
-        Room.findAll()
+        Room.findAll({
+            order: [["number", 'ASC']]
+          })
             .then(data => {
                 res.status(200).json(data);
             })
