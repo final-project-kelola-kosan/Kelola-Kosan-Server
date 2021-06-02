@@ -3,6 +3,9 @@ const nodemailer = require('nodemailer');
 let ownerEmail = "qojack82nasution@gmail.com";
 const senderEmail = "rezanasu@outlook.com";
 const senderPassword = "maestro82"; // outlook password
+const fs = require("fs");
+const {promisify} = require("util");
+const handlebars = require("handlebars");
 
 async function sendMail(subject, text, to = ownerEmail) {
     try {
@@ -34,8 +37,34 @@ async function sendMail(subject, text, to = ownerEmail) {
         }
 }
 
-async function sendMailTenant(subject, text, to = ownerEmail) {
+const readFile = promisify(fs.readFile);
+
+function convertToRupiah(angka)
+{
+	var rupiah = '';		
+	var angkarev = angka.toString().split('').reverse().join('');
+	for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
+	return 'Rp. '+rupiah.split('',rupiah.length-1).reverse().join('');
+}
+
+// sendMailTenant(`Payment reminder`, "", tenantEmail, tenantName, userData, roomData);
+async function sendMailTenant(subject, text, to = ownerEmail, tenantName, userData, roomData) {
     try {
+        let html = await readFile(__dirname + "/mangkosan-email.html", "utf8");
+        let template = handlebars.compile(html);
+        let userProp = userData.Property;
+       
+        let data = {
+            tenantName,
+            ownerName: userData.name,
+            bankAccount: userData.bankAccount,
+            propertyName: userProp.name,
+            propertyAddress: userProp.address,
+            propertyPhone: userProp.phone,
+            roomPrice: convertToRupiah(roomData.price),
+        };
+        let htmlToSend = template(data);
+
         const transporter = nodemailer.createTransport({
             service: 'outlook',
             auth: {
@@ -49,7 +78,7 @@ async function sendMailTenant(subject, text, to = ownerEmail) {
             to,
             subject,
             text: subject,
-            html: text,
+            html: htmlToSend,
         };
 
         transporter.sendMail(message, () => {
