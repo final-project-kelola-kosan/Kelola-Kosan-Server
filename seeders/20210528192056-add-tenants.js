@@ -8,9 +8,45 @@ module.exports = {
     return queryInterface.bulkInsert("Tenants", [
       {
         email: "qojack82nasution@gmail.com",
-        name: "jack",
+        name: "Jack",
         phone: "0823452",
         checkIn: firstDate,
+        checkOut: null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        email: "jecksfresley@gmail.com",
+        name: "Jecksen",
+        phone: "085398464583",
+        checkIn: firstDate,
+        checkOut: null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        email: "hidayatarifin063@gmail.com",
+        name: "Arifin",
+        phone: "081347767810",
+        checkIn: twotDate,
+        checkOut: null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        email: "hidayahtaufikk12@gmail.com",
+        name: "Taufik",
+        phone: "089693224053",
+        checkIn: threetDate,
+        checkOut: null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        email: "HarunsAS@gmail.com",
+        name: "Harun",
+        phone: "085391818787",
+        checkIn: fourDate,
         checkOut: null,
         createdAt: new Date(),
         updatedAt: new Date()
