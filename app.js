@@ -25,7 +25,7 @@ cron.schedule(`0 9 ${monthlyReport().get("date")} * *`, () => {
 
 // cron.schedule(`* * * * *`, () => {
 //   console.log("Masoook")
-
+//   generateReport();
 // });
 
 

@@ -7,10 +7,9 @@ class RoomController {
             .then(data => {
                 res.status(200).json(data);
             })
-            .catch(err => {
-                console.log(err)
-                next({message: "Internal Server Error"})
-            })
+            // .catch(err => {
+            //     next({message: "Internal Server Error"})
+            // })
     }
 
     // static findAllOccupied(req, res, next) {
@@ -35,7 +34,6 @@ class RoomController {
             propertyId: ownedProperty.id
         })
         .then(data => {
-            console.log(ownedProperty.id, "INI DI OWNEDPROPERTY")
             res.status(201).json({
                 number,
                 status,
@@ -64,9 +62,9 @@ class RoomController {
                 res.status(200).json(data);
             }
         })
-        .catch(err => {
-            next(err);
-        })
+        // .catch(err => {
+        //     next(err);
+        // })
     }
 
     static updateStatus(req, res, next) {
@@ -89,9 +87,9 @@ class RoomController {
                 });
             }
         })
-        .catch(err => {
-            next(err);
-        })
+        // .catch(err => {
+        //     next(err);
+        // })
     }
 
     static updateRoom(req, res, next) {
@@ -117,9 +115,9 @@ class RoomController {
                 });
             }
         })
-        .catch(err => {
-            next(err)
-        })
+        // .catch(err => {
+        //     next(err)
+        // })
     }
 
     static deleteRoom(req, res, next) {
@@ -139,10 +137,9 @@ class RoomController {
                 })
             }
         })
-        .catch(err => {
-            console.log(err);
-            next(err);
-        })
+        // .catch(err => {
+        //     next(err);
+        // })
     }
 }
 

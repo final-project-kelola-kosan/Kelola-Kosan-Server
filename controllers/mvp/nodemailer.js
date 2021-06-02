@@ -1,6 +1,6 @@
 const {User} = require("../../models");
 const nodemailer = require('nodemailer');
-let ownerEmail = "muhammadihsan076@gmail.com";
+let ownerEmail = "qojack82nasution@gmail.com";
 const senderEmail = "rezanasu@outlook.com";
 const senderPassword = "maestro82"; // outlook password
 
