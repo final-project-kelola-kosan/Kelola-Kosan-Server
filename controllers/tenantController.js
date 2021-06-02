@@ -23,16 +23,12 @@ class TenantController {
         }
     }
 
-    static async getTenant(req, res, next) {
-        try {
-            const data = await Tenant.findAll()
+    static getTenant(req, res, next) {
+        Tenant.findAll()
+            .then(data => {
+                res.status(200).json(data);
+            })
         
-            res.status(200).json(data);
-
-        }
-        catch(err) {
-            next(err)
-        }
     }
 
     static async getTenantId(req, res, next) {
@@ -93,7 +89,8 @@ class TenantController {
                     updated:updated[1][0]
                 })
             }
-        } catch (err) {
+        } 
+        catch (err) {
             next(err)
         }
     }

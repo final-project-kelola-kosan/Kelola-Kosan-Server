@@ -92,5 +92,5 @@ async function sendMailTenant(subject, text, to = ownerEmail, tenantName, userDa
 
 
 module.exports = {
-    sendMail, sendMailTenant 
+    sendMail, sendMailTenant, convertToRupiah
 };

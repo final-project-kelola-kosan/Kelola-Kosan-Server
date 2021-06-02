@@ -50,7 +50,7 @@ class PropertyController {
         })
         res.status(200).json({properties})
       })
-      .catch(err => next(err))
+      // .catch(err => next(err))
   }
 
   static update = (req, res, next) => {
@@ -81,7 +81,7 @@ class PropertyController {
           res.status(404).json({ message: 'Data not found!'})
         }
       })
-      .catch(err => next(err))
+      // .catch(err => next(err))
   }
 
 }

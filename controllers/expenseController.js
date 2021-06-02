@@ -27,7 +27,7 @@ class ExpenseController {
             const data = await Expense.findAll()
             res.status(200).json(data);
         } catch(err) {
-            next(err)
+            // next(err)
         }
     }
     
@@ -64,7 +64,7 @@ class ExpenseController {
                  res.status(200).json(data)
              }
         } catch(err) {
-            next(err)
+            // next(err)
         }
     }
 
@@ -121,7 +121,7 @@ class ExpenseController {
                 })
             }
         } catch(err) {
-            next(err)
+            // next(err)
         }
     }
 }
