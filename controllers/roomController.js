@@ -1,149 +1,155 @@
-const {Room, User} = require("../models")
+const { Room, User } = require('../models');
 
 class RoomController {
+  static findRooms(req, res, next) {
+    Room.findAll({
+      order: [['number', 'ASC']],
+    })
+      .then((data) => {
+        res.status(200).json(data);
+      })
+      .catch((err) => {
+        console.log(err);
+        next({ message: 'Internal Server Error' });
+      });
+  }
 
-    static findRooms(req, res, next) {
-        Room.findAll()
-            .then(data => {
-                res.status(200).json(data);
-            })
-            .catch(err => {
-                console.log(err)
-                next({message: "Internal Server Error"})
-            })
-    }
+  // static findAllOccupied(req, res, next) {
 
-    // static findAllOccupied(req, res, next) {
+  // }
 
-    // }
+  // static findNotOccupied(req, res, next) {
 
-    // static findNotOccupied(req, res, next) {
+  // }
 
-    // }
-    
-    
-    static addRoom(req, res, next) {
-        let {number, status, type, price} = req.body;
-        let currentUser = req.loggedUser;
-        let ownedProperty = currentUser.ownedProperty;
-        
-        Room.create({
-            number,
-            status,
-            type,
-            price,
-            propertyId: ownedProperty.id
-        })
-        .then(data => {
-            console.log(ownedProperty.id, "INI DI OWNEDPROPERTY")
-            res.status(201).json({
-                number,
-                status,
-                type,
-                price,
-                propertyId: ownedProperty.id
-            })
-        })
-        .catch(err => {
-            if(err.name === "SequelizeUniqueConstraintError") {
-                next({name: "RoomAlreadyExists", errorDetail: err});
-            } else {
-                next(err);
-            }
-        })
-    }
+  static addRoom(req, res, next) {
+    let { number, status, type, price } = req.body;
+    let currentUser = req.loggedUser;
+    let ownedProperty = currentUser.ownedProperty;
 
-    static getRoomById(req, res, next) {
-        let id = req.params.id;
-       
-        Room.findByPk(id)
-        .then(data => {
-            if(data === null) {
-                next({name: "RoomNotFound"})
-            } else {
-                res.status(200).json(data);
-            }
-        })
-        .catch(err => {
-            next(err);
-        })
-    }
+    Room.create({
+      number,
+      status,
+      type,
+      price,
+      propertyId: ownedProperty.id,
+    })
+      .then((data) => {
+        console.log(ownedProperty.id, 'INI DI OWNEDPROPERTY');
+        res.status(201).json({
+          number,
+          status,
+          type,
+          price,
+          propertyId: ownedProperty.id,
+        });
+      })
+      .catch((err) => {
+        if (err.name === 'SequelizeUniqueConstraintError') {
+          next({ name: 'RoomAlreadyExists', errorDetail: err });
+        } else {
+          next(err);
+        }
+      });
+  }
 
-    static updateStatus(req, res, next) {
-        let id = req.params.id;
-        let {status} = req.body;
-        Room.update({
-            status
-        }, {
-            where: {
-                id
-            }
-        })
-        .then(data => {
-            console.log(data, "GW LAGI DI UPDATE STATUS")
-            if(data[0] === 0) {
-                next({name: "RoomNotFound"})
-            } else {
-                res.status(200).json({
-                    msg: "Status successfully updated"
-                });
-            }
-        })
-        .catch(err => {
-            next(err);
-        })
-    }
+  static getRoomById(req, res, next) {
+    let id = req.params.id;
 
-    static updateRoom(req, res, next) {
-        let id = req.params.id;
-        let {number, status, type, price} = req.body;
+    Room.findByPk(id)
+      .then((data) => {
+        if (data === null) {
+          next({ name: 'RoomNotFound' });
+        } else {
+          res.status(200).json(data);
+        }
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
 
-        Room.update({
-            number, 
-            status,
-            type,
-            price
-        }, {
-            where: {
-                id
-            }
-        }).then(data => {
+  static updateStatus(req, res, next) {
+    let id = req.params.id;
+    let { status } = req.body;
+    Room.update(
+      {
+        status,
+      },
+      {
+        where: {
+          id,
+        },
+      }
+    )
+      .then((data) => {
+        console.log(data, 'GW LAGI DI UPDATE STATUS');
+        if (data[0] === 0) {
+          next({ name: 'RoomNotFound' });
+        } else {
+          res.status(200).json({
+            msg: 'Status successfully updated',
+          });
+        }
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
 
-            if(data[0] === 0) {
-                next({name: "RoomNotFound"})
-            } else {
-                res.status(200).json({
-                    msg: "Room successfully updated"
-                });
-            }
-        })
-        .catch(err => {
-            next(err)
-        })
-    }
+  static updateRoom(req, res, next) {
+    let id = req.params.id;
+    let { number, status, type, price } = req.body;
 
-    static deleteRoom(req, res, next) {
-        let id = req.params.id;
+    Room.update(
+      {
+        number,
+        status,
+        type,
+        price,
+      },
+      {
+        where: {
+          id,
+        },
+      }
+    )
+      .then((data) => {
+        if (data[0] === 0) {
+          next({ name: 'RoomNotFound' });
+        } else {
+          res.status(200).json({
+            msg: 'Room successfully updated',
+          });
+        }
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
 
-        Room.destroy({
-            where: {
-                id
-            }
-        })
-        .then(data => {
-            if(data === 0) {
-                next({name: "RoomNotFound"})
-            } else {
-                res.status(200).json({
-                    msg: "Room successfully deleted"
-                })
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            next(err);
-        })
-    }
+  static deleteRoom(req, res, next) {
+    let id = req.params.id;
+
+    Room.destroy({
+      where: {
+        id,
+      },
+    })
+      .then((data) => {
+        if (data === 0) {
+          next({ name: 'RoomNotFound' });
+        } else {
+          res.status(200).json({
+            msg: 'Room successfully deleted',
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        next(err);
+      });
+  }
 }
 
 module.exports = RoomController;

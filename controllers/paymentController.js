@@ -121,9 +121,10 @@ class PaymentController {
       where: { year },
       attributes: [
         'month',
+        'year',
         [sequelize.fn('sum', sequelize.col('paidCash')), 'totalPaid'],
       ],
-      group: ['month'],
+      group: ['month', 'year'],
     })
       .then((data) => {
         res.status(200).json(data);
