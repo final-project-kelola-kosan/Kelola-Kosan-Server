@@ -1,4 +1,4 @@
-const {Room, User} = require("../models")
+const {Room, User, Tenant} = require("../models")
 
 class RoomController {
 
@@ -143,6 +143,36 @@ class RoomController {
             console.log(err);
             next(err);
         })
+    }
+
+    static statusRoom = (req, res, next) => {
+      Room
+        .findAll({ include: Tenant })
+        .then(response => {
+
+          const data = response.reduce((acc, room) => {
+            if(room.status === 'empty') {
+              acc.push({
+                number      : room.number,
+                status      : room.status,
+                type        : room.type,
+                price       : room.price,
+              })
+            }
+            else acc.push({
+              number       : room.number,
+              status       : room.status,
+              type         : room.type,
+              price        : room.price,
+              tenantName   : room.Tenants[0].name,
+              tenantPhone  : room.Tenants[0].phone,
+              tenantCheckIn: room.Tenants[0].checkIn
+            })
+            return acc
+          },[])
+          res.status(200).json(data)
+        })
+        .catch(err => console.log(err))
     }
 }
 

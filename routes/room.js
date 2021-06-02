@@ -6,6 +6,7 @@ roomRouter.get("/", RoomController.findRooms);
 // roomRouter.get("/occupied", RoomController.findAllOccupied);
 // roomRouter.get("/notOccupied", RoomController.findNotOccupied);
 roomRouter.post("/", RoomController.addRoom);
+roomRouter.get("/roomStatus", RoomController.statusRoom);
 roomRouter.get("/:id", RoomController.getRoomById);
 roomRouter.put("/:id", RoomController.updateRoom);
 roomRouter.patch("/:id", RoomController.updateStatus);
