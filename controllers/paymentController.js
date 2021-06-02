@@ -1,4 +1,5 @@
 const {Room, Tenant, Payment, sequelize} = require("../models")
+const { paymentRemainder } = require('../helpers/cron')
 class PaymentController {
     static createPayment(req, res, next) {
         let {month, year, nextDueDate, paidCash} = req.body;
@@ -19,6 +20,9 @@ class PaymentController {
                   { where: { id : roomId }}
                 )
             // pasang cron schedule disini
+            const duedate = new Date(nextDueDate)
+            console.log(duedate,'aaaa')
+            paymentRemainder(duedate)
             res.status(201).json(data);
         })
         .catch(err => {
