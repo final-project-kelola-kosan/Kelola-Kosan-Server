@@ -38,9 +38,10 @@ class ExpenseController {
         where: { year },
         attributes: [
           'month',
+          'year',
           [sequelize.fn('sum', sequelize.col('total')), 'totalExpense'],
         ],
-        group: ['month'],
+        group: ['month', 'year'],
       });
       res.status(200).json(data);
     } catch (err) {

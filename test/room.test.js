@@ -124,6 +124,48 @@ describe("get /rooms", () => {
                 done(err);
             })
     });
+
+    it("get all rooms with no access tokken", (done) => {
+      request(app)
+          .get('/rooms')
+          .set('Accept', 'application/json')
+          // .set("access_token", null)
+          .expect('Content-Type', /json/)
+          .then(response => {
+            let {body, status} = response;
+            expect(status).toBe(400);
+            expect(body).toEqual(expect.any(Object));
+            // expect(typeof result.body).toEqual('object')
+            expect(response.body).toEqual(expect.objectContaining({  "message": "Unauthenticate" }))
+            done()
+          })
+          .catch(err => {
+              console.log(err);
+              done(err);
+          })
+    });
+
+    it("get all rooms with wrong access tokken", (done) => {
+      request(app)
+          .get('/rooms')
+          .set('Accept', 'application/json')
+          .set("access_token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJkZWx1eGVAbWFpbC5jb20iLCJpYXQiOjE2MjI2MTM3NTl9.ifUBkJSjte4vECRXJSn375JIyNL7lXvmPqD0SskQMFQ1")
+          .expect('Content-Type', /json/)
+          .then(response => {
+            let {body, status} = response;
+            expect(status).toBe(500);
+            expect(body).toEqual(expect.any(Object));
+            expect(typeof response.body).toEqual('object')
+            expect(response.body).toEqual(expect.objectContaining({  "message": "invalid signature" }))
+            done()
+          })
+          .catch(err => {
+              console.log(err);
+              done(err);
+          })
+    });
+
+
 });
 
 let newRoom = {
@@ -157,6 +199,36 @@ describe("Create new room /rooms", () => {
                 done(err);
             })
     })
+
+    it("Adding new room with no price", (done) => {
+      request(app)
+          .post("/rooms")
+          .send({
+            number: 120,
+            status: "maintenance",
+            type: "deluxe",
+            // price: "2500000"
+          })
+          .set('Accept', 'application/json')
+          .set("access_token", adminToken)
+          .expect('Content-Type', /json/)
+          .then(response => {
+              let {body, status} = response;
+              console.log(body, "INI DI ADDING NEW ROOM")
+              expect(status).toBe(201);
+              expect(body).toHaveProperty("number", 120);
+              expect(body).toHaveProperty("status", "maintenance");
+              expect(body).toHaveProperty("type", "deluxe");
+              expect(body).toHaveProperty('propertyId');
+              // expect(body).toHaveProperty("price", "2500000");
+              // expect(body).toHaveProperty("price", expect.any(Number));
+              done()
+          })
+          .catch(err => {
+              console.log(err);
+              done(err);
+          })
+  })
 
     // WITHOUT ACCESS TOKEN
     it("Unauthenticate", (done) => {

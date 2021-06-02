@@ -121,6 +121,7 @@ describe('REVENUE TESTING', _ => {
         .send(addRevenue)
         .then(response => {
           const { status, body } = response
+          
           expect(status).toEqual(201)
           expect(typeof body).toEqual('object')
           expect(body).toHaveProperty('month', expect.any(Number))

@@ -131,6 +131,8 @@ beforeAll((done) => {
         })
 })
 
+
+
 // Find Payments
 
 describe("Show payments", () => {
@@ -168,6 +170,35 @@ describe("Show payments", () => {
                 done(err);
             })
     })
+})
+
+// Report Payments
+describe("Report payments", () => {
+    it("Report payments", (done) => {
+        request(app)
+            .get('/payments/reportPayment')
+            .set('Accept', 'application/json')
+            .set("access_token", adminToken)
+            .expect('Content-Type', /json/)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(200);
+                expect(body).toEqual(expect.any(Array));
+                for(let i = 0; i < body.length ; i++) {
+                    expect(body[i]).toHaveProperty("month", body[i].month);
+                    expect(body[i]).toHaveProperty("year", body[i].year);
+                    expect(body[i]).toHaveProperty("nextDueDate", body[i].nextDueDate);
+                    expect(body[i]).toHaveProperty("paidCash", body[i].paidCash);
+                }
+                done();
+            })
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+        
+    })
+
 })
 
 const tenantId = 1;
