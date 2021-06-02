@@ -210,6 +210,58 @@ describe("test tenant's CRUD section", () => {
           })
       })
     })
+
+    describe("test for read lists in tenant", () => {
+      test("read tenant with wrong token", (done) => {
+        request(app)
+          .get('/tenant')
+          .set('access_token', `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJkZWx1eGVAbWFpbC5jb20iLCJpYXQiOjE2MjI2MTM3NTl9.ifUBkJSjte4vECRXJSn375JIyNL7lXvmPqD0SskQMF`)
+          .end((err, res) => {
+            if (err) {
+              return done(err)
+            }
+            expect(res.status).toBe(500)
+            expect(typeof res.body).toEqual('object')
+            expect(res.body).toHaveProperty("message")
+            done()
+          })
+      })
+    })
+
+    describe("test for read lists in tenant", () => {
+      test("read tenant with no token", (done) => {
+        request(app)
+          .get('/tenant')
+          // .set('access_token', `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJkZWx1eGVAbWFpbC5jb20iLCJpYXQiOjE2MjI2MTM3NTl9.ifUBkJSjte4vECRXJSn375JIyNL7lXvmPqD0SskQMF`)
+          .end((err, res) => {
+            if (err) {
+              return done(err)
+            }
+            expect(res.status).toBe(400)
+            expect(typeof res.body).toEqual('object')
+            expect(res.body).toHaveProperty("message")
+            expect(res.body).toEqual(expect.objectContaining({  "message": "Unauthenticate" }))
+            done()
+          })
+      })
+    })
+
+    describe("test for read lists in tenant", () => {
+      test("read tenant with token wrong generate", (done) => {
+        request(app)
+          .get('/tenant')
+          .set('access_token', `eyJpZCI6IjUwIiwiZW1haWwiOiJ0ZXN0QG1haWwuY29tIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.DtSJtciMHbwVcp2Mdu7igqt9YKVn1eDRA2YrWwHh4VY`)
+          .end((err, res) => {
+            if (err) {
+              return done(err)
+            }
+            expect(res.status).toBe(500)
+            expect(typeof res.body).toEqual('object')
+            expect(res.body).toHaveProperty("message")
+            done()
+          })
+      })
+    })
   })
 
 
@@ -405,11 +457,12 @@ describe("test tenant's CRUD section", () => {
     })
 
 
-
-    describe("error test for update list by id in tenants with half empty list", () => {
-      test("update list empty contain in tenant at phone", (done) => {
+    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    
+    describe("update tenant", () => {
+      test("update with wrong id", (done) => {
         request(app)
-          .put(`/tenant/${idTenant}`)
+          .put(`/tenant/${999999999999}`)
           .set('access_token', `${access_token}`)
           .send({
             email: 'cust12@mail.com',
@@ -422,17 +475,39 @@ describe("test tenant's CRUD section", () => {
             if (err) {
               return done(err)
             }
-            expect(res.status).toBe(400)
+            expect(res.status).toBe(500)
             expect(res.body).toStrictEqual({
-              "errors": [
-                "phone musn't be empty",
-              ],
-              "message": "Sequelize Validation Error",
+              "message": "error not found",
             })
             done()
           })
       })
     })
+
+    describe("Erro update tenant", () => {
+      test("update with wrong type input", (done) => {
+        request(app)
+          .put(`/tenant/${idTenant}`)
+          .set('access_token', `${access_token}`)
+          .send({
+            email: '123@123.mail.com',
+            name: 'custom1qweqwe2',
+            phone: '987987',
+            checkIn: "aaaaaaaaaa",
+            checkOut: "2021-03-12",
+          })
+          .end((err, res) => {
+            if (err) {
+              return done(err)
+            }
+            expect(res.status).toBe(500)
+            expect(typeof res.body).toEqual('object')
+            expect(res.body).toHaveProperty('message')
+            done()
+          })
+      })
+    })
+
 
 
 
@@ -471,6 +546,53 @@ describe("test tenant's CRUD section", () => {
             done()
           })
       })
+    })
+
+  })
+
+  describe("patch list by id in tenant", () => {
+
+    test("patch list with id Tenant test", (done) => {
+      request(app)
+        .patch(`/tenant/${-1}`)
+        .set('access_token', `${access_token}`)
+        .send({
+          email : "update@mail", 
+          name : "update", 
+          phone : "98765431", 
+          checkIn : "2021-03-12", 
+          checkOut : ""
+        })
+        .end((err, res) => {
+          if (err) {
+            return done(err)
+          }
+          expect(res.status).toBe(500)
+          expect(res.body).toStrictEqual({
+            "message": "error not found",
+          })
+          done()
+        })
+    })
+
+
+    test("patch list with riddiculous id Tenant phone", (done) => {
+      request(app)
+        .patch(`/tenant/${99999999999}`)
+        .set('access_token', `${access_token}`)
+        // .send({
+        //   phone : '',
+        // })
+        .end((err, res) => {
+          if (err) {
+            return done(err)
+          }
+          expect(res.status).toBe(500)
+          expect(res.body).toStrictEqual({
+            "message": "error not found",
+          })
+          done()
+        })
     })
 
   })

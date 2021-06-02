@@ -90,14 +90,14 @@ class TenantController {
             if(!data) {
                 throw {status: 404, message: "error not found"}
             } else {
-                const updated = await Tenant.update({ phone: phone }, { where: { id: id }, returning: true })
-                if (!updated) {
-                    throw {status: 404, message: "error not found"}
-                } else {
+                // const updated = await Tenant.update({ phone: phone }, { where: { id: id }, returning: true })
+                // if (!updated) {
+                //     throw {status: 404, message: "error not found"}
+                // } else {
                     res.status(200).json({
                        updated:updated[1][0]
                     })
-                }
+                // }
             }
         } catch (err) {
             next(err)
@@ -112,14 +112,14 @@ class TenantController {
             if(!data) {
                 throw {status: 404, message: "error not found"}
             } else {
-                const deleted = await Tenant.destroy({ where: { id: id }, returning: true })
-                if (!deleted) {
-                    throw {status: 404, message: "error not found"}
-                } else {
+                // const deleted = await Tenant.destroy({ where: { id: id }, returning: true })
+                // if (!deleted) {
+                //     throw {status: 404, message: "error not found"}
+                // } else {
                     res.status(200).json({
                         message: "Tenant successfully deleted"
                     })
-                }
+                // }
             }
         } catch(err) {
             next(err)
