@@ -33,7 +33,6 @@ class ExpenseController {
     
     static async getReportExpense(req, res, next) {
         try {
-            
             let year = new Date()
             year = year.getFullYear()
             const data = await Expense.findAll({
@@ -59,7 +58,6 @@ class ExpenseController {
                     id
                 }
             })
-
             if (data === null) {
                 next({name: "ExpenseNotFound"});
              } else {
@@ -85,11 +83,7 @@ class ExpenseController {
                 next({name: "ExpenseNotFound"});
             } else {
                 const updated = await Expense.update(data, { where: { id: id }, returning: true })
-                if (!updated) {
-                    next({name: "ExpenseNotFound"});
-                } else {
-                    res.status(200).json(updated[1][0])
-                }
+                res.status(200).json(updated[1][0])
             }
         } catch (err) {
             next(err)
@@ -105,13 +99,9 @@ class ExpenseController {
                 next({name: "ExpenseNotFound"});
             } else {
                 const updated = await Expense.update({ title: title }, { where: { id: id }, returning: true })
-                if (!updated) {
-                    next({name: "ExpenseNotFound"});
-                } else {
-                    res.status(200).json({
+                 res.status(200).json({
                        updated:updated[1][0]
-                    })
-                }
+                })
             }
         } catch (err) {
             next(err)
@@ -126,13 +116,9 @@ class ExpenseController {
                 next({name: "ExpenseNotFound"});
             } else {
                 const deleted = await Expense.destroy({ where: { id: id }, returning: true })
-                if (!deleted) {
-                    next({name: "ExpenseNotFound"});
-                } else {
-                    res.status(200).json({
-                        message: "Expense successfully deleted"
-                    })
-                }
+                res.status(200).json({
+                    message: "Expense successfully deleted"
+                })
             }
         } catch(err) {
             next(err)

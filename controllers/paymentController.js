@@ -19,14 +19,16 @@ class PaymentController {
                   { status: 'occupied' },
                   { where: { id : roomId }}
                 )
-            // pasang cron schedule disini
+                return Tenant.findByPk(tenantId)
+        })
+        .then(data => {
+            
             const duedate = new Date(nextDueDate)
-            console.log(duedate,'aaaa')
-            paymentRemainder(duedate)
+            // pasang cron schedule disini
+            paymentRemainder(duedate, data.email, data.name);
             res.status(201).json(data);
         })
         .catch(err => {
-            console.log(err);
             next(err);
         })
     }

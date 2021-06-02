@@ -29,7 +29,8 @@ class TenantController {
         
             res.status(200).json(data);
 
-        }catch(err) {
+        }
+        catch(err) {
             next(err)
         }
     }
@@ -70,11 +71,8 @@ class TenantController {
                 throw {status: 404, message: "error not found"}
             } else {
                 const updated = await Tenant.update(data, { where: { id: id }, returning: true })
-                if (!updated) {
-                    throw {status: 404, message: "error not found"}
-                } else {
-                    res.status(200).json(updated[1][0])
-                }
+                res.status(200).json(updated[1][0])
+                
             }
         } catch (err) {
             next(err)
@@ -90,14 +88,10 @@ class TenantController {
             if(!data) {
                 throw {status: 404, message: "error not found"}
             } else {
-                // const updated = await Tenant.update({ phone: phone }, { where: { id: id }, returning: true })
-                // if (!updated) {
-                //     throw {status: 404, message: "error not found"}
-                // } else {
-                    res.status(200).json({
-                       updated:updated[1][0]
-                    })
-                // }
+                const updated = await Tenant.update({ phone: phone }, { where: { id: id }, returning: true })
+                res.status(200).json({
+                    updated:updated[1][0]
+                })
             }
         } catch (err) {
             next(err)
@@ -112,14 +106,11 @@ class TenantController {
             if(!data) {
                 throw {status: 404, message: "error not found"}
             } else {
-                // const deleted = await Tenant.destroy({ where: { id: id }, returning: true })
-                // if (!deleted) {
-                //     throw {status: 404, message: "error not found"}
-                // } else {
-                    res.status(200).json({
-                        message: "Tenant successfully deleted"
-                    })
-                // }
+                const deleted = await Tenant.destroy({ where: { id: id }, returning: true })
+                res.status(200).json({
+                    message: "Tenant successfully deleted"
+                })
+               
             }
         } catch(err) {
             next(err)
