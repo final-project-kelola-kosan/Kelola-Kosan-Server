@@ -24,10 +24,6 @@ module.exports = {
       checkOut: {
         type: Sequelize.DATE
       },
-      bankAccount: {
-        type: Sequelize.STRING,
-        unique: true
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
