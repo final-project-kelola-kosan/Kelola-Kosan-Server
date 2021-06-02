@@ -14,14 +14,6 @@ class RoomController {
       });
   }
 
-  // static findAllOccupied(req, res, next) {
-
-  // }
-
-  // static findNotOccupied(req, res, next) {
-
-  // }
-
   static addRoom(req, res, next) {
     let { number, status, type, price } = req.body;
     let currentUser = req.loggedUser;

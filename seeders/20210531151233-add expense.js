@@ -12,7 +12,6 @@ module.exports = {
     .then(data => {
       return queryInterface.bulkInsert("Expenses", [
         {
-
           title: 'Perbaikan Air',
           month: 1,
           year: 2021,

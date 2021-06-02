@@ -86,11 +86,7 @@ class ExpenseController {
           where: { id: id },
           returning: true,
         });
-        if (!updated) {
-          next({ name: 'ExpenseNotFound' });
-        } else {
-          res.status(200).json(updated[1][0]);
-        }
+        res.status(200).json(updated[1][0]);
       }
     } catch (err) {
       next(err);
@@ -109,13 +105,9 @@ class ExpenseController {
           { title: title },
           { where: { id: id }, returning: true }
         );
-        if (!updated) {
-          next({ name: 'ExpenseNotFound' });
-        } else {
-          res.status(200).json({
-            updated: updated[1][0],
-          });
-        }
+        res.status(200).json({
+          updated: updated[1][0],
+        });
       }
     } catch (err) {
       next(err);
@@ -133,16 +125,12 @@ class ExpenseController {
           where: { id: id },
           returning: true,
         });
-        if (!deleted) {
-          next({ name: 'ExpenseNotFound' });
-        } else {
-          res.status(200).json({
-            message: 'Expense successfully deleted',
-          });
-        }
+        res.status(200).json({
+          message: 'Expense successfully deleted',
+        });
       }
     } catch (err) {
-      next(err);
+      // next(err)
     }
   }
 }

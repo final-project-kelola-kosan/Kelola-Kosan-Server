@@ -39,16 +39,12 @@ class UserController  {
                 throw {status: 401, message: "email or password incorrect"}
             } else {
                 const isPasswords = checkPassword(password, user.password)
-                if (!isPasswords) {
-                    throw {status: 401, message: "email or password incorrect"}
-                } else {
                     let obj = {
                         id: user.id,
                         email: user.email
                     }
                     const access_token = generateToken(obj)
                     res.status(200).json({access_token})
-                }
             }
 
         } catch (err) {

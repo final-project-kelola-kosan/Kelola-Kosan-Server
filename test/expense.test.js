@@ -175,7 +175,7 @@ describe("Test find all expenses", () => {
 
     it("Unauthenticate", (done) => {
         request(app)
-            .get('/expenses')
+            .get('/expenses/reportExpense')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .then(response => {
@@ -189,6 +189,31 @@ describe("Test find all expenses", () => {
                 done(err);
             })
     })
+
+    it("Success find report", (done) => {
+        request(app)
+            .get('/expenses/reportExpense')
+            .set('Accept', 'application/json')
+            .set("access_token", adminToken)
+            .expect('Content-Type', /json/)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(200);
+                expect(body).toEqual(expect.any(Array));
+                for(let i = 0; i < body.length; i++) {
+                    expect(body[i]).toHaveProperty("month", expected[i].month);
+                    expect(body[i]).toHaveProperty("year", expected[i].year);
+                    // expect(body[i]).toHaveProperty("total", expected[i].total);
+                }
+                done();
+            })  
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+
+
 })
 
 const testId = 1;

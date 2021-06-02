@@ -7,7 +7,7 @@ class RevenueController {
     Revenue
       .findAll()
       .then(revenues => res.status(200).json({revenues}))
-      .catch(err => next(err))
+      // .catch(err => next(err))
   }
 
   static create = (req, res, next) => {
@@ -56,9 +56,9 @@ class RevenueController {
       .destroy({ where: {id}, returning: true })
       .then(deleted => {
         if(deleted) res.status(200).json({ message: 'Revenue record successfull delete!'})
-        else res.status(404).json({ message: 'Data not found!' })
+        else next({name: "RevenueNotFound"})
       })
-      .catch(err => next(err))
+      // .catch(err => next(err))
 
   }
 }

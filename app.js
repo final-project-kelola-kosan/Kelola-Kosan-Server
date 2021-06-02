@@ -24,8 +24,13 @@ cron.schedule(`0 9 ${monthlyReport().get('date')} * *`, () => {
 });
 
 // cron.schedule(`* * * * *`, () => {
+<<<<<<< HEAD
 //   console.log('Masoook');
 //   // generateReport();
+=======
+//   console.log("Masoook")
+//   generateReport();
+>>>>>>> 4f07a6a4e63fd0c2310a6f8e49d807ab586a8bfc
 // });
 
 app.use(errorHandler);
