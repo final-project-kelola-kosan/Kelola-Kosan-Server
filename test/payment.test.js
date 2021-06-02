@@ -403,6 +403,31 @@ describe("Edit payment", () => {
             })
     })
 
+    it("Payment Not Found", (done) => {
+        request(app)
+            .put(`/payments/${999}`)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .send({
+                month: 1,
+                year: 2021,
+                nextDueDate: new Date(),
+                paidCash: 25003400
+            })
+            .set("access_token", adminToken)
+            .then(response => {
+                let {body, status} = response;
+                expect(status).toBe(404);
+                expect(body).toEqual(expect.any(Object))
+                expect(body).toHaveProperty("message", "Payment Not Found");
+                done();
+            })
+            .catch(err => {
+                console.log(err);
+                done(err);
+            })
+    })
+
     it("empty string", (done) => {
         request(app)
             .put(`/payments/${publicPaymentId}`)
