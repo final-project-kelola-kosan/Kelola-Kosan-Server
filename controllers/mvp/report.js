@@ -117,7 +117,9 @@ function createReportPDF() {
 }
 
 module.exports = {
-    generateReport
+    generateReport,
+    formatMonth,
+    createReportPDF
 }
 
 
