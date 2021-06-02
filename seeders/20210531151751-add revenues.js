@@ -14,7 +14,7 @@ module.exports = {
         {
           month: 1,
           year: 2021,
-          total: 20000000,
+          total: 4000000,
           propertyId: data.id,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -22,7 +22,7 @@ module.exports = {
         {
           month: 2,
           year: 2021,
-          total: 34000000,
+          total: 5500000,
           propertyId: data.id,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -30,7 +30,7 @@ module.exports = {
         {
           month: 3,
           year: 2021,
-          total: 24000000,
+          total: 2500000,
           propertyId: data.id,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -38,7 +38,7 @@ module.exports = {
         {
           month: 4,
           year: 2021,
-          total: 45000000,
+          total: 4500000,
           propertyId: data.id,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -46,7 +46,7 @@ module.exports = {
         {
           month: 5,
           year: 2021,
-          total: 34000000,
+          total: 4000000,
           propertyId: data.id,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -54,7 +54,7 @@ module.exports = {
         {
           month: 6,
           year: 2021,
-          total: 56000000,
+          total: 6500000,
           propertyId: data.id,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -62,7 +62,7 @@ module.exports = {
         {
           month: 7,
           year: 2021,
-          total: 36000000,
+          total: 3600000,
           propertyId: data.id,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -70,7 +70,7 @@ module.exports = {
         {
           month: 8,
           year: 2021,
-          total: 24000000,
+          total: 2400000,
           propertyId: data.id,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -78,7 +78,7 @@ module.exports = {
         {
           month: 9,
           year: 2021,
-          total: 27000000,
+          total: 4000000,
           propertyId: data.id,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -86,7 +86,7 @@ module.exports = {
         {
           month: 10,
           year: 2021,
-          total: 30000000,
+          total: 3500000,
           propertyId: data.id,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -94,7 +94,7 @@ module.exports = {
         {
           month: 11,
           year: 2021,
-          total: 21000000,
+          total: 25000000,
           propertyId: data.id,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -102,7 +102,7 @@ module.exports = {
         {
           month: 12,
           year: 2021,
-          total: 29000000,
+          total: 1500000,
           propertyId: data.id,
           createdAt: new Date(),
           updatedAt: new Date(),
