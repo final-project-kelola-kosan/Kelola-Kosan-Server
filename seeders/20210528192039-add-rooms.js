@@ -16,16 +16,61 @@ module.exports = {
           number: 105,
           status: "empty",
           type: "standard",
-          price: 2500000,
+          price: 1500000,
           propertyId: data.id,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           number: 106,
+          status: "empty",
+          type: "deluxe",
+          price: 2500000,
+          propertyId: data.id,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          number: 107,
+          status: "empty",
+          type: "standard",
+          price: 1500000,
+          propertyId: data.id,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          number: 108,
           status: "maintenance",
           type: "deluxe",
-          price: 3500000,
+          price: 2500000,
+          propertyId: data.id,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          number: 109,
+          status: "occupied",
+          type: "standard",
+          price: 1500000,
+          propertyId: data.id,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          number: 110,
+          status: "empty",
+          type: "deluxe",
+          price: 2500000,
+          propertyId: data.id,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          number: 111,
+          status: "empty",
+          type: "standard",
+          price: 2500000,
           propertyId: data.id,
           createdAt: new Date(),
           updatedAt: new Date()
