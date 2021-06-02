@@ -1,30 +1,36 @@
 const cron = require('node-cron')
 const moment = require('moment')
-const {sendMail} = require("../controllers/mvp/nodemailer");
+const {sendMailTenant} = require("../controllers/mvp/nodemailer");
 
-const paymentRemainder = (paymentDate, tenant) => {
-  console.log(moment(),'yyyy');
+const paymentRemainder = (paymentDate, tenantEmail, tenantName) => {
 
+
+  console.log(paymentDate,' standarrt');
   let notyTime = moment(paymentDate)
   console.log(notyTime, 'tanggal pembayaran<<!')
   
-  notyTime
-    .add(1, 'months')
-    .subtract(3, 'day')
-  console.log(notyTime, 'notify user for payment')
-  
-  console.log('setiap tanggal', notyTime, 'di noty')
+  // notyTime
+  //   .add(2, 'months')
+  //   .subtract(3, 'days')
+  // console.log(notyTime, 'notify user for payment')
 
-  let generateSchedule = `40 13 ${notyTime.day()} * *`
+  const getMonth = moment(notyTime).get('month') + 1
+  const getDay = moment(notyTime).date()
+
+  // console.log(getMonth, getDay, 'month to create schedule crone');
+
+  let generateSchedule = `24 20 ${getDay} ${getMonth} *`
   console.log(generateSchedule, 'variable masuk ke cron !!!!!!!!!!!!!!!!!!!!!!!!');
-
   cron.schedule(generateSchedule, () => {
-    console.log('JALANN GUYS');
+    console.log('Kirim EMAIL Remainder Pembayaran Kos.....')
+    //? codingan email disini
+    sendMailTenant(`Remainder ${tenantName} untuk bayar kosan`, "Bayar woi, lama amat kaga bayar2", tenantEmail)
   })
 
-  cron.schedule('* * * * * *', () => {
-    console.log('running a task every 5sec');
-  })
+  // cron.schedule('* * * * * *', () => {
+  //   console.log('CRON SCHEDULER JALAN');
+  //   console.log(tenantEmail, tenantName)
+  // })
 
   return `${notyTime} <<<`
 }

@@ -8,7 +8,6 @@ let expenseItems;
 let revenueItems;
 
 function generateReport() {
-    console.log(currentYear)
     Expense.findAll({
         where: { year: currentYear },
         attributes: [

@@ -18,7 +18,7 @@ module.exports = {
   up:  (queryInterface, Sequelize) => {
     return Tenant.findOne({
       where: {
-        email: "joko@mail.com"
+        email: "qojack82nasution@gmail.com"
       }
     })
     .then(data => {

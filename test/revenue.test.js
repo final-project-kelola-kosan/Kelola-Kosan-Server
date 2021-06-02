@@ -286,7 +286,7 @@ describe('REVENUE TESTING', _ => {
           .expect('Content-Type', /json/)
           .set('access_token', ownerToken)
           .then(result => {
-            // expect(result.status).toEqual(200)
+            expect(result.status).toEqual(200)
             expect(typeof result.body).toEqual('object')
             expect(result.body).toHaveProperty('message')
             expect(result.body)
@@ -295,7 +295,26 @@ describe('REVENUE TESTING', _ => {
           })
           .catch(err => done(err))
       })
+
+      it('Revenue not Found', done => {
+        request(app)
+          .delete(`/revenues/${999}`)
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .set('access_token', ownerToken)
+          .then(result => {
+            expect(result.status).toEqual(404)
+            expect(typeof result.body).toEqual('object')
+            expect(result.body).toHaveProperty('message')
+            expect(result.body)
+              .toEqual(expect.objectContaining({ "message": "Revenue Not Found" }))
+            done()
+          })
+          .catch(err => done(err))
+      })
     })
+
+    
 
     
     describe('When access_token is null', _ => {
