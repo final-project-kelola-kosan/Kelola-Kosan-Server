@@ -17,7 +17,10 @@ class PaymentController {
         Room.update({ status: 'occupied' }, { where: { id: roomId } });
         // pasang cron schedule disini
         const duedate = new Date(nextDueDate);
-        console.log(duedate, 'aaaa');
+        console.log(
+          duedate,
+          '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< INI DUEDATE'
+        );
         paymentRemainder(duedate);
         res.status(201).json(data);
       })
