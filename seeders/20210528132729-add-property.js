@@ -7,7 +7,7 @@ module.exports = {
   up:  (queryInterface, Sequelize) => {
     return User.findOne({
       where: {
-        email: "admin@mail.com"
+        email: "muhammadihsan076@gmail.com"
       }
     })
     .then(data => {
@@ -15,7 +15,7 @@ module.exports = {
         {
           name: "Wisma",
           address: "Jaksel",
-          image: "Blablah",
+          image: "https://images.unsplash.com/photo-1597047084897-51e81819a499?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1049&q=80",
           phone: "14045",
           userId: data.id,
           createdAt: new Date(),

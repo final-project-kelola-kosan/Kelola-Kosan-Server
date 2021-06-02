@@ -57,7 +57,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: `checkOut musn't be empty`
         }
       }
-    },
+    }
   }, {
     sequelize,
     modelName: 'Tenant',
