@@ -3,6 +3,14 @@
 const dateString = '2021-04-01'
 var firstDate = new Date(dateString + "T00:00:00");
 
+
+const dateStr2 = '2021-05-01'
+var secondDate = new Date(dateStr2 + "T00:00:00");
+
+
+const dateStr3 = '2021-06-01'
+var thirdDate = new Date(dateStr3 + "T00:00:00");
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert("Tenants", [
@@ -19,7 +27,7 @@ module.exports = {
         email: "jecksfresley@gmail.com",
         name: "Jecksen",
         phone: "085398464583",
-        checkIn: firstDate,
+        checkIn: secondDate,
         checkOut: null,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -28,7 +36,7 @@ module.exports = {
         email: "hidayatarifin063@gmail.com",
         name: "Arifin",
         phone: "081347767810",
-        checkIn: twotDate,
+        checkIn: thirdDate,
         checkOut: null,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -37,7 +45,7 @@ module.exports = {
         email: "hidayahtaufikk12@gmail.com",
         name: "Taufik",
         phone: "089693224053",
-        checkIn: threetDate,
+        checkIn: secondDate,
         checkOut: null,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -46,7 +54,7 @@ module.exports = {
         email: "HarunsAS@gmail.com",
         name: "Harun",
         phone: "085391818787",
-        checkIn: fourDate,
+        checkIn: firstDate,
         checkOut: null,
         createdAt: new Date(),
         updatedAt: new Date()
