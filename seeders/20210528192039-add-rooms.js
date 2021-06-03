@@ -7,7 +7,7 @@ module.exports = {
 
     return Property.findOne({
       where: {
-        name: "Wisma"
+        name: "Wisma Andara"
       }
     })
     .then(data => {
