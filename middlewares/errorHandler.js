@@ -11,7 +11,6 @@ function errorHandler(err, req, res, next) {
             res.status(400).json({message: "Sequelize Validation Error", errors})
             break
         case "Bad Request":
-            
             res.status(400).json({message: err.message})
             break
         case "Unauthenticate":
