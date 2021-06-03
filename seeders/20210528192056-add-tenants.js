@@ -24,7 +24,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        email: "jecksfresley@gmail.com",
+        email: "jecksfresley.gaming@gmail.com",
         name: "Jecksen",
         phone: "085398464583",
         checkIn: secondDate,
