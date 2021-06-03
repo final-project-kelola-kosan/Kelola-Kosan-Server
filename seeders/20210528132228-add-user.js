@@ -6,10 +6,10 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert("Users", [
       {
-        fullname: "Admin Kosan",
+        fullname: "Muhammad Ihsan",
         email: "muhammadihsan076@gmail.com",
-        username: "admin",
-        bankAccount: "9812938",
+        username: "Ihsan",
+        bankAccount: "9812938-005-100-1",
         password: bcrypt.hashSync("postgres", salt),
         createdAt: new Date(),
         updatedAt: new Date()

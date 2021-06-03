@@ -40,25 +40,7 @@ module.exports = {
         checkOut: null,
         createdAt: new Date(),
         updatedAt: new Date()
-      },
-      {
-        email: "hidayahtaufikk12@gmail.com",
-        name: "Taufik",
-        phone: "089693224053",
-        checkIn: secondDate,
-        checkOut: null,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        email: "HarunsAr@gmail.com",
-        name: "Harun",
-        phone: "085391818787",
-        checkIn: firstDate,
-        checkOut: null,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
+      }
     ], {})
     /**
      * Add seed commands here.

@@ -6,7 +6,6 @@ const fs = require("fs");
 //paymentRemainder(duedate, data.email, data.name, userData, roomData)
 const paymentRemainder = (paymentDate, tenantEmail, tenantName, userData, roomData) => {
 
-
   console.log(paymentDate,' standarrt');
   let notyTime = moment(paymentDate)
   console.log(notyTime, 'tanggal pembayaran<<!')
@@ -21,7 +20,7 @@ const paymentRemainder = (paymentDate, tenantEmail, tenantName, userData, roomDa
 
   // console.log(getMonth, getDay, 'month to create schedule crone');
 
-  let generateSchedule = `0 9 ${getDay} ${getMonth} *`
+  let generateSchedule = `27 21 ${getDay} ${getMonth} *`
   console.log(generateSchedule, 'variable masuk ke cron !!!!!!!!!!!!!!!!!!!!!!!!');
   cron.schedule(generateSchedule, () => {
     console.log('Kirim EMAIL Remainder Pembayaran Kos.....')

@@ -19,15 +19,18 @@ app.use(express.json())
 app.use(router)
 
 // MONTHLY REPORT
+// cron.schedule(`30 7 3 6 *`, () => {
+//   generateReport();
+// })
+
 cron.schedule(`0 9 ${monthlyReport().get("date")} * *`, () => {
   generateReport();
 })
 
 // cron.schedule(`* * * * *`, () => {
-//   console.log("Masoook")
-//   generateReport();
-// });
-
+//   console.log("Kirim lah")
+//   generateReport()
+// })
 
 app.use(errorHandler)
 

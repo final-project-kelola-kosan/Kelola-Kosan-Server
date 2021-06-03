@@ -23,7 +23,7 @@ module.exports = {
         },
         {
           number: 106,
-          status: "empty",
+          status: "occupied",
           type: "deluxe",
           price: 2500000,
           propertyId: data.id,
@@ -32,7 +32,7 @@ module.exports = {
         },
         {
           number: 107,
-          status: "empty",
+          status: "occupied",
           type: "standard",
           price: 1500000,
           propertyId: data.id,
@@ -50,27 +50,9 @@ module.exports = {
         },
         {
           number: 109,
-          status: "occupied",
+          status: "empty",
           type: "standard",
           price: 1500000,
-          propertyId: data.id,
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          number: 110,
-          status: "empty",
-          type: "deluxe",
-          price: 2500000,
-          propertyId: data.id,
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          number: 111,
-          status: "empty",
-          type: "standard",
-          price: 2500000,
           propertyId: data.id,
           createdAt: new Date(),
           updatedAt: new Date()

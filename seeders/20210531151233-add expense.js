@@ -6,7 +6,7 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     return Property.findOne({
       where: {
-        name: "Wisma"
+        name: "Wisma Andara"
       }
     })
     .then(data => {
@@ -21,7 +21,6 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-
           title: 'Perbaikan Kamar',
           month: 2,
           year: 2021,
@@ -31,7 +30,6 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-
           title: 'Perbaikan Genteng Bocor',
           month: 3,
           year: 2021,
@@ -41,7 +39,6 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-
           title: 'Membeli Kasur Tambahan',
           month: 4,
           year: 2021,
@@ -51,21 +48,19 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-
           title: 'Membayar Listrik',
           month: 5,
           year: 2021,
-          total: 1000000,
+          total: 2000000,
           propertyId: data.id,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-
           title: 'Membayar Listrik',
           month: 6,
           year: 2021,
-          total: 1000000,
+          total: 1500000,
           propertyId: data.id,
           createdAt: new Date(),
           updatedAt: new Date(),

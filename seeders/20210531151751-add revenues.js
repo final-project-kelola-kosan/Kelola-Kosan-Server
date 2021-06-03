@@ -6,7 +6,7 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     return Property.findOne({
       where: {
-        name: "Wisma"
+        name: "Wisma Andara"
       }
     })
     .then(data => {

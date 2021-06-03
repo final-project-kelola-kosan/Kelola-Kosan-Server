@@ -1,7 +1,7 @@
 const {User, Property} = require("../../models");
 const nodemailer = require('nodemailer');
-let ownerEmail = "qojack82nasution@gmail.com";
-const senderEmail = "rezanasu@outlook.com";
+let ownerEmail = "muhammadihsan076@gmail.com";
+const senderEmail = "simpleCoders@outlook.com";
 const senderPassword = "maestro82"; // outlook password
 const fs = require("fs");
 const {promisify} = require("util");
@@ -30,7 +30,7 @@ async function sendMail(subject, text, to = ownerEmail) {
         };
 
         transporter.sendMail(message, () => {
-            // console.log(message);
+            console.log(message);
         });
         } catch (e) {
             console.log(e)

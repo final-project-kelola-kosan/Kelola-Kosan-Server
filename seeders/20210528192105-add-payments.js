@@ -14,6 +14,7 @@ var thirdDate = new Date(dateStr3 + "T00:00:00");
 
 const {Tenant, Room} = require("../models")
 let roomId;
+let tenantId;
 module.exports = {
   up:  (queryInterface, Sequelize) => {
     return Tenant.findOne({
@@ -22,7 +23,7 @@ module.exports = {
       }
     })
     .then(data => {
-      roomId = data.id;
+      tenantId = data.id;
       return Room.findOne({
         where: {
           number: 105
@@ -35,8 +36,8 @@ module.exports = {
             year: 2021,
             nextDueDate: firstDate,
             paidCash: 2500000,
-            tenantId: data.id,
-            roomId,
+            tenantId,
+            roomId: data.id,
             createdAt: new Date(),
             updatedAt: new Date()
           },
@@ -45,8 +46,8 @@ module.exports = {
             year: 2021,
             nextDueDate: secondDate,
             paidCash: 2500000,
-            tenantId: data.id,
-            roomId,
+            tenantId,
+            roomId: data.id,
             createdAt: new Date(),
             updatedAt: new Date()
           },
@@ -55,8 +56,8 @@ module.exports = {
             year: 2021,
             nextDueDate: thirdDate,
             paidCash: 2500000,
-            tenantId: data.id,
-            roomId,
+            tenantId,
+            roomId: data.id,
             createdAt: new Date(),
             updatedAt: new Date()
           },
