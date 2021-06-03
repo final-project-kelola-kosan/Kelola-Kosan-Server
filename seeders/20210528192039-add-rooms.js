@@ -14,7 +14,7 @@ module.exports = {
       return queryInterface.bulkInsert("Rooms", [
         {
           number: 105,
-          status: "empty",
+          status: "occupied",
           type: "standard",
           price: 1500000,
           propertyId: data.id,
