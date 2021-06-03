@@ -3,7 +3,6 @@ const moment = require('moment')
 const {sendMailTenant} = require("../controllers/mvp/nodemailer");
 const fs = require("fs");
 
-//paymentRemainder(duedate, data.email, data.name, userData, roomData)
 const paymentRemainder = (paymentDate, tenantEmail, tenantName, userData, roomData) => {
 
 
@@ -11,15 +10,12 @@ const paymentRemainder = (paymentDate, tenantEmail, tenantName, userData, roomDa
   let notyTime = moment(paymentDate)
   console.log(notyTime, 'tanggal pembayaran<<!')
   
-  // notyTime
-  //   .add(2, 'months')
-  //   .subtract(3, 'days')
-  // console.log(notyTime, 'notify user for payment')
+  
 
   const getMonth = moment(notyTime).get('month') + 1
   const getDay = moment(notyTime).date()
 
-  // console.log(getMonth, getDay, 'month to create schedule crone');
+  
 
   let generateSchedule = `0 9 ${getDay} ${getMonth} *`
   console.log(generateSchedule, 'variable masuk ke cron !!!!!!!!!!!!!!!!!!!!!!!!');
