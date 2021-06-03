@@ -24,10 +24,10 @@ class TenantController {
     }
 
     static getTenant(req, res, next) {
-        Tenant.findAll()
+        Tenant.findAll({order: [ ['updatedAt',  'DESC'] ]})
             .then(data => {
                 res.status(200).json(data);
-            })
+        })
         
     }
 

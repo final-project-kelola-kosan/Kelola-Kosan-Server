@@ -48,8 +48,8 @@ describe("Testing report js", () => {
         expect(convertToRupiah(250000)).toEqual("Rp. 250.000");
     })
 
-    test("create report pdf", () => {
-        createReportPDF();
-    })
+    // test("create report pdf", () => {
+    //     createReportPDF();
+    // })
 
 })

@@ -66,7 +66,7 @@ class PropertyController {
     Property
       .update(dataUpdate, { where: {id}, returning: true })
       .then(updated => res.status(200).json({ updated }))
-      .catch(err => next(err))
+      // .catch(err => next(err))
   }
 
   static delete = (req, res, next) => {
@@ -77,7 +77,6 @@ class PropertyController {
       .then(deleted => {
         if(deleted) res.status(200).json({ message: 'Property has been delete!' })
         else {
-          
           res.status(404).json({ message: 'Data not found!'})
         }
       })

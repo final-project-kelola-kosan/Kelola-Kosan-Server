@@ -1,4 +1,4 @@
-const {User} = require("../../models");
+const {User, Property} = require("../../models");
 const nodemailer = require('nodemailer');
 let ownerEmail = "qojack82nasution@gmail.com";
 const senderEmail = "rezanasu@outlook.com";
@@ -30,7 +30,7 @@ async function sendMail(subject, text, to = ownerEmail) {
         };
 
         transporter.sendMail(message, () => {
-            console.log(message);
+            // console.log(message);
         });
         } catch (e) {
             console.log(e)
@@ -85,7 +85,7 @@ async function sendMailTenant(subject, text, to = ownerEmail, tenantName, userDa
             console.log(message);
         });
         } catch (e) {
-            console.log(e)
+            // console.log(e)
         }
 }
 
