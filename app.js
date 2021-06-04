@@ -27,10 +27,6 @@ cron.schedule(`0 9 ${monthlyReport().get("date")} * *`, () => {
   generateReport();
 })
 
-// cron.schedule(`* * * * *`, () => {
-//   console.log("Kirim lah")
-//   generateReport()
-// })
 
 app.use(errorHandler)
 
