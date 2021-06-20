@@ -34,4 +34,6 @@ cron.schedule(`0 9 ${monthlyReport().get("date")} * *`, () => {
 
 app.use(errorHandler)
 
+app.listen(port, _=> console.log(`Kelola-Kosan running on http://localhost:${port}`));
+
 module.exports = app;
